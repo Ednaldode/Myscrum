@@ -1,0 +1,509 @@
+{% extends 'base.html' %} {% load static %} {% load widget_tweaks%}
+{% block title %} Administrar Usuarios {% endblock %}
+{% block head %}
+
+<link rel="stylesheet" href="{% static '_Login/css/cadastrarUsuario.css' %}">
+<link rel="stylesheet" href="{% static '_Login/css/tabela.css' %}">
+<link rel="stylesheet" href="{% static '_Login/css/listarUsuarios.css' %}">
+
+<!-- Script para o funciomento dos DatePickers -->
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+
+<!-- Script para reconher o PT-BR do DatePickers-->
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.pt-BR.min.js" charset="UTF-8"></script>
+
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+
+<!--CSS Data Table-->
+<link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
+
+{% endblock %}
+
+{% block content %}
+<div class="conteudo" id="conteudo">
+   <div class="load" id="load"> 
+      <i class="fa fa-cog fa-spin fa-10x fa-fw"></i><span class="sr-only"></span> 
+   </div>
+
+   {% if messages %}
+      {% for message in messages %}
+         <div id="alert-tarefa" class="alert alert-{{message.extra_tags}} alert-dismissible fade show" role="alert">
+            <center>{{ message }}</center>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+      {% endfor %}
+   {% endif %}
+
+   <div class="row">
+      <div class="col">   <div class="table" id="tabela">
+         <table id="minhaTabela" class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="100%">
+             <thead>
+                 <tr>
+                     <th class="th-sm">ID
+                     </th>
+                     <th class="th-sm">Nome
+                     </th>
+                     <th class="th-sm">Login
+                     </th>
+                     <th class="th-sm">Função
+                     </th>
+                     <th class="th-sm">Ativo
+                     </th>
+                     <th class="th-sm">Centro de Custo
+                     </th>
+                     <th class="th-sm">Departamento
+                     </th>
+                 </tr>
+             </thead>
+             <tbody>
+   
+               {% for pessoa in pessoas %}
+               <tr>
+                  <td><button class="link" onclick="buscarUsuario({{pessoa.id_pessoa}})">{{pessoa.id_pessoa}}</button></td>
+                  <td><button class="link" onclick="buscarUsuario({{pessoa.id_pessoa}})">{{pessoa.nome}}</button></td>
+                  <td><button class="link" onclick="buscarUsuario({{pessoa.id_pessoa}})">{{pessoa.login}}</button></td>
+                  <td><button class="link" onclick="buscarUsuario({{pessoa.id_pessoa}})">{{pessoa.adm}}</button></td>
+                  <td><button class="link" onclick="buscarUsuario({{pessoa.id_pessoa}})">{{pessoa.ativo}}</button></td>
+                  <td><button class="link" onclick="buscarUsuario({{pessoa.id_pessoa}})">{{pessoa.centro_custo}}</button></td>
+                  <td><button class="link" onclick="buscarUsuario({{pessoa.id_pessoa}})">{{pessoa.departamento}}</button></td>
+               </tr>
+               {% endfor %}
+   
+             </tbody>
+         </table>
+     </div></div>
+   </div>
+
+   <!-- Botão para abrir o modal -->
+   <div class="row">
+      <div class="col-md-auto">
+         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalCadastrarUsuario">
+         <i class="fa fa-plus-circle fa-4x" aria-hidden="true"></i>
+         </button>
+      </div>
+   </div>
+
+</div>
+
+
+
+   <!-- Modal Editar User -->
+   <div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <center>
+                  <h5 class="modal-title" id="exampleModalLabel">Painel de edição de usuários: </h5>
+               </center>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+               <!-- Formulário de edição de usuário -->
+               <div class="conteudo">
+                  <form id="editarUserForm" action="{% url '_Login:editarUsuarios' %}" method="POST">
+                     {% csrf_token %}
+                     <div class="row">
+                        <div class="col">
+                           <label for="nome">Nome:</label>
+                           {% render_field form_pessoa.nome class="form-control form-control-sm" name="editarNome" %}
+                        </div>
+                        <input type="text" name="id_pessoa" maxlength="45" class="form-control form-control-sm" id="id_pessoa" style="display: none;">
+                        <div class="col">
+                           <label for="Usuario">Usuario:</label>
+                           {% render_field form_user.username class="form-control form-control-sm"%}
+                        </div>
+                        <div class="col">
+                           <label for="E-mail">E-mail:</label>
+                           {% render_field form_pessoa.email class="form-control form-control-sm"%}
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col">
+                           <label for="Senha">Senha:</label>
+                           {% render_field form_user.password1 class="form-control form-control-sm"%}
+                        </div>
+                        <div class="col">
+                           <label for="Senha2">Confirme a senha:</label>
+                           {% render_field form_user.password2 class="form-control form-control-sm"%}
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col">
+                           <label for="adm">Função:</label>
+                           <select class="form-control" id="funcao" name="funcao">
+                              <option value="0">Usuario</option>
+                              <option value="1">Administrador</option>
+                              <option value="2">Lider</option>
+                              <option value="3">Gerente</option>
+                           </select>
+                        </div>
+                        <div class="col">
+                           <label for="ativo">Funcionario ativo:</label>
+                           <select class="form-control" id="ativo" name="ativo">
+                              <option value="0">Bloqueado</option>
+                              <option value="1">Ativo</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col">
+                           <label for="departamento">Departamento:</label>
+                           {% render_field form_pessoa.id_departamento class="form-control form-control-sm"%}
+                        </div>
+                        <div class="col">
+                           <label for="centrocusto">Centro de Custo:</label>
+                           {% render_field form_pessoa.id_centrocusto class="form-control form-control-sm"%}
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col">
+                           <label for="salario">Salário: </label>
+                           {% render_field form_pessoa.salario class="form-control form-control-sm"%}
+                        </div>
+                        <div class="col">
+                           <label for="carga_horaria">Carga Horária: </label>
+                           {% render_field form_pessoa.carga_horaria class="form-control form-control-sm"%}
+                        </div>
+                        <div class="col">
+                           <label  for="data_contratacao">Data de Contratação: </label>
+                           {% render_field form_pessoa.data_contratacao class="form-control form-control-sm"%}
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col">
+                           <label>Foto de Perfil: </label>
+                           <input type="file" class="form-control-file" id="foto_perfil">
+                        </div>
+                        <div class="col">
+                           <label>Imagem de fundo: </label>
+                           <input type="file" class="form-control-file" id="imagem_fundo">
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col">
+                           <label for="observacao">Observações: </label>
+                           <div class="input-group">
+                              <textarea name="observacao" rows="4" id="id_observacao"></textarea>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-12" id="vinculo_cc">
+                           <label for="cc_vinculo">Vinculos Centro de Custo: </label>
+                           <div class="input-group">
+                              <select class="select2 form-control" name="vinculosCC" id="vinculosCC" multiple>
+                                 {% for cc in centrosDecusto %}
+                                    <option value="{{cc.id_centro_custo}}">{{cc.centrocusto}}</option>
+                                 {% endfor %}
+                              </select>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-12" id="vinculo_dpto">
+                           <label for="dpto_vinculo">Vinculos Departamento: </label>
+                           <div class="input-group">
+                              <select class="select2 form-control" name="vinculosDPTO" id="vinculosDPTO" multiple>
+                                 {% for dpto in departamentos %}
+                                    <option value="{{dpto.id_departamento}}">{{dpto.departamento}}</option>
+                                 {% endfor %}
+                              </select>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-auto">
+                           <input class="btn btn-primary" type="submit" value="Editar">
+                        </div>
+                     </div>
+                  </form>
+               </div>
+               <div class="modal-footer">
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <!-- Modal Cadastrar User -->
+   <div class="modal fade" id="modalCadastrarUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <center>
+                  <h5 class="modal-title" id="exampleModalLabel">Painel de criação de usuários: </h5>
+               </center>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+               <!-- Formulário de cadastro usuário -->
+               <div class="conteudo">
+                  <form action="{% url '_Login:cadastrarUsuarios' %}" method="POST">
+                     {% csrf_token %}
+                     <div class="row">
+                        <div class="col">
+                           <label for="nome">Nome:</label>
+                           {% render_field form_pessoa.nome class="form-control form-control-sm"%}
+                        </div>
+                        <div class="col">
+                           <label for="Usuario">Usuario:</label>
+                           {% render_field form_user.username class="form-control form-control-sm"%}
+                        </div>
+                        <div class="col">
+                           <label for="E-mail">E-mail:</label>
+                           {% render_field form_pessoa.email class="form-control form-control-sm"%}
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col">
+                           <label for="Senha">Senha:</label>
+                           {% render_field form_user.password1 class="form-control form-control-sm"%}
+                        </div>
+                        <div class="col">
+                           <label for="Senha2">Confirme a senha:</label>
+                           {% render_field form_user.password2 class="form-control form-control-sm"%}
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col">
+                           <label for="adm">Função:</label>
+                           <select class="form-control" id="funcao" name="funcao">
+                              <option value="0">Usuario</option>
+                              <option value="1">Administrador</option>
+                              <option value="2">Lider</option>
+                              <option value="3">Gerente</option>
+                           </select>
+                        </div>
+                        <div class="col">
+                           <label for="ativo">Funcionario ativo:</label>
+                           <select class="form-control" id="ativo" name="ativo">
+                              <option value="0">Bloqueado</option>
+                              <option value="1">Ativo</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col">
+                           <label for="departamento">Departamento:</label>
+                           {% render_field form_pessoa.id_departamento class="form-control form-control-sm"%}
+                        </div>
+                        <div class="col">
+                           <label for="centrocusto">Centro de Custo:</label>
+                           {% render_field form_pessoa.id_centrocusto class="form-control form-control-sm"%}
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col">
+                           <label for="salario">Salário: </label>
+                           {% render_field form_pessoa.salario class="form-control form-control-sm"%}
+                        </div>
+                        <div class="col">
+                           <label for="carga_horaria">Carga Horária: </label>
+                           {% render_field form_pessoa.carga_horaria class="form-control form-control-sm"%}
+                        </div>
+                        <div class="col">
+                           <label  for="data_contratacao">Data de Contratação: </label>
+                           {% render_field form_pessoa.data_contratacao class="form-control form-control-sm"%}
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col">
+                           <label>Foto de Perfil: </label>
+                           <input type="file" class="form-control-file" id="foto_perfil">
+                        </div>
+                        <div class="col">
+                           <label>Imagem de fundo: </label>
+                           <input type="file" class="form-control-file" id="imagem_fundo">
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col">
+                           <label for="observacao">Observações: </label>
+                           <div class="input-group">
+                              <textarea name="observacao" rows="4" id="id_observacao"></textarea>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-md-auto">
+                           <input class="btn btn-primary" type="submit" value="Cadastrar">
+                        </div>
+                     </div>
+                  </form>
+               </div>
+               <div class="modal-footer">
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+{% endblock %}
+{% block scripts %}
+
+<script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script>
+   $(document).ready(function(){
+   $('#minhaTabela').DataTable({
+       "language": {
+           "search": "Pesquisar:",
+           "searchPlaceholder": "...",
+           "lengthMenu": "Mostrando _MENU_ pessoas.",
+           "loadingRecords": "Carregando...",
+           "zeroRecords": "Nada encontrado",
+           "info": "Página: _PAGE_ de _PAGES_ | Total: _MAX_ pessoas",
+           "infoEmpty": "Nenhum registro disponível",
+           "infoFiltered": "| Filtro: _TOTAL_ pessoas",
+           "previous": "Anterior",
+           "next": "Próximo",
+       },
+       "scrollY": "200px",
+       "scrollCollapse": true,
+   });
+   
+   $('[name=minhaTabela_length]').addClass('custom-select custom-select-sm form-control form-control-sm');
+   $('#minhaTabela_length').addClass('bs-select');
+   $('#minhaTabela_filter > label > input[type=search]').addClass('form-control form-control-sm');
+   $('#minhaTabela_filter').addClass('form-control-sm');
+   });
+</script>
+
+<script>
+   //código usando jQuery
+   $(document).ready(function() {
+       document.getElementById("load").classList.toggle('esconder');
+       document.getElementById("tabela").classList.toggle('mostrar');
+       $("#load").attr("hidden", true);
+   });
+</script>
+
+<!--Ativando o multiselect-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+
+<script>
+   $(".select2").select2();
+
+   function vincularTodosCC(){
+     
+   }
+</script>
+
+<script>
+   var forms = document.querySelectorAll("form");
+
+   forms[0].querySelector("[id='id_password1']").removeAttribute('required')
+   forms[0].querySelector("[id='id_password2']").removeAttribute('required')
+
+</script>
+
+<!--AJAX-->
+
+<!--Busca informações do user-->
+<script>
+function buscarUsuario(id){
+   var forms = document.querySelectorAll("form");
+
+   url = "/sessao/editarUser/"
+   url_completa = url+id
+
+   $.ajax({
+   type: 'GET',
+   url: url_completa,
+   dataType: 'json',
+   success: function (data){
+   var users = JSON.parse(data);
+   for (indice in users){
+      forms[0].querySelector("[id='id_pessoa']").value = users[indice].pk;
+      forms[0].querySelector("[id='id_nome']").value = users[indice].fields.nome;
+      forms[0].querySelector("[id='id_username']").value = users[indice].fields.login;
+      forms[0].querySelector("[id='id_email']").value = users[indice].fields.email;
+      forms[0].querySelector("[id='ativo']").value = users[indice].fields.ativo;
+      forms[0].querySelector("[id='funcao']").value = users[indice].fields.adm;
+      forms[0].querySelector("[id='funcao']").value = users[indice].fields.adm;
+      forms[0].querySelector("[id='id_id_departamento']").value = users[indice].fields.id_departamento;
+      forms[0].querySelector("[id='id_id_centrocusto']").value = users[indice].fields.id_centrocusto;
+      forms[0].querySelector("[id='id_salario']").value = users[indice].fields.salario;
+      forms[0].querySelector("[id='id_carga_horaria']").value = users[indice].fields.carga_horaria;
+      forms[0].querySelector("[id='id_observacao']").value = users[indice].fields.observacao;
+
+      $("#editarUserForm").find("#id_data_contratacao").datepicker("setDate", new Date(users[indice].fields.data_contratacao));
+
+   }
+
+   },
+   });
+
+   url = "/sessao/getVinculosCC/"
+   url_completa = url+id
+
+   $.ajax({
+   type: 'GET',
+   url: url_completa,
+   dataType: 'json',
+   success: function (data){
+      
+      var vinculos_cc = [];
+      var vinculos = JSON.parse(data);
+
+      for (indice in vinculos){
+         vinculos_cc.push(vinculos[indice].fields.id_cc)
+      } 
+
+
+      $('#vinculosCC').val(vinculos_cc); // Select the option with a value of '1'
+      $('#vinculosCC').trigger('change'); // Notify any JS components that the value changed
+
+   },
+   });
+
+   url = "/sessao/getVinculosDPTO/"
+   url_completa = url+id
+
+   $.ajax({
+   type: 'GET',
+   url: url_completa,
+   dataType: 'json',
+   success: function (data){
+      
+      var vinculos_dpto = [];
+      var vinculos = JSON.parse(data);
+
+      for (indice in vinculos){
+         vinculos_dpto.push(vinculos[indice].fields.id_dpto)
+      } 
+
+
+      $('#vinculosDPTO').val(vinculos_dpto); // Select the option with a value of '1'
+      $('#vinculosDPTO').trigger('change'); // Notify any JS components that the value changed
+
+      $("#modalEditarUsuario").modal({
+         show: true
+      });
+   },
+   });
+}
+</script>
+
+<!--Ativando datepicker-->
+<script>
+$('#id_data_contratacao').datepicker({
+   format: "dd/mm/yyyy",
+   language: "pt-BR",
+});
+</script>
+
+<!--Script para fade do alerta-->
+<script>
+$(document).ready(function() {
+   $('#alert-tarefa').fadeOut(3500);
+});
+</script>
+{% endblock %}

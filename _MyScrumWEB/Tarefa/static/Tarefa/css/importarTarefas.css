@@ -1,0 +1,19 @@
+.div-cadastro-form {
+color: white;
+}
+
+.conteudo {
+	max-width: 100%;
+	width: 100%;
+	max-height: 86vh;
+	height: 86vh;
+}
+
+.custom-file {
+    width: 40%;
+    margin-right: 30px;
+}
+
+#Falha { 
+    color: red;
+}

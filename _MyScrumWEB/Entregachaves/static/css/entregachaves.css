@@ -1,0 +1,225 @@
+
+h1{
+    text-align: center !important;
+    font-weight: bolder !important;
+}
+
+
+.primeiraFileira{
+    flex-direction: row;
+    
+}
+
+.blocoSuperior {
+    width: 100%;
+}
+
+.espacoGeral {
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+}
+
+.colunaUm {
+    width: 600px;
+    height: 300px;
+    text-align: end;
+}
+
+.colunaDois {
+    width: 600px;
+    height: 300px;
+    text-align: end;
+}
+
+.colunaTres {
+    width: 600px;
+    height: 300px;
+    text-align: end;
+}
+
+.espacamentoForm {
+    margin: 10px;
+    display: flex;
+}
+
+.espacamentoForm1 {
+    margin: 10px;
+    margin-top: 55px;
+    display: flex;
+}
+
+label {
+    width: 100%;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.espacamentoForm3 {
+    /* margin: 0 5px; */
+    flex-direction: row;
+    display: flex;
+}
+
+.divBotoes {
+    width: 100%;
+    flex-direction: row;
+}
+
+.btncustom {
+    margin-top: 80px!important;
+    margin: 30px;
+}
+
+#divBusca{
+    width:95%;
+    text-align: end;  
+  }
+
+.modal-content {
+    max-height: 1000px;
+    min-width: 1000px !important;
+    position: absolute;
+    left: -250px;
+    margin-bottom: 10px;
+}
+
+.modal-body {
+    overflow-y: auto;
+}
+
+.modal-header {
+    text-align: center !important;
+}
+
+table,
+tr,
+td {
+    border: 1px solid black;
+}
+
+.title-table {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.first-column {
+    text-align: center;
+}
+
+.second-column {
+    padding-left: 10px;
+}
+
+.intro {
+    text-align: justify;
+    color: black !important;
+}
+
+.intro-title{
+    text-align: end;
+    color: black !important;
+}
+
+.dataFooter {
+    text-align: end;
+    color: black !important;
+}
+
+#textFooter {
+    padding-top: 10px;
+    color: black !important;
+}
+
+.assinFooter {
+    /* display: block !important; */
+    color: black !important;
+}
+
+.assinLine {
+    width: 25%;
+}
+
+.bImpressao {
+    text-align: left;
+
+}
+
+#textModal {
+    color: black !important;
+    padding-top: 1%;
+}
+
+.assinLinha {
+    color: black !important;
+    align-content: flex-start;
+    margin-right: 700px;
+    size: 10px!important;
+}
+
+h1{
+    text-align: center;
+    font-size: larger !important;
+}
+
+.field-assin{
+    display: flex;
+    justify-content: center;
+}
+
+hr{
+    margin-top: 40px!important;
+    border-color:#aaa !important;
+    box-sizing:border-box !important;
+}
+/* 
+@media screen {
+    #printSection {
+        display: none;
+    }
+  }
+  
+  @media print {
+    body * {
+      visibility:hidden;
+    }
+    #protocoloHelvetia, #protocoloHelvetia * {
+      visibility:visible;
+    }
+    #protocoloHelvetia {
+      position:absolute;
+      left:0;
+      top:0;
+    }
+  } */
+
+/* @media print and (color) {
+    @page {
+      margin: 5mm;
+      size: A4 portrait;
+    }
+
+    * {
+      overflow: visible !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      color: #212121 !important;
+      /* visibility: hidden; */
+    }
+        
+    /* #protocoloHelvetia {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+} */ 
+
+@media print
+{    
+    .modal-footer *
+    {
+        display: none !important;
+    }
+}

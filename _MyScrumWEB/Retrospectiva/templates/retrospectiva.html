@@ -1,0 +1,553 @@
+{% extends 'base.html' %} {% load static %} {% block title %} Retrospectiva {% endblock %} {% block head %}
+
+<link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+
+<!-- CSS da pagina desenvolvido por Alan Souza -->
+<link href="{% static 'Retrospectiva/css/retrospectiva.css' %}" rel="stylesheet">
+
+<!-- Script para o funciomento dos DatePickers -->
+<script src = "https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+
+<!-- Script para reconher o PT-BR do DatePickers-->
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.pt-BR.min.js" charset="UTF-8"></script>
+
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+
+<!-- Script -->
+<script src="{% static 'Retrospectiva/js/retrospectiva.js' %}"></script>
+<script>$("#collapseOne").toggleClass("show");</script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="load" id="load">
+  <i class="fa fa-cog fa-spin fa-10x fa-fw"></i><span class="sr-only">Loading...</span>
+</div>
+
+<header class="retrospectiva" id="retrospectiva">
+  <nav id="retrospectivas">
+      <div class="titulos">
+        <div class="titulo-child afazer">Foi bom</div>
+        <div class="titulo-child fazendo">Pode melhorar</div>
+        <div class="titulo-child feito">Deve melhorar</div>
+        </div>
+      <div class="quadro" id="quadro">
+
+          <!--Quadro de tarefas A fazer-->
+          <div class="quadro-child quadro1 1">
+            {% for retrospectiva in foiBom %}
+            <div id="{{ retrospectiva.id_tarefa }}" class="card tarefa mt-3 mb-3 w-95 p">
+              <div class="card-body">
+                <div class="row justify-content-between">
+                  <div class="col-xs align-self-start idTarefa p">
+                      <span class="id" title="ID" aria-label="100%">{{ retrospectiva.id_tarefa }}</span>
+                  </div>
+                  <div class="col-xs prioridadeTarefa p">
+                      <span id="prioridade{{ retrospectiva.id_tarefa }}" title="Prioridade" aria-label="100%">{{ retrospectiva.prioridade }}</span>
+                  </div>
+                  <div id="statusRetrospectiva" class="col-xs situacao_data p">
+                      <span title="Status da Retrospectiva" aria-label="100%">{{ retrospectiva.stats }}</span>
+                      <span id="retrospec{{retrospectiva.id_tarefa}}" style="display: none;">{{ retrospectiva.retrospec }}</span>
+                  </div>
+                  <div class="col-xs ccTarefa p">
+                      <span title="Centro de Custo" aria-label="100%">{{ retrospectiva.centro_custo }}</span>
+                  </div>
+                  <span title="Editar">
+                      <div class="bt_editar col-xs align-self-end p">
+                        <a href="#" class="card-link">
+                          <img src="{% static 'Kanban/img/editar.png' %}" class="editar" onclick="editarTarefa({{retrospectiva.id_tarefa}})"/>
+                        </a>
+                      </div>
+                  </span>
+                </div>
+                <span title="Descrição" class="descricaoTarefa border">{{ retrospectiva.descri }}</span>
+              </div>
+              <div class="card-footer bg-transparent">
+                <div class="row justify-content-between">
+                  <div class="col-xs">
+                    <div class="row">
+                      <span style="display:none;" id="executores{{retrospectiva.id_tarefa}}">{{retrospectiva.Executores}}</span>
+                      <div class="row" id="imagensExecutores{{retrospectiva.id_tarefa}}">
+                      </div>
+                    </div>
+                  </div>
+                  <span class="col-xs align-self-center dptoTarefa" title="Departamento">{{ retrospectiva.departamento }}</span>
+                  <span id="id_responsavel{{ retrospectiva.id_tarefa }}" class="col-xs i-icone id_responsavel" title="{{ retrospectiva.nome_responsavel }}"><img id="imgIdResponsavel{{retrospectiva.id_tarefa}}" class="rounded-circle" style="width: 100%; height: 100%"></span>
+                  <span class="bt_expandir col-xs align-self-end" title="Expandir"><a><img src="{% static 'Kanban/img/expandir.png' %}" class="expandir"/></a></span>
+                </div>
+                <div id="{{ retrospectiva.id_tarefa }}_mostrar" class="container mostrar mt-2">
+                  <span class="statusTarefa border" title="Pendente">{{ retrospectiva.descricao }}</span>
+                  <div class="row justify-content-center mt-2">
+                    <span class="col-xs data_inicio border mr-1" id="dataInicial{{ retrospectiva.id_tarefa }}" title="Início Previsto">{{ retrospectiva.data_ini }}</span>
+                    <span class="col-xs data_limite border ml-1" id="dataReal{{ retrospectiva.id_tarefa }}" title="Finalização Prevista">{{ retrospectiva.data_finalizacao }}</span>
+                    {% if retrospectiva.stat == 'Fazendo' %}
+                      <span class="col-xs data_limite border ml-1" id="dataFinal{{ retrospectiva.id_tarefa }}" title="Finalização Real">Em andamento</span>
+                    {% else %}  
+                      <span class="col-xs data_limite border ml-1" id="dataFinal{{ retrospectiva.id_tarefa }}" title="Finalização Real">{{ retrospectiva.data_fim }}</span>
+                    {% endif %}
+                  </div>
+                  <div class="row justify-content-between mt-2">
+                    <div class="col-xs">
+                      <div class="row">
+                        <span id="autoridade{{ retrospectiva.id_tarefa }}" class="col-xs p-icone autoridade" title="{{retrospectiva.autoridade}}"><img id="imgAutoridade{{retrospectiva.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                        <span id="responsavel{{ retrospectiva.id_tarefa }}" class="col-xs p-icone responsavel mr-1" title="{{retrospectiva.responsavel}}"><img id="imgResponsavel{{retrospectiva.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                      </div>
+                    </div>
+                    <span class="col-xs processoTarefa align-self-center" title="Processo">{{ retrospectiva.processo_relacionado }}</span>
+                  </div>
+                </div>
+                </div>
+            </div>
+            {% endfor %}
+          </div>
+
+          <!--Quadro de tarefas Fazendo-->
+          <div class="quadro-child quadro1 2">
+            {% for retrospectiva in podeMelhorar %}
+            <div id="{{ retrospectiva.id_tarefa }}" class="card tarefa mt-3 mb-3 w-95 p">
+              <div class="card-body">
+                <div class="row justify-content-between">
+                  <div class="col-xs align-self-start idTarefa p">
+                      <span class="id" title="ID" aria-label="100%">{{ retrospectiva.id_tarefa }}</span>
+                  </div>
+                  <div class="col-xs prioridadeTarefa p">
+                      <span id="prioridade{{ retrospectiva.id_tarefa }}" title="Prioridade" aria-label="100%">{{ retrospectiva.prioridade }}</span>
+                  </div>
+                  <div id="statusRetrospectiva" class="col-xs situacao_data p">
+                      <span title="Status da Retrospectiva" aria-label="100%">{{ retrospectiva.stats }}</span>
+                      <span id="retrospec{{retrospectiva.id_tarefa}}" style="display: none;">{{ retrospectiva.retrospec }}</span>
+                  </div>
+                  <div class="col-xs ccTarefa p">
+                      <span title="Centro de Custo" aria-label="100%">{{ retrospectiva.centro_custo }}</span>
+                  </div>
+                  <span title="Editar">
+                      <div class="bt_editar col-xs align-self-end p">
+                        <a href="#" class="card-link">
+                          <img src="{% static 'Kanban/img/editar.png' %}" class="editar" onclick="editarTarefa({{retrospectiva.id_tarefa}})"/>
+                        </a>
+                      </div>
+                  </span>
+                </div>
+                <span title="Descrição" class="descricaoTarefa border">{{ retrospectiva.descri }}</span>
+              </div>
+              <div class="card-footer bg-transparent">
+                <div class="row justify-content-between">
+                  <div class="col-xs">
+                    <div class="row">
+                      <span style="display:none;" id="executores{{retrospectiva.id_tarefa}}">{{retrospectiva.Executores}}</span>
+                      <div class="row" id="imagensExecutores{{retrospectiva.id_tarefa}}">
+                      </div>
+                    </div>
+                  </div>
+                  <span class="col-xs align-self-center dptoTarefa" title="Departamento">{{ retrospectiva.departamento }}</span>
+                  <span id="id_responsavel{{ retrospectiva.id_tarefa }}" class="col-xs i-icone id_responsavel" title="{{ retrospectiva.nome_responsavel }}"><img id="imgIdResponsavel{{retrospectiva.id_tarefa}}" class="rounded-circle" style="width: 100%; height: 100%"></span>
+                  <span class="bt_expandir col-xs align-self-end" title="Expandir"><a><img src="{% static 'Kanban/img/expandir.png' %}" class="expandir"/></a></span>
+                </div>
+                <div id="{{ retrospectiva.id_tarefa }}_mostrar" class="container mostrar mt-2">
+                  <span class="statusTarefa border" title="Pendente">{{ retrospectiva.descricao }}</span>
+                  <div class="row justify-content-center mt-2">
+                    <span class="col-xs data_inicio border mr-1" id="dataInicial{{ retrospectiva.id_tarefa }}" title="Início Previsto">{{ retrospectiva.data_ini }}</span>
+                    <span class="col-xs data_limite border ml-1" id="dataReal{{ retrospectiva.id_tarefa }}" title="Finalização Prevista">{{ retrospectiva.data_finalizacao }}</span>
+                    {% if retrospectiva.stat == 'Fazendo' %}
+                      <span class="col-xs data_limite border ml-1" id="dataFinal{{ retrospectiva.id_tarefa }}" title="Finalização Real">Em andamento</span>
+                    {% else %}  
+                      <span class="col-xs data_limite border ml-1" id="dataFinal{{ retrospectiva.id_tarefa }}" title="Finalização Real">{{ retrospectiva.data_fim }}</span>
+                    {% endif %}
+                  </div>
+                  <div class="row justify-content-between mt-2">
+                    <div class="col-xs">
+                      <div class="row">
+                        <span id="autoridade{{ retrospectiva.id_tarefa }}" class="col-xs p-icone autoridade" title="{{retrospectiva.autoridade}}"><img id="imgAutoridade{{retrospectiva.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                        <span id="responsavel{{ retrospectiva.id_tarefa }}" class="col-xs p-icone responsavel mr-1" title="{{retrospectiva.responsavel}}"><img id="imgResponsavel{{retrospectiva.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                      </div>
+                    </div>
+                    <span class="col-xs processoTarefa align-self-center" title="Processo">{{ retrospectiva.processo_relacionado }}</span>
+                  </div>
+                </div>
+                </div>
+            </div>
+              {% endfor %}
+          </div>
+
+          <!--Quadro de tarefas Feitas-->
+          <div class="quadro-child quadro1 3">
+            {% for retrospectiva in deveMelhorar %}
+            <div id="{{ retrospectiva.id_tarefa }}" class="card tarefa mt-3 mb-3 w-95 p">
+              <div class="card-body">
+                <div class="row justify-content-between">
+                  <div class="col-xs align-self-start idTarefa p">
+                      <span class="id" title="ID" aria-label="100%">{{ retrospectiva.id_tarefa }}</span>
+                  </div>
+                  <div class="col-xs prioridadeTarefa p">
+                      <span id="prioridade{{ retrospectiva.id_tarefa }}" title="Prioridade" aria-label="100%">{{ retrospectiva.prioridade }}</span>
+                  </div>
+                  <div id="statusRetrospectiva" class="col-xs situacao_data p">
+                      <span title="Status da Retrospectiva" aria-label="100%">{{ retrospectiva.stats }}</span>
+                      <span id="retrospec{{retrospectiva.id_tarefa}}" style="display: none;">{{ retrospectiva.retrospec }}</span>
+                  </div>
+                  <div class="col-xs ccTarefa p">
+                      <span title="Centro de Custo" aria-label="100%">{{ retrospectiva.centro_custo }}</span>
+                  </div>
+                  <span title="Editar">
+                      <div class="bt_editar col-xs align-self-end p">
+                        <a href="#" class="card-link">
+                          <img src="{% static 'Kanban/img/editar.png' %}" class="editar" onclick="editarTarefa({{retrospectiva.id_tarefa}})"/>
+                        </a>
+                      </div>
+                  </span>
+                </div>
+                <span title="Descrição" class="descricaoTarefa border">{{ retrospectiva.descri }}</span>
+              </div>
+              <div class="card-footer bg-transparent">
+                <div class="row justify-content-between">
+                  <div class="col-xs">
+                    <div class="row">
+                      <span style="display:none;" id="executores{{retrospectiva.id_tarefa}}">{{retrospectiva.Executores}}</span>
+                      <div class="row" id="imagensExecutores{{retrospectiva.id_tarefa}}">
+                      </div>
+                    </div>
+                  </div>
+                  <span class="col-xs align-self-center dptoTarefa" title="Departamento">{{ retrospectiva.departamento }}</span>
+                  <span id="id_responsavel{{ retrospectiva.id_tarefa }}" class="col-xs i-icone id_responsavel" title="{{ retrospectiva.nome_responsavel }}"><img id="imgIdResponsavel{{retrospectiva.id_tarefa}}" class="rounded-circle" style="width: 100%; height: 100%"></span>
+                  <span class="bt_expandir col-xs align-self-end" title="Expandir"><a><img src="{% static 'Kanban/img/expandir.png' %}" class="expandir"/></a></span>
+                </div>
+                <div id="{{ retrospectiva.id_tarefa }}_mostrar" class="container mostrar mt-2">
+                  <span class="statusTarefa border" title="Pendente">{{ retrospectiva.descricao }}</span>
+                  <div class="row justify-content-center mt-2">
+                    <span class="col-xs data_inicio border mr-1" id="dataInicial{{ retrospectiva.id_tarefa }}" title="Início Previsto">{{ retrospectiva.data_ini }}</span>
+                    <span class="col-xs data_limite border ml-1" id="dataReal{{ retrospectiva.id_tarefa }}" title="Finalização Prevista">{{ retrospectiva.data_finalizacao }}</span>
+                    {% if retrospectiva.stat == 'Fazendo' %}
+                      <span class="col-xs data_limite border ml-1" id="dataFinal{{ retrospectiva.id_tarefa }}" title="Finalização Real">Em andamento</span>
+                    {% else %}  
+                      <span class="col-xs data_limite border ml-1" id="dataFinal{{ retrospectiva.id_tarefa }}" title="Finalização Real">{{ retrospectiva.data_fim }}</span>
+                    {% endif %}
+                  </div>
+                  <div class="row justify-content-between mt-2">
+                    <div class="col-xs">
+                      <div class="row">
+                        <span id="autoridade{{ retrospectiva.id_tarefa }}" class="col-xs p-icone autoridade" title="{{retrospectiva.autoridade}}"><img id="imgAutoridade{{retrospectiva.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                        <span id="responsavel{{ retrospectiva.id_tarefa }}" class="col-xs p-icone responsavel mr-1" title="{{retrospectiva.responsavel}}"><img id="imgResponsavel{{retrospectiva.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                      </div>
+                    </div>
+                    <span class="col-xs processoTarefa align-self-center" title="Processo">{{ retrospectiva.processo_relacionado }}</span>
+                  </div>
+                </div>
+                </div>
+            </div>
+              {% endfor %}
+          </div>
+
+      </div>
+  </nav>
+</header>
+
+<!--Modal Editar Tarefa-->
+<div class="modal fade" id="ModalEditarTarefa" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-xl" role="document" id="modal">
+      <div class="modal-content">
+
+      </div>
+  </div>
+</div>
+<!--FIM Modal Editar Tarefa-->
+
+{% endblock %}
+
+{% block navbar %}
+
+<div class="card-header" id="headingOne">
+  <button id="buttonCollapse" type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    <i class="fa fa-filter"></i>
+    <span id="botao-filtro">Filtros</span>
+  </button>
+</div>
+
+<button id="exportar" type="button" class="btn btn-info ml-3" onclick="download()">
+  <i class="fa fa-download"></i>
+  <span >Exportar</span>
+</button>
+
+{% endblock %}
+
+{% block expandirFiltros %}
+
+<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                  <div class="card-body">
+                    <form class="" action="/retrospectiva" id="form" method="GET">
+                      <div class="row">
+                        <div class="col-8" id="datas-filtro">
+                          <div class="datas">
+                            <label for="data">Periodo de pesquisa</label>
+                            <div id="sandbox-container">
+                              <div class="input-daterange input-group" id="datepicker">
+                                <input id="inicio-filtro" value="{{filtros.start}}" type="text" class="input-sm form-control" name="start" autocomplete="off" />
+                                <span class="input-group-addon">Até</span>
+                                <input id="final-filtro" value="{{filtros.end}}" type="text" class="input-sm form-control" name="end" autocomplete="off" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="botoes-filtro">
+                          <div class="col" id="aplicar-filtro">
+                            <input id="buttonAplicarFiltros" class="btn btn-primary" type="submit" value="Aplicar filtros">
+                          </div>
+                          <div class="col" id="limpar-filtro">
+                            <input id="buttonLimparFiltros"class="btn btn-primary clearAll" type="button" value="Limpar filtros">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-4" id="centrocusto-filtro">
+                          <div class="centrocusto-filtro">
+                            <label for="centrocusto-filtro">Centros de Custo</label>
+                            <select class="form-control" id="centrocusto" name="centrocusto">
+                              <option>Centros de custo</option>
+                              {% for centrocusto in centrocustos %}
+                              {% if filtros.centrocusto == centrocusto.centrocusto %}
+                              <option value="{{centrocusto.id_centro_custo}}" selected>{{ centrocusto.centrocusto }}</option>
+                              {% else %}
+                              <option value="{{centrocusto.id_centro_custo}}">{{ centrocusto.centrocusto }}</option>
+                              {% endif %}
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-4" id="departamento-filtro">
+                          <div class="departamento-filtro">
+                            <label for="departamento-filtro">Departamentos:</label>
+                            <select class="select2 form-control" id="departamento" name="departamento" multiple="">
+                              <option>Departamentos</option>
+                              {% for departamento in departamentos %}
+                              {% if departamento.departamento in filtros.departamento %}
+                              <option selected>{{ departamento.departamento }}</option>
+                              {% else %}
+                              <option>{{ departamento.departamento }}</option>
+                              {% endif %}
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-4" id="processo-filtro">
+                          <div class="processo-filtro">
+                            <label for="processo-filtro">Processos:</label>
+                            <select class="select2 form-control" id="processo" name="processo" multiple="">
+                              <option>Processos</option>
+                              {% for processo in processos %}
+                              {% if processo.processo in filtros.processo %}
+                              <option selected>{{ processo.processo }}</option>
+                              {% else %}
+                              <option>{{ processo.processo }}</option>
+                              {% endif %}
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-4" id="autoridade-filtro">
+                          <div class="autoridade-filtro">
+                            <label for="autoridade-filtro">Autoridades:</label>
+                            <select class="select2 form-control" id="autoridade" name="autoridade" multiple="">
+                              <option>Autoridade</option>
+                              {% for pessoa in pessoas %} {% if pessoa.nome in filtros.autoridade %}
+                              <option selected>{{ pessoa.nome }}</option>
+                              {% else %}
+                              <option>{{ pessoa.nome }}</option>
+                              {% endif %} {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-4" id="responsavel-filtro">
+                          <div class="responsavel-filtro">
+                            <label for="responsavel-filtro">Responsáveis:</label>
+                            <select class="select2 form-control" id="responsavel" name="responsavel" multiple="">
+                              <option>Responsável</option>
+                              {% for pessoa in pessoas %} {% if pessoa.nome in filtros.responsavel %}
+                              <option selected>{{ pessoa.nome }}</option>
+                              {% else %}
+                              <option>{{ pessoa.nome }}</option>
+                              {% endif %} {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-4" id="pessoa-filtro">
+                          <div class="pessoa-filtro">
+                            <label for="pessoa-filtro">Pessoas:</label>
+                            <select class="select2 form-control" id="pessoa" name="pessoa" multiple="">
+                              {% for pessoa in pessoas %} {% if pessoa.nome in filtros.pessoa %}
+                              <option selected>{{ pessoa.nome }}</option>
+                              {% else %}
+                              <option>{{ pessoa.nome }}</option>
+                              {% endif %} {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-6" id="executor-filtro">
+                          <div class="executor-filtro">
+                            <label for="executor-filtro">Executores:</label>
+                            <select class="select2 form-control" id="executor" name="executor" multiple="">
+                              <option>Executores</option>
+                              {% for pessoa in pessoas %}
+                              {% if pessoa.nome in filtros.executor %}
+                              <option selected>{{ pessoa.nome }}</option>
+                              {% else %}
+                              <option>{{ pessoa.nome }}</option>
+                              {% endif %} {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-6" id="status-filtro">
+                          <div class="status-filtro">
+                              <label for="status-filtro">Status:</label>
+                              <select class="select2 form-control" multiple="" id="status" name="status">
+                                  {% if 'A fazer' in filtros.status %}
+                                      <option value="A fazer" selected="selected">A fazer</option>
+                                  {% else %}
+                                      <option value="A fazer">A fazer</option>
+                                  {% endif %}
+
+                                  {% if 'Fazendo' in filtros.status %}
+                                      <option value="Fazendo" selected="selected">Fazendo</option>
+                                  {% else %}
+                                      <option value="Fazendo">Fazendo</option>
+                                  {% endif %}
+
+                                  {% if 'Feito' in filtros.status %}
+                                      <option value="Feito" selected="selected">Feito</option>
+                                  {% else %}
+                                      <option value="Feito">Feito</option>
+                                  {% endif %}
+                              </select>
+                            </div>
+                      </div>
+                      </div>
+                    </form>
+                  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+function exibirTarefa(id_tarefa){
+  url = '/kanban/exibir/tarefa/'+id_tarefa
+
+  $.ajax({
+    type: 'GET',
+    url: url,
+    dataType: 'json',
+    beforeSend: function (){
+      $("#ModalEditarTarefa").modal("show");
+    },
+    success: function (data){
+      $("#ModalEditarTarefa .modal-content").html(data.html_form);
+    },
+
+  });
+}
+</script>
+
+<script>
+function editarTarefa(id_tarefa){
+  url = "{% url 'Tarefa:URL_editarTarefa' %}"
+  window.open(url+id_tarefa);
+}
+</script>
+
+<script>
+  //Codigo do Loading
+  $(document).ready(function() {
+      document.getElementById("load").classList.toggle('esconder');
+      document.getElementById("retrospectivas").classList.toggle('mostrar');
+      $("#accordion").css("opacity", "1");
+      document.getElementById("collapseOne").classList.toggle('collapse');
+      document.getElementById("collapseOne").classList.toggle('collapse');
+      $('#buttonCollapse').attr('aria-expanded', 'false');
+      $("#load").attr("hidden", true);
+
+  });
+</script>
+
+<script>
+
+  $('#inicio-filtro').datepicker({
+      todayBtn: "linked",
+      language: "pt-BR",
+      daysOfWeekHighlighted: "1,2,3,4,5",
+      autoclose: true,
+      todayHighlight: true
+  });
+  $('#final-filtro').datepicker({
+      todayBtn: "linked",
+      language: "pt-BR",
+      daysOfWeekHighlighted: "1,2,3,4,5",
+      autoclose: true,
+      todayHighlight: true
+  });
+
+function removerElementos(select){
+    //Removendo todos option atualmente na combo
+    while (select.length != 1) {
+        select.remove(select.length-1);
+    }
+
+    $(select).attr('readonly', 'true');
+}
+</script>
+
+<!--Ativando o multiselect-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+<script>
+    $(".select2").select2();
+</script>
+
+<!--Limpa Filtros-->
+<script>
+
+$('.clearAll').on('click', function() {
+    $("#centrocusto").val( $('option:contains("Centros de custo")').val() );
+
+    var $status = $("#status").select2();
+    $status.val(null).trigger("change");
+
+    var $departamento = $("#departamento").select2();
+    $departamento.val(null).trigger("change");
+
+    var $processo = $("#processo").select2();
+    $processo.val(null).trigger("change");
+
+    var $autoridade = $("#autoridade").select2();
+    $autoridade.val(null).trigger("change");
+
+    var $responsavel = $("#responsavel").select2();
+    $responsavel.val(null).trigger("change");
+
+    var $pessoa = $("#pessoa").select2();
+    $pessoa.val(null).trigger("change");
+
+    var $executor = $("#executor").select2();
+    $executor.val(null).trigger("change");
+
+    var $impedimento = $("#impedimento").select2();
+    $impedimento.val(null).trigger("change");
+});
+
+  function download(){
+      var form = document.getElementById("form");
+      form.setAttribute('action', '/retrospectiva/exportar/retrospectiva')
+
+      form.submit();
+
+      form.setAttribute('action', '/retrospectiva/')
+
+    }
+</script>
+{% endblock %}

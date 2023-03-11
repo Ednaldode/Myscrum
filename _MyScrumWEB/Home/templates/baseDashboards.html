@@ -1,0 +1,80 @@
+<!DOCTYPE html> {% load static %}
+
+<html lang="pt-br">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+
+    <!-- Icons font CSS-->
+    <link href="{% static '_Base/vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static '_Base/vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+
+    <!--CSS FontAwesome para icones-->
+    <link rel="stylesheet" href="{% static '_Base/plugins/fontawesome/css/all.css' %}">
+
+    <!-- CSS Bootstrap  -->
+    <link rel="stylesheet" href="{% static '_Base/css/bootstrap.min-4.1.3.css' %}">
+
+    <!-- CSS da pagina base.html-->
+    <link rel="stylesheet" href="{% static '_Base/css/base.css' %}">
+    <link href="{% static '_Base/css/barraRolagem.css' %}" rel="stylesheet">
+
+    <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
+    <script src="{% static '_Base/js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static '_Base/js/popper.min.js' %}"></script>
+    <script src="{% static '_Base/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '_Base/js/bootstrap-select.min.js' %}"></script>
+    <link href="{% static '_Base/css/bootstrap-select.min.css' %}" rel="stylesheet" />
+    
+    {% block head %} {% endblock %}
+    <title>{% block title %} {% endblock %}</title>
+
+</head>
+
+<body>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url("/media/usuarios/{{usuario.nome}}/background/background.jpg");
+            overflow-y: hidden;
+
+        }
+    </style>
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <img src="/media/usuarios/{{usuario.nome}}/perfil/{{usuario.nome}}.png" class="rounded-circle" alt="Cinque Terre">
+            </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a>Funcionario: <span id="funcionario">{{usuario.nome}}</span></a>
+                </li>
+                <li>
+                    <a>Departamento:  {{usuario.id_departamento.departamento}}</a>
+                </li>
+                <li>
+                    <a>Tempo de empresa: {{usuario.data_contratacao}}</a>
+                </li> 
+                {% block home %} {% endblock %}
+            </ul>
+            {% block filtros %} {% endblock %}
+        </nav>
+
+            {% block content %} {% endblock %}
+        </div>
+    </div>
+    <!-- Script da ação do botão do menu -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+    {% block scripts %} {% endblock %}
+</body>
+
+</html>

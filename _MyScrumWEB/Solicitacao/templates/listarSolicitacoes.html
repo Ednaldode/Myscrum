@@ -1,0 +1,605 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block head %}
+
+<!--CSS Data Table-->
+<link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
+
+<!-- CSS da tabela desenvolvido por Abner Matias -->
+<link rel="stylesheet" href="{% static '/Solicitacao/css/tabela.css' %}">
+
+<!-- CSS da pagina desenvolvido por Abner Matias -->
+<link rel="stylesheet" href="{% static '/Solicitacao/css/listarSolicitacoes.css' %}">
+<link rel="stylesheet" href="{% static '/_Base/css/base.css' %}">
+
+<!--Usando arquivos da app home para não duplicar arquivos-->
+<!-- Script para o funciomento dos DatePickers -->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+
+<!-- Script para reconher o PT-BR do DatePickers-->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.pt-BR.min.js' %}" charset="UTF-8"></script>
+
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="{% static 'Home/datepicker/css/bootstrap-datepicker3.min.css' %}" rel="stylesheet">
+
+
+{% endblock %}
+
+{% block title %} Listar Solicitações {% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{message.extra_tags}}" role="alert">
+            <center>{{ message }}</center>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="conteudo" id="conteudo">
+    <div class="load" id="load">
+        <i class="fa fa-cog fa-spin fa-10x fa-fw"></i><span class="sr-only"></span>
+    </div>
+
+    <div class="table" id="tabela">
+        <table id="minhaTabela" class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                  <th class="th-sm">ID
+                    </th>
+                    <!-- <th class="th-sm">Check
+                    </th> -->
+                    <th class="th-sm">Empreendimento
+                    </th>
+                    <th class="th-sm">Bloco
+                    </th>
+                    <th class="th-sm">Apto
+                    </th>
+                    <th class="th-sm">Status Processo
+                    </th>
+                    <th class="th-sm">Nº dias em aberto
+                    </th>
+                    <th class="th-sm">Data de abertura
+                    </th>
+                    <th class="th-sm alinhamentoDescricao">Descrição
+                    </th>
+                    <th class="th-sm">Status Atual
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for solicitacao in solicitacoes %}
+                <tr class="linha" id="{{solicitacao.id_tarefa}}">
+                    <td class="alinhamentoId"><a href="{% url 'Tarefa:editar' solicitacao.id_tarefa %}" target="_blank"></a>{{solicitacao.id_tarefa}}</a></td>
+                    <!-- <td id="id_check{{solicitacao.id_tarefa}}" class="alinhamentoCheck" >{{solicitacao.status_processo}}</a></td> -->
+                    <td><a href="{% url 'Tarefa:editar' solicitacao.id_tarefa %}" target="_blank">{{solicitacao.empreendimento}}</a></td>
+                    <td><a href="{% url 'Tarefa:editar' solicitacao.id_tarefa %}" target="_blank">{{solicitacao.bloco}}</a></td>
+                    <td><a href="{% url 'Tarefa:editar' solicitacao.id_tarefa %}" target="_blank">{{solicitacao.unidade}}</a></td>
+                    <td><a href="{% url 'Tarefa:editar' solicitacao.id_tarefa %}" target="_blank">{{solicitacao.status_processo}}</a></td>
+                    <td><a href="{% url 'Tarefa:editar' solicitacao.id_tarefa %}" target="_blank" id="diasAberto{{solicitacao.id_tarefa}}"></a></td>
+                    <td><a href="{% url 'Tarefa:editar' solicitacao.id_tarefa %}" target="_blank" id="dataAberto{{solicitacao.id_tarefa}}">{{solicitacao.data_ini}}</a></td>
+                    <td class="alinhamentoDescricao"><a href="{% url 'Tarefa:editar' solicitacao.id_tarefa %}" target="_blank">{{solicitacao.descri}}</a></td>
+                    <td><a href="{% url 'Tarefa:editar' solicitacao.id_tarefa %}" target="_blank">{{solicitacao.status_pendencia}}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block navbar %}
+
+<div class="card-header" id="headingOne">
+  <button id="buttonCollapse" type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    <i class="fa fa-filter"></i>
+    <span id="botao-filtro">Filtros</span>
+  </button>
+</div>
+
+<button id="exportar" type="button" class="btn btn-info" onclick="download()">
+  <i class="fa fa-download"></i>
+  <span >Exportar</span>
+</button>
+{% endblock %}
+
+{% block expandirFiltros %}
+
+<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+  <div class="card-body">
+     <form class="" action="/solicitacao/listar" id="form" method="GET">
+      <!-- Datas -->
+        <div class="row">
+           <div class="col-8" id="datas-filtro">
+              <div class="datas">
+                 <label for="data">Periodo de pesquisa</label>
+                 <div id="sandbox-container">
+                    <div class="input-daterange input-group" id="datepicker">
+                       <input id="inicio-filtro" value="{{filtros.start}}" type="text" class="input-sm form-control" name="start" autocomplete="off" />
+                       <span class="input-group-addon">Até</span>
+                       <input id="final-filtro" value="{{filtros.end}}" type="text" class="input-sm form-control" name="end" autocomplete="off" />
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div id="botoes-filtro">
+              <div class="col" id="aplicar-filtro">
+                 <input id="buttonAplicarFiltros" class="btn btn-primary" type="submit" value="Aplicar filtros">
+              </div>
+              <div class="col" id="limpar-filtro">
+                 <input id="buttonLimparFiltros"class="btn btn-primary clearAll" type="button" value="Limpar filtros">
+              </div>
+           </div>
+        </div>
+        <!-- Centro de Custo / Bloco / Unidade -->
+        <div class="row">
+           <div class="col" id="centrocusto-filtro">
+              <div class="centrocusto-filtro">
+                 <label for="centrocusto-filtro">Centros de Custo</label>
+                 <select class="form-control" id="centrocusto" name="centrocusto">
+                    <option>Centros de custo</option>
+                    {% for centrocusto in centrocustos %}
+                    {% if filtros.centrocusto == centrocusto.centrocusto %}
+                    <option value="{{centrocusto.id_centro_custo}}" selected>{{ centrocusto.centrocusto }}</option>
+                    {% else %}
+                    <option value="{{centrocusto.id_centro_custo}}">{{ centrocusto.centrocusto }}</option>
+                    {% endif %}
+                    {% endfor %}
+                 </select>
+              </div>
+           </div>
+           <div class="col-4" id="bloco-filtro">
+              <div class="bloco-filtro">
+                 <label for="bloco-filtro">Bloco:</label>
+                 <span id="listaBloco" hidden>{{listaBloco}}</span>
+                 <span id="selecionadosBloco" hidden>{{filtros.bloco}}</span>
+                 <select class="select2 form-control" id="bloco" name="bloco" multiple="">
+
+                 </select>
+              </div>
+           </div>
+           <div class="col-4" id="unidade-filtro">
+              <div class="unidade-filtro">
+                 <label for="unidade-filtro">Unidade:</label>
+                 <span id="listaUnidade" hidden>{{listaUnidade}}</span>
+                 <span id="selecionadosUnidade" hidden>{{filtros.unidade}}</span>
+                 <select class="select2 form-control" id="unidade" name="unidade" multiple=""></select>
+              </div>
+           </div>
+        </div>
+        <!-- Proprietário / Contato / E-mail -->
+        <div class="row">
+           <div class="col-4" id="proprietario-filtro">
+              <div class="proprietario-filtro">
+                 <label for="proprietario-filtro">Proprietário:</label>
+                 <span id="listaProprietarios" hidden>{{listaProprietario}}</span>
+                 <span id="selecionadosProprietario" hidden>{{filtros.proprietario}}</span>
+                 <select class="select2 form-control" id="proprietario" name="proprietario" multiple=""></select>
+              </div>
+           </div>
+           <div class="col-4" id="contato-filtro">
+              <div class="contato-filtro">
+                 <label for="contato-filtro">Contato:</label>
+                 <span id="listaContatos" hidden>{{listaContato}}</span>
+                 <span id="selecionadosContato" hidden>{{filtros.contato}}</span>
+                 <select class="select2 form-control" id="contato" name="contato" multiple=""></select>
+              </div>
+           </div>
+           <div class="col-4" id="proprietario-filtro">
+              <div class="proprietario-filtro">
+                 <label for="proprietario-filtro">E-mail:</label>
+                 <span id="listaEmails" hidden>{{listaEmail}}</span>
+                 <span id="selecionadosEmail" hidden>{{filtros.email}}</span>
+                 <select class="select2 form-control" id="email" name="email" multiple="">
+
+                 </select>
+              </div>
+           </div>
+        </div>
+        <!-- Status Filtro / Processo -->
+        <div class="row">
+           <div class="col-6" id="status-filtro">
+              <div class="status-filtro">
+                 <label for="status-filtro">Status da tarefa:</label>
+                 <select class="select2 form-control" multiple="" id="status" name="status">
+                    {% if 'A fazer' in filtros.status %}
+                    <option value="A fazer" selected="selected">A fazer</option>
+                    {% else %}
+                    <option value="A fazer">A fazer</option>
+                    {% endif %}
+                    {% if 'Fazendo' in filtros.status %}
+                    <option value="Fazendo" selected="selected">Fazendo</option>
+                    {% else %}
+                    <option value="Fazendo">Fazendo</option>
+                    {% endif %}
+                    {% if 'Feito' in filtros.status %}
+                    <option value="Feito" selected="selected">Feito</option>
+                    {% else %}
+                    <option value="Feito">Feito</option>
+                    {% endif %}
+                    {% if 'Cancelado' in filtros.status %}
+                    <option value="Cancelado" selected="selected">Cancelado</option>
+                    {% else %}
+                    <option value="Cancelado">Cancelado</option>
+                    {% endif %}
+                 </select>
+              </div>
+           </div>
+           <div class="col-6" id="status-filtro">
+            <div class="status-filtro">
+               <label for="status-filtro">Status do Processo:</label>
+               <select class="select2 form-control" multiple="" id="processo" name="processo">
+                  {% if 'Análise' in filtros.processo %}
+                  <option value="Análise" selected="selected">Análise</option>
+                  {% else %}
+                  <option value="Análise">Análise</option>
+                  {% endif %}
+                  {% if 'Agendamento' in filtros.processo %}
+                  <option value="Agendamento" selected="selected">Agendamento</option>
+                  {% else %}
+                  <option value="Agendamento">Agendamento</option>
+                  {% endif %}
+                  {% if 'Atendimento' in filtros.processo %}
+                  <option value="Atendimento" selected="selected">Atendimento</option>
+                  {% else %}
+                  <option value="Atendimento">Atendimento</option>
+                  {% endif %}
+                  {% if 'Termo de Quitação' in filtros.processo %}
+                  <option value="Termo de Quitação" selected="selected">Termo de Quitação</option>
+                  {% else %}
+                  <option value="Termo de Quitação">Termo de Quitação</option>
+                  {% endif %}
+                  {% if 'Concluído' in filtros.processo %}
+                  <option value="Concluído" selected="selected">Concluído</option>
+                  {% else %}
+                  <option value="Concluído">Concluído</option>
+                  {% endif %}
+                  {% if 'Fora de Garantia' in filtros.processo %}
+                  <option value="Fora de Garantia" selected="selected">Fora de Garantia</option>
+                  {% else %}
+                  <option value="Fora de Garantia">Fora de Garantia</option>
+                  {% endif %}
+               </select>
+            </div>
+           </div>
+        </div>
+        <!-- Pessoa / Executor / Impedimento -->
+        <div class="row">
+          <div class="col-4" id="pessoa-filtro">
+            <div class="pessoa-filtro">
+              <label for="pessoa-filtro">Pessoas:</label>
+              <select class="select2 form-control" id="pessoa" name="pessoa" multiple="">
+                {% for pessoa in pessoas %} 
+                  {% if pessoa.nome in filtros.pessoa %}
+                    <option selected>{{ pessoa.nome }}</option>
+                  {% else %}
+                    <option>{{ pessoa.nome }}</option>
+                  {% endif %} 
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col-4" id="executor-filtro">
+            <div class="executor-filtro">
+              <label for="executor-filtro">Executores:</label>
+              <select class="select2 form-control" id="executor" name="executor" multiple="">
+                <option>Executores</option>
+                {% for pessoa in pessoas %}
+                {% if pessoa.nome in filtros.executor %}
+                <option selected>{{ pessoa.nome }}</option>
+                {% else %}
+                <option>{{ pessoa.nome }}</option>
+                {% endif %} {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col-4" id="impedimento-filtro">
+            <div class="impedimento-filtro">
+              <label for="impedimento-filtro">Impedimentos:</label>
+              <select class="select2 form-control" id="impedimento" name="impedimento" multiple="">
+                <option>Impedimentos</option>
+                {% for pessoa in pessoas %}
+                {% if pessoa.nome in filtros.impedimento %}
+                <option selected>{{ pessoa.nome }}</option>
+                {% else %}
+                <option>{{ pessoa.nome }}</option>
+                {% endif %}{% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'Solicitacao/js/listar.js' %}"></script>
+
+<script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+
+<!-- Verificar concluídos e acrecentar o icone de check na tela -->
+<!-- <script>
+var linha = $(".linha");
+$.each(linha, function(index,valor){
+  if ($("#id_check" + $(valor).attr('id')).text() == 'Concluído'){
+    $("#id_check" + $(valor).attr('id')).html('<i class="fas fa-check-square"></i>')  
+  } else {
+    $("#id_check" + $(valor).attr('id')).html("") 
+  }
+})
+</script> -->
+<!--  -->
+
+<script>
+$(document).ready(function(){
+$('#minhaTabela').DataTable({
+    "language": {
+          "search": "Pesquisar:",
+          "searchPlaceholder": "...",
+          "lengthMenu": "Mostrando _MENU_ tarefas.",
+          "loadingRecords": "Carregando...",
+          "zeroRecords": "Nada encontrado",
+          "info": "Página: _PAGE_ de _PAGES_ | Total: _MAX_ tarefas",
+          "infoEmpty": "Nenhum registro disponível",
+          "infoFiltered": "| Filtro: _TOTAL_ tarefas",
+          "previous": "Anterior",
+          "next": "Próximo",
+      },
+      "scrollY": "200px",
+      "scrollCollapse": true,
+  });
+
+  $('[name=minhaTabela_length]').addClass('custom-select custom-select-sm form-control form-control-sm');
+  $('#minhaTabela_length').addClass('bs-select');
+  $('#minhaTabela_filter > label > input[type=search]').addClass('form-control form-control-sm');
+  $('#minhaTabela_filter').addClass('form-control-sm');
+});
+</script>
+
+<script>
+    //código usando jQuery
+    $(document).ready(function() {
+        document.getElementById("load").classList.toggle('esconder');
+        document.getElementById("tabela").classList.toggle('mostrar');
+        document.getElementById("accordion").classList.toggle('mostrar');
+        $("#accordion").css("opacity", "1");
+        document.getElementById("collapseOne").classList.toggle('collapse');
+        document.getElementById("collapseOne").classList.toggle('collapse');
+        $('#buttonCollapse').attr('aria-expanded', 'false');
+
+        $("#load").attr("hidden", true);
+    });
+</script>
+
+<script>
+  $('#inicio-filtro').datepicker({
+    todayBtn: "linked",
+    language: "pt-BR",
+    daysOfWeekDisabled: "0",
+    daysOfWeekHighlighted: "1,2,3,4,5,6",
+    autoclose: true,
+    todayHighlight: true
+  });
+  $('#final-filtro').datepicker({
+    todayBtn: "linked",
+    language: "pt-BR",
+    daysOfWeekDisabled: "0",
+    daysOfWeekHighlighted: "1,2,3,4,5,6",
+    autoclose: true,
+    todayHighlight: true
+  });
+
+  function removerElementos(select){
+      //Removendo todos option atualmente na combo
+      while (select.length != 1) {
+          select.remove(select.length-1);
+      }
+
+      $(select).attr('readonly', 'true');
+  }
+</script>
+
+<!--Ativando o multiselect-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+<script>
+    $(".select2").select2();
+</script>
+
+<!--Limpa Filtros-->
+<script>
+  
+  $('.clearAll').on('click', function() {
+      $("#centrocusto").val( $('option:contains("Centros de custo")').val() );
+
+      var $status = $("#status").select2();
+      $status.val(null).trigger("change");
+
+      var $departamento = $("#departamento").select2();
+      $departamento.val(null).trigger("change");
+
+      var $processo = $("#processo").select2();
+      $processo.val(null).trigger("change");
+
+      var $autoridade = $("#autoridade").select2();
+      $autoridade.val(null).trigger("change");
+
+      var $responsavel = $("#responsavel").select2();
+      $responsavel.val(null).trigger("change");
+
+      var $pessoa = $("#pessoa").select2();
+      $pessoa.val(null).trigger("change");
+
+      var $executor = $("#executor").select2();
+      $executor.val(null).trigger("change");
+
+      var $impedimento = $("#impedimento").select2();
+      $impedimento.val(null).trigger("change");
+  });
+
+</script>
+
+<script>
+
+  function download(){
+    var form = document.getElementById("form");
+    form.setAttribute('action', '/solicitacao/exportar/')
+
+    form.submit();
+
+    form.setAttribute('action', '/solicitacao/listar/')
+
+  }
+
+</script>
+
+<!-- Adiciona valores nos selects dos filtros -->
+<script>
+  var verificarProprietarios = $("#listaProprietarios").html();
+  var verificarBlocos = $("#listaBloco").html();
+  var verificarUnidades = $("#listaUnidade").html();
+  var verificarContatos = $("#listaContatos").html();
+  var verificarEmails = $("#listaEmails").html();
+
+  var optionProprietario = `<option>Proprietário</option>`;
+  var optionBloco = `<option>Bloco</option>`;
+  var optionUnidade = `<option>Unidade</option>`;
+  var optionContato = `<option>Contato</option>`;
+  var optionEmail = `<option>E-mail</option>`;
+
+  var selecionadosProprietarios = $("#selecionadosProprietario").html();
+  var selecionadosBlocos = $("#selecionadosBloco").html();
+  var selecionadosUnidades = $("#selecionadosUnidade").html();
+  var selecionadosContato = $("#selecionadosContato").html();
+  var selecionadosEmail = $("#selecionadosEmail").html();
+
+  qtdProprietarios = verificarProprietarios.split(",");
+  qtdBlocos = verificarBlocos.split(",");
+  qtdUnidades = verificarUnidades.split(",");
+  qtdContatos = verificarContatos.split(",");
+  qtdEmails = verificarEmails.split(",");
+
+  // Proprietários -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  var proprietariosSelecionados = []
+  if (selecionadosProprietarios != undefined){
+    qtdSelecionados = selecionadosProprietarios.split(",")
+    for (i = 0; i < qtdSelecionados.length - 1; i++) {
+      proprietariosSelecionados.push(qtdSelecionados[i].substr(2, (qtdSelecionados[i].length - 3)));
+    }
+    proprietariosSelecionados.push(qtdSelecionados[qtdSelecionados.length - 1].substr(2, (qtdSelecionados[qtdSelecionados.length - 1].length - 4)));
+  }
+
+  if (proprietariosSelecionados[0] != ""){
+    for (i = 0; i < qtdProprietarios.length - 1; i++) {
+    proprietariosSelecionados.includes(qtdProprietarios[i].substr(2, (qtdProprietarios[i].length - 3))) ? optionProprietario += `<option selected>${qtdProprietarios[i].substr(2, (qtdProprietarios[i].length - 3))}</option>` : optionProprietario += `<option>${qtdProprietarios[i].substr(2, (qtdProprietarios[i].length - 3))}</option>`;
+    }
+    proprietariosSelecionados.includes(qtdProprietarios[qtdProprietarios.length - 1].substr(2, (qtdProprietarios[qtdProprietarios.length - 1].length - 4))) ? optionProprietario += `<option selected>${qtdProprietarios[qtdProprietarios.length - 1].substr(2, (qtdProprietarios[qtdProprietarios.length - 1].length - 4))}</option>`: optionProprietario += `<option>${qtdProprietarios[qtdProprietarios.length - 1].substr(2, (qtdProprietarios[qtdProprietarios.length - 1].length - 4))}</option>`;
+    $("#proprietario").html(optionProprietario);
+  } else{
+    for (i = 0; i < qtdProprietarios.length - 1; i++) {
+    proprietariosSelecionados.includes(qtdProprietarios[i].substr(2, (qtdProprietarios[i].length - 3))) ? optionProprietario += `<option>${qtdProprietarios[i].substr(2, (qtdProprietarios[i].length - 3))}</option>` : optionProprietario += `<option>${qtdProprietarios[i].substr(2, (qtdProprietarios[i].length - 3))}</option>`;
+    }
+    proprietariosSelecionados.includes(qtdProprietarios[qtdProprietarios.length - 1].substr(2, (qtdProprietarios[qtdProprietarios.length - 1].length - 4))) ? optionProprietario += `<option>${qtdProprietarios[qtdProprietarios.length - 1].substr(2, (qtdProprietarios[qtdProprietarios.length - 1].length - 4))}</option>`: optionProprietario += `<option>${qtdProprietarios[qtdProprietarios.length - 1].substr(2, (qtdProprietarios[qtdProprietarios.length - 1].length - 4))}</option>`;
+    $("#proprietario").html(optionProprietario);
+  }
+  // Blocos -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  var blocosSelecionados = []
+  if (selecionadosBlocos != undefined){
+    qtdSelecionados = selecionadosBlocos.split(",")
+    for (i = 0; i < qtdSelecionados.length - 1; i++) {
+      blocosSelecionados.push(qtdSelecionados[i].substr(2, (qtdSelecionados[i].length - 3)));
+    }
+    blocosSelecionados.push(qtdSelecionados[qtdSelecionados.length - 1].substr(2, (qtdSelecionados[qtdSelecionados.length - 1].length - 4)));
+  }
+
+  if (blocosSelecionados[0] != ""){
+    for (i = 0; i < qtdBlocos.length - 1; i++) {
+      blocosSelecionados.includes(qtdBlocos[i].substr(2, (qtdBlocos[i].length - 3))) ? optionBloco += `<option selected>${qtdBlocos[i].substr(2, (qtdBlocos[i].length - 3))}</option>` : optionBloco += `<option>${qtdBlocos[i].substr(2, (qtdBlocos[i].length - 3))}</option>`;
+    }
+    blocosSelecionados.includes(qtdBlocos[qtdBlocos.length - 1].substr(2, (qtdBlocos[qtdBlocos.length - 1].length - 4))) ? optionBloco += `<option selected>${qtdBlocos[qtdBlocos.length - 1].substr(2, (qtdBlocos[qtdBlocos.length - 1].length - 4))}</option>`: optionBloco += `<option>${qtdBlocos[qtdBlocos.length - 1].substr(2, (qtdBlocos[qtdBlocos.length - 1].length - 4))}</option>`;
+    $("#bloco").html(optionBloco);
+  } else{
+    for (i = 0; i < qtdBlocos.length - 1; i++) {
+      blocosSelecionados.includes(qtdBlocos[i].substr(2, (qtdBlocos[i].length - 3))) ? optionBloco += `<option>${qtdBlocos[i].substr(2, (qtdBlocos[i].length - 3))}</option>` : optionBloco += `<option>${qtdBlocos[i].substr(2, (qtdBlocos[i].length - 3))}</option>`;
+    }
+    blocosSelecionados.includes(qtdBlocos[qtdBlocos.length - 1].substr(2, (qtdBlocos[qtdBlocos.length - 1].length - 4))) ? optionBloco += `<option>${qtdBlocos[qtdBlocos.length - 1].substr(2, (qtdBlocos[qtdBlocos.length - 1].length - 4))}</option>`: optionBloco += `<option>${qtdBlocos[qtdBlocos.length - 1].substr(2, (qtdBlocos[qtdBlocos.length - 1].length - 4))}</option>`;
+    $("#bloco").html(optionBloco);
+  }
+
+// Unidades -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+var unidadesSelecionados = []
+  if (selecionadosUnidades != undefined){
+    qtdSelecionados = selecionadosUnidades.split(",")
+    for (i = 0; i < qtdSelecionados.length - 1; i++) {
+      unidadesSelecionados.push(qtdSelecionados[i].substr(2, (qtdSelecionados[i].length - 3)));
+    }
+    unidadesSelecionados.push(qtdSelecionados[qtdSelecionados.length - 1].substr(2, (qtdSelecionados[qtdSelecionados.length - 1].length - 4)));
+  }
+  
+  console.log()
+
+  if (unidadesSelecionados[0] != ""){
+    for (i = 0; i < qtdUnidades.length - 1; i++) {
+      unidadesSelecionados.includes(qtdUnidades[i].substr(2, (qtdUnidades[i].length - 3))) ? optionUnidade += `<option selected>${qtdUnidades[i].substr(2, (qtdUnidades[i].length - 3))}</option>` : optionUnidade += `<option>${qtdUnidades[i].substr(2, (qtdUnidades[i].length - 3))}</option>`;
+    }
+    unidadesSelecionados.includes(qtdUnidades[qtdUnidades.length - 1].substr(2, (qtdUnidades[qtdUnidades.length - 1].length - 4))) ? optionUnidade += `<option selected>${qtdUnidades[qtdUnidades.length - 1].substr(2, (qtdUnidades[qtdUnidades.length - 1].length - 4))}</option>`: optionUnidade += `<option>${qtdUnidades[qtdUnidades.length - 1].substr(2, (qtdUnidades[qtdUnidades.length - 1].length - 4))}</option>`;
+    $("#unidade").html(optionUnidade);
+  } else{
+    for (i = 0; i < qtdUnidades.length - 1; i++) {
+      unidadesSelecionados.includes(qtdUnidades[i].substr(2, (qtdUnidades[i].length - 3))) ? optionUnidade += `<option>${qtdUnidades[i].substr(2, (qtdUnidades[i].length - 3))}</option>` : optionUnidade += `<option>${qtdUnidades[i].substr(2, (qtdUnidades[i].length - 3))}</option>`;
+    }
+    unidadesSelecionados.includes(qtdUnidades[qtdUnidades.length - 1].substr(2, (qtdUnidades[qtdUnidades.length - 1].length - 4))) ? optionUnidade += `<option>${qtdUnidades[qtdUnidades.length - 1].substr(2, (qtdUnidades[qtdUnidades.length - 1].length - 4))}</option>`: optionUnidade += `<option>${qtdUnidades[qtdUnidades.length - 1].substr(2, (qtdUnidades[qtdUnidades.length - 1].length - 4))}</option>`;
+    $("#unidade").html(optionUnidade);
+  }
+// Contato -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+var contatosSelecionados = []
+  if (selecionadosContato != undefined){
+    qtdSelecionados = selecionadosContato.split(",")
+    for (i = 0; i < qtdSelecionados.length - 1; i++) {
+      contatosSelecionados.push(qtdSelecionados[i].substr(2, (qtdSelecionados[i].length - 3)));
+    }
+    contatosSelecionados.push(qtdSelecionados[qtdSelecionados.length - 1].substr(2, (qtdSelecionados[qtdSelecionados.length - 1].length - 4)));
+  }
+
+  if (contatosSelecionados[0] != ""){
+    for (i = 0; i < qtdContatos.length - 1; i++) {
+      contatosSelecionados.includes(qtdContatos[i].substr(2, (qtdContatos[i].length - 3))) ? optionContato += `<option selected>${qtdContatos[i].substr(2, (qtdContatos[i].length - 3))}</option>` : optionContato += `<option>${qtdContatos[i].substr(2, (qtdContatos[i].length - 3))}</option>`;
+    }
+    contatosSelecionados.includes(qtdContatos[qtdContatos.length - 1].substr(2, (qtdContatos[qtdContatos.length - 1].length - 4))) ? optionContato += `<option selected>${qtdContatos[qtdContatos.length - 1].substr(2, (qtdContatos[qtdContatos.length - 1].length - 4))}</option>`: optionContato += `<option>${qtdContatos[qtdContatos.length - 1].substr(2, (qtdContatos[qtdContatos.length - 1].length - 4))}</option>`;
+    $("#contato").html(optionContato);
+  } else{
+    for (i = 0; i < qtdContatos.length - 1; i++) {
+      contatosSelecionados.includes(qtdContatos[i].substr(2, (qtdContatos[i].length - 3))) ? optionContato += `<option>${qtdContatos[i].substr(2, (qtdContatos[i].length - 3))}</option>` : optionContato += `<option>${qtdContatos[i].substr(2, (qtdContatos[i].length - 3))}</option>`;
+    }
+    contatosSelecionados.includes(qtdContatos[qtdContatos.length - 1].substr(2, (qtdContatos[qtdContatos.length - 1].length - 4))) ? optionContato += `<option>${qtdContatos[qtdContatos.length - 1].substr(2, (qtdContatos[qtdContatos.length - 1].length - 4))}</option>`: optionContato += `<option>${qtdContatos[qtdContatos.length - 1].substr(2, (qtdContatos[qtdContatos.length - 1].length - 4))}</option>`;
+    $("#contato").html(optionContato);
+  }
+
+// E-mails -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+var emailsSelecionados = []
+  if (selecionadosEmail != undefined){
+    qtdSelecionados = selecionadosEmail.split(",")
+    for (i = 0; i < qtdSelecionados.length - 1; i++) {
+      emailsSelecionados.push(qtdSelecionados[i].substr(2, (qtdSelecionados[i].length - 3)));
+    }
+    emailsSelecionados.push(qtdSelecionados[qtdSelecionados.length - 1].substr(2, (qtdSelecionados[qtdSelecionados.length - 1].length - 4)));
+  }
+
+  if (emailsSelecionados[0] != ""){
+    for (i = 0; i < qtdEmails.length - 1; i++) {
+      emailsSelecionados.includes(qtdEmails[i].substr(2, (qtdEmails[i].length - 3))) ? optionEmail += `<option selected>${qtdEmails[i].substr(2, (qtdEmails[i].length - 3))}</option>` : optionEmail += `<option>${qtdEmails[i].substr(2, (qtdEmails[i].length - 3))}</option>`;
+    }
+    emailsSelecionados.includes(qtdEmails[qtdEmails.length - 1].substr(2, (qtdEmails[qtdEmails.length - 1].length - 4))) ? optionEmail += `<option selected>${qtdEmails[qtdEmails.length - 1].substr(2, (qtdEmails[qtdEmails.length - 1].length - 4))}</option>`: optionEmail += `<option>${qtdEmails[qtdEmails.length - 1].substr(2, (qtdEmails[qtdEmails.length - 1].length - 4))}</option>`;
+    $("#email").html(optionEmail);
+  } else{
+    for (i = 0; i < qtdEmails.length - 1; i++) {
+      emailsSelecionados.includes(qtdEmails[i].substr(2, (qtdEmails[i].length - 3))) ? optionEmail += `<option>${qtdEmails[i].substr(2, (qtdEmails[i].length - 3))}</option>` : optionEmail += `<option>${qtdEmails[i].substr(2, (qtdEmails[i].length - 3))}</option>`;
+    }
+    emailsSelecionados.includes(qtdEmails[qtdEmails.length - 1].substr(2, (qtdEmails[qtdEmails.length - 1].length - 4))) ? optionEmail += `<option>${qtdEmails[qtdEmails.length - 1].substr(2, (qtdEmails[qtdEmails.length - 1].length - 4))}</option>`: optionEmail += `<option>${qtdEmails[qtdEmails.length - 1].substr(2, (qtdEmails[qtdEmails.length - 1].length - 4))}</option>`;
+    $("#email").html(optionEmail);
+  }
+
+</script>
+{% endblock %}

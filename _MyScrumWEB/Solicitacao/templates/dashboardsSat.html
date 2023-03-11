@@ -1,0 +1,198 @@
+{% extends 'base.html' %}{% load static %}
+{% block title %} Dashboard Solicitações {% endblock %}
+{% block head %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<!-- CSS da Pagina -->
+<link href="{% static 'Solicitacao/css/Dashboards.css' %}" rel="stylesheet">
+<!-- Script para o funciomento dos DatePickers -->
+<script src = "https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- Script para reconher o PT-BR do DatePickers-->
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.pt-BR.min.js" charset="UTF-8"></script>
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+<!-- Bootstrap para o Grid -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+<!-- Link do Charts.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<!-- Script para labels (Dados dentro das barras)-->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+
+{% endblock %}
+
+{% block navbar %} 
+<!-- Botões da Navbar -->
+<div class="card-header" id="headingOne">
+  <button id="buttonCollapse" type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    <i class="fa fa-filter"></i>
+    <span id="botao-filtro">Filtros</span>
+  </button>
+  </div>
+{% endblock %}
+
+{% block expandirFiltros %}
+<!-- Filtros da Navbar -->
+<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+  <div class="card-body">
+     <form class="" action="/solicitacao/dashboardsSat" id="form" method="GET">
+      <!-- Datas -->
+        <div class="row">
+           <div class="col-8" id="datas-filtro">
+              <div class="datas">
+                 <label for="data">Periodo de pesquisa</label>
+                 <div id="sandbox-container">
+                    <div class="input-daterange input-group" id="datepicker">
+                       <input id="inicio-filtro" value="{{filtros.start}}" type="text" class="input-sm form-control" name="start" autocomplete="off" />
+                       <span class="input-group-addon">Até</span>
+                       <input id="final-filtro" value="{{filtros.end}}" type="text" class="input-sm form-control" name="end" autocomplete="off" />
+                    </div>
+                 </div>
+              </div>             
+           </div>
+           <div id="botoes-filtro">
+              <div class="col" id="aplicar-filtro">
+                 <input id="buttonAplicarFiltros" class="btn btn-primary" type="submit" value="Aplicar filtros">
+              </div>
+              <div class="col" id="limpar-filtro">
+                 <input id="buttonLimparFiltros"class="btn btn-primary clearAll" type="button" value="Limpar filtros">
+              </div>
+           </div>
+        </div>
+
+        <div class="row">
+         <div class="col-3" id="centrocusto-filtro">
+            <div class="centrocusto-filtro">
+               <label for="centrocusto-filtro">Centros de Custo</label>
+               <select class="form-control" id="centrocusto" name="centrocusto">
+                  <option>Centros de custo</option>
+                  {% for centrocusto in centrocustos %}
+                  {% if filtros.centrocusto == centrocusto.centrocusto %}
+                  <option value="{{centrocusto.id_centro_custo}}" selected>{{ centrocusto.centrocusto }}</option>
+                  {% else %}
+                  <option value="{{centrocusto.id_centro_custo}}">{{ centrocusto.centrocusto }}</option>
+                  {% endif %}
+                  {% endfor %}
+               </select>
+            </div>
+         </div>
+
+         <div class="col-3" id="status-filtro">
+            <div class="status-filtro">
+                <label for="status-filtro">Status:</label>
+                <select class="select2 form-control" multiple="" id="status" name="status">
+   
+                    {% if 'A fazer' in filtros.status %}
+                        <option value="A fazer" selected="selected">A fazer</option>
+                    {% else %}
+                        <option value="A fazer">A fazer</option>
+                    {% endif %}
+   
+                    {% if 'Fazendo' in filtros.status %}
+                        <option value="Fazendo" selected="selected">Fazendo</option>
+                    {% else %}
+                        <option value="Fazendo">Fazendo</option>
+                    {% endif %}
+   
+                    {% if 'Feito' in filtros.status %}
+                        <option value="Feito" selected="selected">Feito</option>
+                    {% else %}
+                        <option value="Feito">Feito</option>
+                    {% endif %}
+   
+                    {% if 'Cancelado' in filtros.status %}
+                        <option value="Cancelado" selected="selected">Cancelado</option>
+                    {% else %}
+                        <option value="Cancelado">Cancelado</option>
+                    {% endif %}
+   
+                </select>
+              </div>
+            </div>
+
+         </div>
+    </div>
+</div>    
+ {% endblock %}
+
+{% block content %}
+
+  <span id='valores' style="display: none;"> {{ avaliacao }} </span>
+  <span id='valores_reparo' style="display: none;"> {{ reparo }} </span>
+  <span id='meses_axf' style="display: none;"> {{ meses }} </span>
+  <span id='listaMeses_axf' style="display: none;"> {{ listaMeses }} </span>
+  
+  <div class="container">
+    <div class="row" style="overflow-y:auto;height:800px;">
+      <div class="col-md-12" >
+        <canvas id="axf" style="background-color:white;"> </canvas>
+      </div>
+      <div class="col-md-12" >
+        <canvas id="satisfacao" style="background-color:white;"> </canvas>
+      </div>
+      <div class="col-md-12">
+          <canvas id="tipo" style="background-color:white;"> </canvas>
+      </div>
+    </div>
+  </div>   
+     
+</div>
+  
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'Solicitacao/js/dashboards.js'%}"></script>
+
+<script>
+    $('#inicio-filtro').datepicker({
+      todayBtn: "linked",
+      language: "pt-BR",
+      daysOfWeekDisabled: "0",
+      daysOfWeekHighlighted: "1,2,3,4,5,6",
+      autoclose: true,
+      todayHighlight: true
+    });
+    $('#final-filtro').datepicker({
+      todayBtn: "linked",
+      language: "pt-BR",
+      daysOfWeekDisabled: "0",
+      daysOfWeekHighlighted: "1,2,3,4,5,6",
+      autoclose: true,
+      todayHighlight: true
+    });
+  
+    function removerElementos(select){
+        //Removendo todos option atualmente na combo
+        while (select.length != 1) {
+            select.remove(select.length-1);
+        }
+  
+        $(select).attr('readonly', 'true');
+    }
+  </script>
+
+  <!--Ativando o multiselect-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+<script>
+    $(".select2").select2();
+</script>
+
+<!--Limpa Filtros-->
+<script>
+  
+   $('.clearAll').on('click', function() {
+       $("#centrocusto").val( $('option:contains("Centros de custo")').val() );
+ 
+       var $status = $("#status").select2();
+       $status.val(null).trigger("change");
+   });
+ 
+ </script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% endblock %}
+

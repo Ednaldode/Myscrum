@@ -1,0 +1,859 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block title %} Kanban {% endblock %}
+
+{% block head %}
+
+<!-- CSS da pagina desenvolvido por Alan Souza -->
+<link href="{% static 'Kanban/css/kanban.css' %}" rel="stylesheet">
+
+<!-- CSS da pagina desenvolvido por Alan Souza -->
+<link href="{% static 'Kanban/css/modal.css' %}" rel="stylesheet">
+
+<!-- CSS da pagina desenvolvido por Abner Matias -->
+<link href="{% static 'Kanban/css/editarTarefas.css' %}" rel="stylesheet">
+
+
+<!--Usando arquivos da app home para não duplicar arquivos-->
+<!-- Script para o funciomento dos DatePickers -->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+
+<!-- Script para reconher o PT-BR do DatePickers-->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.pt-BR.min.js' %}" charset="UTF-8"></script>
+
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="{% static 'Home/datepicker/css/bootstrap-datepicker3.min.css' %}" rel="stylesheet">
+
+<!-- Script -->
+<script src="{% static 'Kanban/js/kanban.js' %}"></script>
+<script src="{% static 'Kanban/js/executores.js' %}"></script>
+<script>$("#collapseOne").toggleClass("show");</script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="load" id="load">
+  <i class="fa fa-cog fa-spin fa-10x fa-fw"></i><span class="sr-only">Loading...</span>
+</div>
+
+<header class="kanbam" id="kanbam">
+  <nav id="tarefas">
+      <div class="titulos">
+        <span class="titulo-child afazer">A fazer</span>
+          <span class="titulo-child fazendo">Fazendo</span>
+          <span class="titulo-child feito">Feito</span>
+        </div>
+      <div class="quadro" id="quadro">
+
+          <!--Quadro de tarefas A fazer-->
+          <div class="quadro-child quadro1 1">
+            {% for tarefa in aFazer %}
+              <div id="{{ tarefa.id_tarefa }}" class="card tarefa mt-3 mb-3 w-95 p">
+                <div class="card-body">
+                  <div class="row justify-content-between">
+                    <div class="col-xs align-self-start idTarefa p">
+                        <span class="id" title="ID" aria-label="100%">{{ tarefa.id_tarefa }}</span>
+                    </div>
+                    <div class="col-xs prioridadeTarefa p">
+                        <span id="prioridade{{ tarefa.id_tarefa }}" title="Prioridade" aria-label="100%">{{ tarefa.prioridade }}</span>
+                    </div>
+                    <div id="statusPrazo{{ tarefa.id_tarefa }}" class="col-xs situacao_data p">
+                        <span title="" aria-label="100%"></span>
+                    </div>
+                    <div id="status{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{tarefa.stat}}</div>
+                    <div id="prazo{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{ tarefa.prazo }}</div>
+                    <div class="col-xs ccTarefa p">
+                        <span title="Centro de Custo" aria-label="100%">{{ tarefa.centro_custo }}</span>
+                    </div>
+                    <span id="is_mae_filho{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{tarefa.id_status}}</span>
+                    <span id="is_id_filho{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{tarefa.id_filho}}</span>
+                    <span id="is_id_juridico{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{tarefa.id_juridico}}</span>
+                    <span id="is_id_locacao{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{tarefa.id_locacao}}</span>
+                    <span id="processo{{tarefa.id_tarefa}}" class="col-xs" style="display: none;">{{ tarefa.processo_relacionado }}</span>
+                    <span title="Editar">
+                        <div class="bt_editar col-xs align-self-end p">
+                          <a href="#" class="card-link">
+                            <img src="{% static 'Kanban/img/editar.png' %}" class="editar" onclick="editarTarefa({{tarefa.id_tarefa}})"/>
+                          </a>
+                        </div>
+                    </span>
+                  </div>
+                  <span title="Descrição" id="descricao{{ tarefa.id_tarefa }}" class="descricaoTarefa border">{{ tarefa.descri }}</span>
+                </div>
+                <div class="card-footer bg-transparent">
+                  <div class="row justify-content-between">
+                    <div class="col-xs">
+                      <div class="row">
+                        <span style="display:none;" id="executores{{tarefa.id_tarefa}}">{{tarefa.Executores}}</span>
+                        <div class="row" id="imagensExecutores{{tarefa.id_tarefa}}">
+                        </div>
+                      </div>
+                    </div>
+                    <span class="col-xs align-self-center dptoTarefa" title="Departamento">{{ tarefa.departamento }}</span>
+                    <span id="impedimento{{ tarefa.id_tarefa }}" class="col-xs i-icone pendente" title="{{ tarefa.pendente_por }}"><img id="imgImpedimento{{tarefa.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                    <span class="bt_expandir col-xs align-self-end" title="Expandir"><a><img src="{% static 'Kanban/img/expandir.png' %}" class="expandir"/></a></span>
+                  </div>
+                  <div id="{{ tarefa.id_tarefa }}_mostrar" class="container mostrar mt-2">
+                    {% if tarefa.id_filho is not null and tarefa.id_status == 0 %}
+                      <span class="statusTarefa border" title="Pendente">{{ tarefa.status_pendencia }}</span>
+                      <div class="row justify-content-center mt-2">
+                        <span class="col-xs data_inicio border mr-1" id="dataInicial{{ tarefa.id_tarefa }}" title="Data Início">{{ tarefa.data_ini }}</span>
+                        <span class="col-xs data_limite border ml-1" id="dataFinal{{ tarefa.id_tarefa }}" title="Data Fim">{{ tarefa.data_fim }}</span>
+                      </div>
+                      <div class="d-flex flex-column" id="statusFilhos{{tarefa.id_filho}}"></div>
+                    {% elif tarefa.id_locacao is not null and tarefa.id_status == 0 %}
+                      <span class="statusTarefa border" title="Pendente">{{ tarefa.status_pendencia }}</span>
+                      <div class="row justify-content-center mt-2">
+                        <span class="col-xs data_inicio border mr-1" id="dataInicial{{ tarefa.id_tarefa }}" title="Data Início">{{ tarefa.data_ini }}</span>
+                        <span class="col-xs data_limite border ml-1" id="dataFinal{{ tarefa.id_tarefa }}" title="Data Fim">{{ tarefa.data_fim }}</span>
+                      </div>
+                      <div class="d-flex flex-column" id="statusFilhos{{tarefa.id_locacao}}"></div>
+                    {% elif tarefa.processo_relacionado == 'Processo Cível' and tarefa.id_status == 1 %}
+                      <span class="statusTarefa border" title="Pendente">{{ tarefa.status_pendencia }}</span>
+                      <div class="row justify-content-center mt-2">
+                        <span class="col-xs data_inicio border mr-1" id="dataInicial{{ tarefa.id_tarefa }}" title="Data Início">{{ tarefa.data_ini }}</span>
+                        <span class="col-xs data_limite border ml-1" id="dataFinal{{ tarefa.id_tarefa }}" title="Data Fim">{{ tarefa.data_fim }}</span>
+                      </div>
+                      <div class="d-flex flex-column" id="statusFilhos{{tarefa.id_juridico}}"></div>
+                    {% else %}
+                      <span class="statusTarefa border" title="Pendente">{{ tarefa.status_pendencia }}</span>
+                      <div class="row">
+                        <span class="col-xs tamanhoTarefa align-self-center" title="Tamanho - Pontos" id="peso{{tarefa.id_tarefa}}">{{ tarefa.tamanho }}</span>
+                      </div>
+                      <div class="row justify-content-center mt-2">
+                        <span class="col-xs data_inicio border mr-1" id="dataInicial{{ tarefa.id_tarefa }}" title="Data Início">{{ tarefa.data_ini }}</span>
+                        <span class="col-xs data_limite border ml-1" id="dataFinal{{ tarefa.id_tarefa }}" title="Data Fim">{{ tarefa.data_fim }}</span>
+                      </div>
+                      <div class="row justify-content-between mt-2">
+                        <div class="col-xs">
+                          <div class="row">
+                            <span id="autoridade{{ tarefa.id_tarefa }}" class="col-xs p-icone autoridade" title="{{tarefa.autoridade}}"><img id="imgAutoridade{{tarefa.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                            <span id="responsavel{{ tarefa.id_tarefa }}" class="col-xs p-icone responsavel mr-1" title="{{tarefa.responsavel}}"><img id="imgResponsavel{{tarefa.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                          </div>
+                        </div>
+                        <span class="col-xs mr-1 align-self-center" title="Etapa">{{ tarefa.etapa }}</span>
+                        <span class="col-xs mr-1 align-self-center" title="SubEtapa">{{ tarefa.subetapa }}</span>
+
+                      </div>
+                      <div class="row justify-content-between mt-2">
+                        <span class="col-xs processoTarefa align-self-center" title="Processo">{{ tarefa.processo_relacionado }}</span>
+                        <span id="anexo{{tarefa.id_tarefa}}" class="col-xs align-self-end" title="Anexo"><a><img src="{% static 'Kanban/img/clipe.png' %}" class="anexo_ver"/></a></span>
+                        <div id="anexo1{{tarefa.id_tarefa}}" style="display: none;">{{tarefa.anexo1}}</div>
+                        <div id="anexo1{{tarefa.id_tarefa}}" style="display: none;">{{tarefa.anexo1}}</div>
+                        <span id="retrospectiva{{tarefa.id_tarefa}}" class="col-xs align-self-end imgRetrospectiva" title="Retrospectiva"><a><img src="{% static 'Kanban/img/retrospectiva.png' %}" class="anexo_ver" id="imgRetrospectiva"/></a></span>
+                        <div id="retrospectiva1{{tarefa.id_tarefa}}" style="display: none;">{{tarefa.retrospec}}</div>
+                        <span id="r5w2h{{tarefa.id_tarefa}}" class="col-xs align-self-end" title="5W2H"><a><img src="{% static 'Kanban/img/5w2h.png' %}" class="anexo_ver" id="img5w2h"/></a></span>
+                        <div id="r5w2h1{{tarefa.id_tarefa}}" style="display: none;">{{tarefa.r5w2hT}}</div>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+          <!--Quadro de tarefas Fazendo-->
+          <div class="quadro-child quadro1 2">
+            {% for tarefa in Fazendo %}
+              <div id="{{ tarefa.id_tarefa }}" class="card tarefa mt-3 mb-3 w-95 p">
+                <div class="card-body">
+                  <div class="row justify-content-between">
+                    <div class="col-xs align-self-start idTarefa p">
+                        <span title="ID" aria-label="100%">{{ tarefa.id_tarefa }}</span>
+                    </div>
+                    <div class="col-xs prioridadeTarefa p">
+                        <span id="prioridade{{ tarefa.id_tarefa }}" title="Prioridade" aria-label="100%">{{ tarefa.prioridade }}</span>
+                    </div>
+                    <div id="statusPrazo{{ tarefa.id_tarefa }}" class="col-xs situacao_data p">
+                        <span title="" aria-label="100%"></span>
+                    </div>
+                    <div id="status{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{ tarefa.stat }}</div>
+                    <div id="prazo{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{ tarefa.prazo }}</div>
+                    <div class="col-xs ccTarefa p">
+                        <span title="Centro de Custo" aria-label="100%">{{ tarefa.centro_custo }}</span>
+                    </div>
+                    <span id="is_mae_filho{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{tarefa.id_status}}</span>
+                    <span id="is_id_filho{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{tarefa.id_filho}}</span>
+                    <span id="is_id_juridico{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{tarefa.id_juridico}}</span>
+                    <span id="is_id_filho{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{tarefa.id_filho}}</span>
+                    <span id="processo{{tarefa.id_tarefa}}" class="col-xs" style="display: none;">{{ tarefa.processo_relacionado }}</span>
+                    <span title="Editar">
+                        <div class="bt_editar col-xs align-self-end p">
+                          <a href="#" class="card-link">
+                            <img src="{% static 'Kanban/img/editar.png' %}" class="editar" onclick="editarTarefa({{tarefa.id_tarefa}})"/>
+                          </a>
+                        </div>
+                    </span>
+                  </div>
+                  <span title="Descrição" id="descricao{{ tarefa.id_tarefa }}" class="descricaoTarefa border">{{ tarefa.descri }}</span>
+                  <span title="{{ tarefa.porcentagem }}%" class="progress mt-1" style="height:6px;">
+                    <div class="progress-bar{{ tarefa.id_tarefa }}" role="progressbar" style="width: {{ tarefa.porcentagem }}%;" aria-valuenow="{{ tarefa.porcentagem }}" aria-valuemin="0" aria-valuemax="100"></div>
+                  </span>
+                </div>
+                <div class="card-footer bg-transparent">
+                  <div class="row justify-content-between">
+                    <div class="col-xs">
+                      <div class="row">
+                        <span style="display:none;" id="executores{{tarefa.id_tarefa}}">{{tarefa.Executores}}</span>
+                        <div class="row" id="imagensExecutores{{tarefa.id_tarefa}}">
+
+                        </div>
+                      </div>
+                    </div>
+                    <span class="col-xs align-self-center dptoTarefa" title="Departamento">{{ tarefa.departamento }}</span>
+                    <span id="impedimento{{ tarefa.id_tarefa }}" class="col-xs i-icone pendente" title="{{ tarefa.pendente_por }}"><img id="imgImpedimento{{tarefa.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                    <span class="bt_expandir col-xs align-self-end" title="Expandir"><a><img src="{% static 'Kanban/img/expandir.png' %}" class="expandir"/></a></span>
+                  </div>
+                  <div id="{{ tarefa.id_tarefa }}_mostrar" class="container mostrar mt-2">
+                    {% if tarefa.id_filho is not null and tarefa.id_status == 0 %}
+                      <span class="statusTarefa border" title="Pendente">{{ tarefa.status_pendencia }}</span>
+                      <div class="row justify-content-center mt-2">
+                        <span class="col-xs data_inicio border mr-1" id="dataInicial{{ tarefa.id_tarefa }}" title="Data Início">{{ tarefa.data_ini }}</span>
+                        <span class="col-xs data_limite border ml-1" id="dataFinal{{ tarefa.id_tarefa }}" title="Data Fim">{{ tarefa.data_fim }}</span>
+                      </div>
+                      <div class="d-flex flex-column" id="statusFilhos{{tarefa.id_filho}}"></div>
+                    {% elif tarefa.id_locacao is not null and tarefa.id_status == 0 %}
+                      <span class="statusTarefa border" title="Pendente">{{ tarefa.status_pendencia }}</span>
+                      <div class="row justify-content-center mt-2">
+                        <span class="col-xs data_inicio border mr-1" id="dataInicial{{ tarefa.id_tarefa }}" title="Data Início">{{ tarefa.data_ini }}</span>
+                        <span class="col-xs data_limite border ml-1" id="dataFinal{{ tarefa.id_tarefa }}" title="Data Fim">{{ tarefa.data_fim }}</span>
+                      </div>
+                      <div class="d-flex flex-column" id="statusFilhos{{tarefa.id_locacao}}"></div>
+                    {% elif tarefa.processo_relacionado == 'Processo Cível' and tarefa.id_status == 1 %}
+                      <span class="statusTarefa border" title="Pendente">{{ tarefa.status_pendencia }}</span>
+                      <div class="row justify-content-center mt-2">
+                        <span class="col-xs data_inicio border mr-1" id="dataInicial{{ tarefa.id_tarefa }}" title="Data Início">{{ tarefa.data_ini }}</span>
+                        <span class="col-xs data_limite border ml-1" id="dataFinal{{ tarefa.id_tarefa }}" title="Data Fim">{{ tarefa.data_fim }}</span>
+                      </div>
+                      <div class="d-flex flex-column" id="statusFilhos{{tarefa.id_juridico}}"></div>
+                    {% else %}
+                      <span class="statusTarefa border" title="Pendente">{{ tarefa.status_pendencia }}</span>
+                      <div class="row">
+                        <span class="col-xs tamanhoTarefa align-self-center" title="Tamanho - Pontos" id="peso{{tarefa.id_tarefa}}">{{ tarefa.tamanho }}</span>
+                      </div>
+                      <div class="row justify-content-center mt-2">
+                        <span class="col-xs data_inicio border mr-1" id="dataInicial{{ tarefa.id_tarefa }}" title="Data Início">{{ tarefa.data_ini }}</span>
+                        <span class="col-xs data_limite border ml-1" id="dataFinal{{ tarefa.id_tarefa }}" title="Data Fim">{{ tarefa.data_fim }}</span>
+                      </div>
+                      <div class="row justify-content-between mt-2">
+                        <div class="col-xs">
+                          <div class="row">
+                            <span id="autoridade{{ tarefa.id_tarefa }}" class="col-xs p-icone autoridade" title="{{tarefa.autoridade}}"><img id="imgAutoridade{{tarefa.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                            <span id="responsavel{{ tarefa.id_tarefa }}" class="col-xs p-icone responsavel mr-1" title="{{tarefa.responsavel}}"><img id="imgResponsavel{{tarefa.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                          </div>
+                        </div>
+                        <span class="col-xs mr-1 align-self-center" title="Etapa">{{ tarefa.etapa }}</span>
+                        <span class="col-xs mr-1 align-self-center" title="SubEtapa">{{ tarefa.subetapa }}</span>
+
+                      </div>
+                      <div class="row justify-content-between mt-2">
+                        <span class="col-xs processoTarefa align-self-center" title="Processo">{{ tarefa.processo_relacionado }}</span>
+                        <span id="anexo{{tarefa.id_tarefa}}" class="col-xs align-self-end" title="Anexo"><a><img src="{% static 'Kanban/img/clipe.png' %}" class="anexo_ver"/></a></span>
+                        <div id="anexo1{{tarefa.id_tarefa}}" style="display: none;">{{tarefa.anexo1}}</div>
+                        <div id="anexo1{{tarefa.id_tarefa}}" style="display: none;">{{tarefa.anexo1}}</div>
+                        <span id="retrospectiva{{tarefa.id_tarefa}}" class="col-xs align-self-end imgRetrospectiva" title="Retrospectiva"><a><img src="{% static 'Kanban/img/retrospectiva.png' %}" class="anexo_ver" id="imgRetrospectiva"/></a></span>
+                        <div id="retrospectiva1{{tarefa.id_tarefa}}" style="display: none;">{{tarefa.retrospec}}</div>
+                        <span id="r5w2h{{tarefa.id_tarefa}}" class="col-xs align-self-end" title="5W2H"><a><img src="{% static 'Kanban/img/5w2h.png' %}" class="anexo_ver" id="img5w2h"/></a></span>
+                        <div id="r5w2h1{{tarefa.id_tarefa}}" style="display: none;">{{tarefa.r5w2hT}}</div>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+          <!--Quadro de tarefas Feitas-->
+          <div class="quadro-child quadro1 3">
+            {% for tarefa in Feito %}
+              <div id="{{ tarefa.id_tarefa }}" class="card tarefa mt-3 mb-3 w-95 p">
+                <div class="card-body">
+                  <div class="row justify-content-between">
+                    <div class="col-xs align-self-start idTarefa p">
+                        <span title="ID" aria-label="100%">{{ tarefa.id_tarefa }}</span>
+                    </div>
+                    <div class="col-xs prioridadeTarefa p">
+                        <span id="prioridade{{ tarefa.id_tarefa }}" title="Prioridade" aria-label="100%">{{ tarefa.prioridade }}</span>
+                    </div>
+                    <div id="statusPrazo{{ tarefa.id_tarefa }}" class="col-xs situacao_data p">
+                        <span title="" aria-label="100%"></span>
+                    </div>
+                    <div id="status{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{tarefa.stat}}</div>
+                    <div id="prazo{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{ tarefa.prazo }}</div>
+                    <div class="col-xs ccTarefa p">
+                        <span title="Centro de Custo" aria-label="100%">{{ tarefa.centro_custo }}</span>
+                    </div>
+                    <span id="is_mae_filho{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{tarefa.id_status}}</span>
+                    <span id="is_id_filho{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{tarefa.id_filho}}</span>
+                    <span id="is_id_juridico{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{tarefa.id_juridico}}</span>
+                    <span id="is_id_filho{{ tarefa.id_tarefa }}" class="col-xs" style="display: none;">{{tarefa.id_filho}}</span>
+                    <span id="processo{{tarefa.id_tarefa}}" class="col-xs" style="display: none;">{{ tarefa.processo_relacionado }}</span>
+                    <span title="Editar">
+                        <div class="bt_editar col-xs align-self-end p">
+                          <a href="#" class="card-link">
+                            <img src="{% static 'Kanban/img/editar.png' %}" class="editar" onclick="editarTarefa({{tarefa.id_tarefa}})"/>
+                          </a>
+                        </div>
+                    </span>
+                  </div>
+                  <span title="Descrição" id="descricao{{ tarefa.id_tarefa }}" class="descricaoTarefa border">{{ tarefa.descri }}</span>
+                </div>
+                <div class="card-footer bg-transparent">
+                  <div class="row justify-content-between">
+                    <div class="col-xs">
+                      <div class="row">
+                        <span style="display:none;" id="executores{{tarefa.id_tarefa}}">{{tarefa.Executores}}</span>
+                        <div class="row" id="imagensExecutores{{tarefa.id_tarefa}}">
+
+                        </div>
+                      </div>
+                    </div>
+                    <span class="col-xs align-self-center dptoTarefa" title="Departamento">{{ tarefa.departamento }}</span>
+                    <span id="impedimento{{ tarefa.id_tarefa }}" class="col-xs i-icone pendente" title="{{ tarefa.pendente_por }}"><img id="imgImpedimento{{tarefa.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                    <span class="bt_expandir col-xs align-self-end" title="Expandir"><a><img src="{% static 'Kanban/img/expandir.png' %}" class="expandir"/></a></span>
+                  </div>
+                  <div id="{{ tarefa.id_tarefa }}_mostrar" class="container mostrar mt-2">
+                    {% if tarefa.id_filho is not null and tarefa.id_status == 0 %}
+                      <span class="statusTarefa border" title="Pendente">{{ tarefa.status_pendencia }}</span>
+                      <div class="row justify-content-center mt-2">
+                        <span class="col-xs data_inicio border mr-1" id="dataInicial{{ tarefa.id_tarefa }}" title="Data Início">{{ tarefa.data_ini }}</span>
+                        <span class="col-xs data_limite border ml-1" id="dataFinal{{ tarefa.id_tarefa }}" title="Data Fim">{{ tarefa.data_fim }}</span>
+                      </div>
+                      <div class="d-flex flex-column" id="statusFilhos{{tarefa.id_filho}}"></div>
+                    {% elif tarefa.id_locacao is not null and tarefa.id_status == 0 %}
+                      <span class="statusTarefa border" title="Pendente">{{ tarefa.status_pendencia }}</span>
+                      <div class="row justify-content-center mt-2">
+                        <span class="col-xs data_inicio border mr-1" id="dataInicial{{ tarefa.id_tarefa }}" title="Data Início">{{ tarefa.data_ini }}</span>
+                        <span class="col-xs data_limite border ml-1" id="dataFinal{{ tarefa.id_tarefa }}" title="Data Fim">{{ tarefa.data_fim }}</span>
+                      </div>
+                      <div class="d-flex flex-column" id="statusFilhos{{tarefa.id_locacao}}"></div>
+                    {% elif tarefa.processo_relacionado == 'Processo Cível' and tarefa.id_status == 1 %}
+                      <span class="statusTarefa border" title="Pendente">{{ tarefa.status_pendencia }}</span>
+                      <div class="row justify-content-center mt-2">
+                        <span class="col-xs data_inicio border mr-1" id="dataInicial{{ tarefa.id_tarefa }}" title="Data Início">{{ tarefa.data_ini }}</span>
+                        <span class="col-xs data_limite border ml-1" id="dataFinal{{ tarefa.id_tarefa }}" title="Data Fim">{{ tarefa.data_fim }}</span>
+                      </div>
+                      <div class="d-flex flex-column" id="statusFilhos{{tarefa.id_juridico}}"></div>
+                    {% else %}
+                      <span class="statusTarefa border" title="Pendente">{{ tarefa.status_pendencia }}</span>
+                      <div class="row">
+                        <span class="col-xs tamanhoTarefa align-self-center" title="Tamanho - Pontos" id="peso{{tarefa.id_tarefa}}">{{ tarefa.tamanho }}</span>
+                      </div>
+                      <div class="row justify-content-center mt-2">
+                        <span class="col-xs data_inicio border mr-1" id="dataInicial{{ tarefa.id_tarefa }}" title="Data Início">{{ tarefa.data_ini }}</span>
+                        <span class="col-xs data_limite border ml-1" id="dataFinal{{ tarefa.id_tarefa }}" title="Data Fim">{{ tarefa.data_fim }}</span>
+                      </div>
+                      <div class="row justify-content-between mt-2">
+                        <div class="col-xs">
+                          <div class="row">
+                            <span id="autoridade{{ tarefa.id_tarefa }}" class="col-xs p-icone autoridade" title="{{tarefa.autoridade}}"><img id="imgAutoridade{{tarefa.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                            <span id="responsavel{{ tarefa.id_tarefa }}" class="col-xs p-icone responsavel mr-1" title="{{tarefa.responsavel}}"><img id="imgResponsavel{{tarefa.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                          </div>
+                        </div>
+                        <span class="col-xs mr-1 align-self-center" title="Etapa">{{ tarefa.etapa }}</span>
+                        <span class="col-xs mr-1 align-self-center" title="SubEtapa">{{ tarefa.subetapa }}</span>
+
+                      </div>
+                      <div class="row justify-content-between mt-2">
+                        <span class="col-xs processoTarefa align-self-center" title="Processo">{{ tarefa.processo_relacionado }}</span>
+                        <span id="anexo{{tarefa.id_tarefa}}" class="col-xs align-self-end" title="Anexo"><a><img src="{% static 'Kanban/img/clipe.png' %}" class="anexo_ver"/></a></span>
+                        <div id="anexo1{{tarefa.id_tarefa}}" style="display: none;">{{tarefa.anexo1}}</div>
+                        <div id="anexo1{{tarefa.id_tarefa}}" style="display: none;">{{tarefa.anexo1}}</div>
+                        <span id="retrospectiva{{tarefa.id_tarefa}}" class="col-xs align-self-end imgRetrospectiva" title="Retrospectiva"><a><img src="{% static 'Kanban/img/retrospectiva.png' %}" class="anexo_ver" id="imgRetrospectiva"/></a></span>
+                        <div id="retrospectiva1{{tarefa.id_tarefa}}" style="display: none;">{{tarefa.retrospec}}</div>
+                        <span id="r5w2h{{tarefa.id_tarefa}}" class="col-xs align-self-end" title="5W2H"><a><img src="{% static 'Kanban/img/5w2h.png' %}" class="anexo_ver" id="img5w2h"/></a></span>
+                        <div id="r5w2h1{{tarefa.id_tarefa}}" style="display: none;">{{tarefa.r5w2hT}}</div>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+      </div>
+  </nav>
+</header>
+
+<!--Modal Editar Tarefa-->
+<div class="modal fade" id="ModalEditarTarefa" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-xl" role="document" id="modal">
+      <div class="modal-content">
+
+      </div>
+  </div>
+</div>
+<!--FIM Modal Editar Tarefa-->
+
+{% endblock %}
+
+{% block navbar %}
+
+<div class="card-header" id="headingOne">
+  <button id="buttonCollapse" type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    <i class="fa fa-filter"></i>
+    <span id="botao-filtro">Filtros</span>
+  </button>
+</div>
+
+<button id="exportar" type="button" class="btn btn-info" onclick="download()">
+  <i class="fa fa-download"></i>
+  <span >Exportar</span>
+</button>
+
+
+{% endblock %}
+
+{% block expandirFiltros %}
+
+<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+  <div class="card-body">
+    <form class="" action="/kanban" id="form" method="GET">
+      <div class="row">
+        <div class="col-8" id="datas-filtro">
+          <div class="datas">
+            <label for="data">Periodo de pesquisa</label>
+            <div id="sandbox-container">
+              <div class="input-daterange input-group" id="datepicker">
+                <input id="inicio-filtro" value="{{filtros.start}}" type="text" class="input-sm form-control" name="start" autocomplete="off" />
+                <span class="input-group-addon">Até</span>
+                <input id="final-filtro" value="{{filtros.end}}" type="text" class="input-sm form-control" name="end" autocomplete="off" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="botoes-filtro">
+          <div class="col" id="aplicar-filtro">
+            <input id="buttonAplicarFiltros" class="btn btn-primary" type="submit" value="Aplicar filtros">
+          </div>
+          <div class="col" id="limpar-filtro">
+            <input id="buttonLimparFiltros"class="btn btn-primary clearAll" type="button" value="Limpar filtros">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" id="centrocusto-filtro">
+          <div class="centrocusto-filtro">
+            <label for="centrocusto-filtro">Centros de Custo</label>
+            <select class="form-control" id="centrocusto" name="centrocusto">
+              <option>Centros de custo</option>
+              {% for centrocusto in centrocustos %}
+              {% if filtros.centrocusto == centrocusto.centrocusto %}
+              <option value="{{centrocusto.id_centro_custo}}" selected>{{ centrocusto.centrocusto }}</option>
+              {% else %}
+              <option value="{{centrocusto.id_centro_custo}}">{{ centrocusto.centrocusto }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col" id="etapa-filtro">
+          <div class="etapa-filtro">
+            <label for="etapa-filtro">Etapas</label>
+            <select class="form-control" id="etapa" name="etapa">
+              <option value="0">Etapas</option>
+              {% for etapa in etapas %}
+              {% if filtros.etapa == etapa.etapa %}
+              <option value="{{etapa.id_etapa}}" selected>{{ etapa.etapa }}</option>
+              {% else %}
+              <option value="{{etapa.id_etapa}}">{{ etapa.etapa }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col" id="subetapa-filtro">
+          <div class="subetapa-filtro">
+            <label for="subetapa-filtro">SubEtapas</label>
+            <select class="form-control" id="subetapa" name="subetapa">
+              <option value="0">Sub Etapas</option>
+              {% for subetapa in subetapas %}
+              {% if filtros.subetapa == subetapa.sub_etapa %}
+              <option value="{{subetapa.id_sub_etapas}}" selected>{{ subetapa.sub_etapa }}</option>
+              {% else %}
+              <option value="{{subetapa.id_sub_etapas}}">{{ subetapa.sub_etapa }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4" id="departamento-filtro">
+          <div class="departamento-filtro">
+            <label for="departamento-filtro">Departamentos:</label>
+            <select class="select2 form-control" id="departamento" name="departamento" multiple="">
+              <option>Departamentos</option>
+              {% for departamento in departamentos %}
+              {% if departamento.departamento in filtros.departamento %}
+              <option selected>{{ departamento.departamento }}</option>
+              {% else %}
+              <option>{{ departamento.departamento }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-4" id="processo-filtro">
+          <div class="processo-filtro">
+            <label for="processo-filtro">Processos:</label>
+            <select class="select2 form-control" id="processo" name="processo" multiple="">
+              <option>Processos</option>
+              {% for processo in processos %}
+              {% if processo.processo in filtros.processo %}
+              <option selected>{{ processo.processo }}</option>
+              {% else %}
+              <option>{{ processo.processo }}</option>
+              {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-4" id="tarefa-mae-filtro">
+          <div class="tarefa-mae-filtro">
+            <label for="tarefa-mae-filtro">Tarefa Mãe:</label>
+            <select class="select2 form-control" id="tarefa-mae" name="tarefa-mae" multiple="">
+              {% if 'Mãe' in filtros.tarefaMae %}
+                  <option value="Mãe" selected="selected">Mãe</option>
+              {% else %}
+                  <option value="Mãe">Mãe</option>
+              {% endif %}
+
+              {% if 'Filhos' in filtros.tarefaMae %}
+                  <option value="Filhos" selected="selected">Filhos</option>
+              {% else %}
+                  <option value="Filhos">Filhos</option>
+              {% endif %}
+
+              {% if 'Tarefas' in filtros.tarefaMae %}
+                  <option value="Tarefas" selected="selected">Tarefas</option>
+              {% else %}
+                  <option value="Tarefas">Tarefas</option>
+              {% endif %}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4" id="autoridade-filtro">
+          <div class="autoridade-filtro">
+            <label for="autoridade-filtro">Autoridades:</label>
+            <select class="select2 form-control" id="autoridade" name="autoridade" multiple="">
+              <option>Autoridade</option>
+              {% for pessoa in pessoas %} {% if pessoa.nome in filtros.autoridade %}
+              <option selected>{{ pessoa.nome }}</option>
+              {% else %}
+              <option>{{ pessoa.nome }}</option>
+              {% endif %} {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-4" id="responsavel-filtro">
+          <div class="responsavel-filtro">
+            <label for="responsavel-filtro">Responsáveis:</label>
+            <select class="select2 form-control" id="responsavel" name="responsavel" multiple="">
+              <option>Responsável</option>
+              {% for pessoa in pessoas %} {% if pessoa.nome in filtros.responsavel %}
+              <option selected>{{ pessoa.nome }}</option>
+              {% else %}
+              <option>{{ pessoa.nome }}</option>
+              {% endif %} {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-4" id="pessoa-filtro">
+          <div class="pessoa-filtro">
+            <label for="pessoa-filtro">Pessoas:</label>
+            <select class="select2 form-control" id="pessoa" name="pessoa" multiple="">
+              {% for pessoa in pessoas %} {% if pessoa.nome in filtros.pessoa %}
+              <option selected>{{ pessoa.nome }}</option>
+              {% else %}
+              <option>{{ pessoa.nome }}</option>
+              {% endif %} {% endfor %}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4" id="executor-filtro">
+          <div class="executor-filtro">
+            <label for="executor-filtro">Executores:</label>
+            <select class="select2 form-control" id="executor" name="executor" multiple="">
+              <option>Executores</option>
+              {% for pessoa in pessoas %}
+              {% if pessoa.nome in filtros.executor %}
+              <option selected>{{ pessoa.nome }}</option>
+              {% else %}
+              <option>{{ pessoa.nome }}</option>
+              {% endif %} {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-4" id="impedimento-filtro">
+          <div class="impedimento-filtro">
+            <label for="impedimento-filtro">Impedimentos:</label>
+            <select class="select2 form-control" id="impedimento" name="impedimento" multiple="">
+              <option>Impedimentos</option>
+              {% for pessoa in pessoas %}
+              {% if pessoa.nome in filtros.impedimento %}
+              <option selected>{{ pessoa.nome }}</option>
+              {% else %}
+              <option>{{ pessoa.nome }}</option>
+              {% endif %}{% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col" id="r5w2h-filtro">
+          <div class="r5w2h-filtro">
+            <label for="r5w2h-filtro">5W2H:</label>
+            <select class="form-control" id="r5w2h" name="r5w2h">
+              <option>-------</option>
+              {% if r5w2hT == "('1')" %}
+              <option value="1" selected>Sim</option>
+              {% else %}
+              <option value="1">Sim</option>
+              {% endif %}
+            </select>
+          </div>
+        </div>
+        <!-- <div class="col-4" id="empreendimento-filtro">
+          <div class="empreendimento-filtro">
+            <label for="empreendimento-filtro">Empreendimento:</label>
+            <select class="select2 form-control" id="empreendimento" name="empreendimento" multiple="">
+              <option>Empreendimento</option>
+              {% for empreendimento in empreedimentos %} {% if solicitacao.empreendimento in filtros.empreendimento %}
+              <option selected>{{ solicitacao.empreendimento }}</option>
+              {% else %}
+              <option>{{ solicitacao.empreendimento }}</option>
+              {% endif %} {% endfor %}
+            </select>
+          </div>
+        </div> -->
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+function exibirTarefa(id_tarefa){
+  url = '/kanban/exibir/tarefa/'+id_tarefa
+
+  $.ajax({
+    type: 'GET',
+    url: url,
+    dataType: 'json',
+    beforeSend: function (){
+      $("#ModalEditarTarefa").modal("show");
+    },
+    success: function (data){
+      $("#ModalEditarTarefa .modal-content").html(data.html_form);
+    },
+
+  });
+}
+</script>
+
+<script>
+function editarTarefa(id_tarefa){
+  url = "{% url 'Tarefa:URL_editarTarefa' %}"
+  window.open(url+id_tarefa);
+}
+</script>
+
+<script>
+  //Codigo do Loading
+  $(document).ready(function() {
+      document.getElementById("load").classList.toggle('esconder');
+      document.getElementById("tarefas").classList.toggle('mostrar');
+      $("#accordion").css("opacity", "1");
+      document.getElementById("collapseOne").classList.toggle('collapse');
+      document.getElementById("collapseOne").classList.toggle('collapse');
+      $('#buttonCollapse').attr('aria-expanded', 'false');
+      $("#load").attr("hidden", true);
+
+  });
+</script>
+
+<script>
+
+  $('#inicio-filtro').datepicker({
+      todayBtn: "linked",
+      language: "pt-BR",
+      daysOfWeekHighlighted: "1,2,3,4,5",
+      autoclose: true,
+      todayHighlight: true
+  });
+  $('#final-filtro').datepicker({
+      todayBtn: "linked",
+      language: "pt-BR",
+      daysOfWeekHighlighted: "1,2,3,4,5",
+      autoclose: true,
+      todayHighlight: true
+  });
+
+function removerElementos(select){
+    //Removendo todos option atualmente na combo
+    while (select.length != 1) {
+        select.remove(select.length-1);
+    }
+
+    $(select).attr('readonly', 'true');
+}
+
+var ccSelect = document.getElementById('centrocusto');
+
+var cc_antigo = ccSelect.options[ccSelect.selectedIndex].value;
+var cc_novo = ccSelect.options[ccSelect.selectedIndex].value;
+
+function ControlCC(){
+    var cc_novo = ccSelect.options[ccSelect.selectedIndex].value;
+    var selectEtapa = document.getElementById('etapa');
+
+    if (cc_antigo != cc_novo){
+        if (ccSelect.selectedIndex == 0){
+            removerElementos(selectEtapa);
+            cc_antigo = cc_novo;
+        } else {
+            cc_antigo = cc_novo;
+
+            url = "{% url 'Tarefa:getEtapa' %}"
+            url_completa = url+cc_novo
+
+            $.ajax({
+            type: 'GET',
+            url: url_completa,
+            dataType: 'json',
+            success: function (data){
+                var etapas = JSON.parse(data);
+
+                removerElementos(selectEtapa);
+
+                // Preenchendo a combos com as etapa vinculadas ao CC escolhido
+                for (indice in etapas){
+                    var elem = document.createElement('option')
+                    elem.value = etapas[indice].pk ;
+                    elem.text  = etapas[indice].fields.etapa;
+                    selectEtapa.add(elem, selectEtapa.options[indice+1]);
+                }
+
+                $(selectEtapa).removeAttr('readonly');
+
+            },
+            });
+        }
+    }
+
+    setTimeout("ControlCC()",100)
+}
+ControlCC()
+
+var etapaSelect = document.getElementById('etapa');
+
+var etapa_antigo = etapaSelect.options[etapaSelect.selectedIndex].value;
+var etapa_novo = etapaSelect.options[etapaSelect.selectedIndex].value;
+
+function ControlEtapa(){
+    var etapa_novo = etapaSelect.options[etapaSelect.selectedIndex].value;
+    var selectSubEtapa = document.getElementById('subetapa');
+
+    if (etapa_antigo != etapa_novo){
+        if (etapaSelect.selectedIndex == 0){
+            removerElementos(selectSubEtapa);
+            etapa_antigo = etapa_novo;
+        } else {
+            etapa_antigo = etapa_novo;
+
+            url = "{% url 'Tarefa:getSubEtapa' %}"
+            url_completa = url+etapa_novo
+
+            $.ajax({
+            type: 'GET',
+            url: url_completa,
+            dataType: 'json',
+            success: function (data){
+                var subetapas = JSON.parse(data);
+
+                removerElementos(selectSubEtapa);
+
+                // Preenchendo a combos com as etapa vinculadas ao CC escolhido
+                for (indice in subetapas){
+                    var elem = document.createElement('option')
+                    elem.value = subetapas[indice].pk ;
+                    elem.text  = subetapas[indice].fields.sub_etapa;
+                    selectSubEtapa.add(elem, selectSubEtapa.options[indice+1]);
+                }
+
+                $(selectSubEtapa).removeAttr('readonly');
+
+            },
+            error: function(){
+              alert('deu ruim');
+            }
+            });
+        }
+    }
+
+    setTimeout("ControlEtapa()",100)
+}
+ControlEtapa()
+</script>
+
+<!--Ativando o multiselect-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+<script>
+    $(".select2").select2();
+</script>
+
+<!--Limpa Filtros-->
+<script>
+
+$('.clearAll').on('click', function() {
+    $("#centrocusto").val( $('option:contains("Centros de custo")').val() );
+
+    var $status = $("#status").select2();
+    $status.val(null).trigger("change");
+
+    var $departamento = $("#departamento").select2();
+    $departamento.val(null).trigger("change");
+
+    var $processo = $("#processo").select2();
+    $processo.val(null).trigger("change");
+
+    var $autoridade = $("#autoridade").select2();
+    $autoridade.val(null).trigger("change");
+
+    var $responsavel = $("#responsavel").select2();
+    $responsavel.val(null).trigger("change");
+
+    var $pessoa = $("#pessoa").select2();
+    $pessoa.val(null).trigger("change");
+
+    var $executor = $("#executor").select2();
+    $executor.val(null).trigger("change");
+
+    var $impedimento = $("#impedimento").select2();
+    $impedimento.val(null).trigger("change");
+});
+</script>
+
+<script>
+
+  function download(){
+    var form = document.getElementById("form");
+    form.setAttribute('action', '/tarefas/exportar/')
+
+    form.submit();
+
+    form.setAttribute('action', '/tarefas/listar/')
+
+  }
+
+</script>
+{% endblock %}

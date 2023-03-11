@@ -1,0 +1,470 @@
+#cadastro{
+  display: flex;
+  overflow-y: auto;
+  height: 50%;
+  max-height: 50%;
+}
+
+#id_label {
+  font-size: x-large;
+  margin: 0 auto 0 auto;
+}
+
+#id_numProblema {
+  font-size: x-large;
+}
+
+#id_labelEquipe {
+  font-size: larger;
+}
+
+
+.cadastro {
+  width: 80%;
+  max-width: 61%;
+  background-color: #F2F2F2 ;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 5px;
+  margin: 0 auto 0 auto;
+}
+
+.executoresGeral {
+  width: 38%;
+  height: 100%;
+  max-height: 100%;
+  background-color: #F2F2F2 ;
+  overflow-y: auto;
+  border-radius: 5px;
+  overflow-x: hidden;
+  margin: 0 auto 0 auto;
+}
+
+
+.problema {
+  width: 99%;
+  height: 400px;
+  background-color: #F2F2F2;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0 auto 0 auto;
+  border-radius: 5px;
+  display: block;
+}
+
+
+.executores {
+  width: 38%;
+  background-color: #F2F2F2 ;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 5px;
+  margin: 0 auto 0 auto;
+}
+
+.conteudo {
+  max-width: 100%;
+  width: 100%;
+  max-height: 86vh;
+  height: 86vh;
+  margin: 0 auto 0 auto;
+}
+
+.teste {
+  display: none;
+}
+
+
+#id_empre_manut {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#id_bloco_manut {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#id_unidade_manut {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#id_solicitante_manut_navbar {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#id_solicitante_manut {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#empre_manut {
+  min-width: 100%;
+  font-size: 11pt;
+}
+#bloco_manut {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#content > div > div.div-anexos-form > form > div:nth-child(1) > div.col-3
+{
+  padding-left: 5px!important;
+  padding-right: 5px!important;
+}
+
+#content > div > div.div-anexos-form > form > div:nth-child(1) > div.col-2
+{
+  padding-left: 5px!important;
+  padding-right: 5px!important;
+}
+
+#unidade_manut {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#id_cpf_solicitante_manut {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#id_rg_solicitante_manut {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#id_email_solicitante_manut {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#id_pessoa_contato_manut {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#id_cpf_contato_manut {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#id_rg_contato_manut {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#id_email_contato_manut {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#id_telefone1 {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#id_telefone2 {
+  min-width: 100%;
+  font-size: 11pt;
+}
+
+#id_tipoSolicitacao {
+  min-width: 100%;
+  max-height: 3vh;
+  height: 3vh;
+}
+
+#id_tamanhoGeral {
+  min-width: 100%;
+  max-height: 3vh;
+  height: 3vh;
+}
+
+#id_tarefas {
+  min-width: 100%;
+  max-height: 3vh;
+  height: 3vh;
+}
+
+.linha {
+  height: 180px;
+  width: 100%;
+  margin: 0px!important;
+}
+
+#linha_select {
+  width:60%;
+}
+
+#linha_escrita {
+  width:60%;
+}
+
+#label_ambiente {
+  font-size: 11pt;
+}
+
+.id_ambiente{
+  width: 100%;
+  font-size: 11pt;
+}
+
+#label_reparo {
+  font-size: 11pt;
+}
+
+#id_tipo_reparo {
+  width: 100%;
+  font-size: 11pt;
+}
+
+#label_procedencia {
+  font-size: 11pt;
+}
+
+#id_procedencia {
+  font-size: 11pt;
+  width: 100%;
+}
+
+#label_duracao{
+  font-size: 11pt;
+}
+
+#id_duracao {
+  width: 100%;
+  font-size: 11pt;
+  height: 2.5vh;
+}
+
+#label_custo {
+  width: 100%;
+  font-size: 11pt;
+}
+#id_custo {
+  width: 100%;
+  font-size: 11pt;
+  height: 2.5vh;
+}
+
+#ba{
+  width: 28%;
+}
+#bb{
+  width: 35%;
+}
+#bc{
+  width: 28%;
+}
+
+.botoes{
+  display:block;
+}
+
+#remover-problema2 {
+  margin: auto 0 auto 0;
+  max-height: 50%;
+}
+
+#id_descricao_problema {
+  width: 100%;
+  max-width: 100%;
+  height: 8vh;
+  max-height: 16vh;
+}
+
+#id_historico {
+  width: 100%;
+  max-height: 16vh;
+  height: 8vh;
+}
+
+#id_material {
+  width: 100%;
+  max-height: 16vh;
+  height: 8vh;
+}
+
+#anexo {
+  margin-left: 5px;
+  max-height: 5vh;
+  width: 5vh;
+  background-color: rgba(239, 239, 239,0)!important;
+  font-size: -webkit-x-large;
+}
+
+#id_responsavel {
+  max-width: 100%;
+  width: 100%;
+}
+
+#id_autoridade {
+  max-width: 100%;
+  width: 100%;
+}
+
+#id_statusProcesso {
+  /* max-width: 50%;
+  width: 50%; */
+  min-width: 100%;
+  max-height: 3vh;
+  height: 3vh;
+}
+
+#tempo_total{
+  width: 100%;
+  height: 60px;
+  max-height: 80px;
+}
+
+#t_total{
+  margin: 0 0 0 auto;
+}
+
+#id_tempoTotal {
+  max-width: 100%;
+  width: 100%;
+  max-height: 2.5vh;
+  height: 2.5vh;
+
+}
+
+.bloco_problema{
+  max-width: 100%;
+  width: 100%;
+  max-height: 70%;
+  height: 60%;
+  display:flex;
+}
+
+.bloco_executores {
+  max-width: 100%;
+  width: 100%;
+}
+
+.linha_problemas{
+  width: 100%;
+  max-width: 100%;
+  height:100%;
+  overflow-y: auto;
+}
+
+.exe {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  display:block;
+}
+
+#id_porcentagem {
+  min-width: 100%;
+  /* max-width: 50%;
+  width: 50%; */
+  max-height: 3vh;
+  height: 3vh;
+  margin-right: 40%;
+}
+
+#id_processoRelacionado {
+  min-width: 100%;
+  max-height: 3vh;
+  height: 3vh;
+}
+
+#id_status_pendencia {
+  min-width: 100%;
+  max-width: 100%;
+  width: 50%;
+  max-height: 8vh;
+  height: 8vh;
+}
+
+#cadastrar {
+ margin-left: 0 auto 0 auto;
+
+}
+
+  .row {
+    margin: 5px;
+  }
+
+  .no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+
+     .col,
+    > [class*="col-"] {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+
+  #porcentagem-executor {
+  max-width: 80px;
+  }
+
+  .executor {
+    max-width: 220px;
+    margin-bottom: 8px !important;
+  }
+
+  #id_descri {
+    width: 100%;
+    height: 10vh;
+    max-height: 24vh;
+  }
+
+  h2 {
+    background-color: #203566;
+    color: white !important;
+    border-style: solid;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    height: 40px;
+  }
+
+  #imgPlanta {
+    max-height: 80%;
+    max-width: 100%;
+    margin: 100px 5px auto 5px!important;
+  }
+
+  .anexos-img {
+    max-width: 90%;
+    max-height: 45%;
+    padding: 15px;
+    margin: 5px;
+    box-shadow: inset 0 0 1em #02003e, 0 0 1em #154a85;
+    border-radius: 10px;
+  }
+
+  input[type="file"]{
+    display: none;
+  }
+
+  #id_data_inicial, #id_data_real, #id_data_final {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  #id_historico, #id_status_pendencia {
+    width: 100%;
+  }
+
+  .fixarRodape {
+      bottom: 0;
+      position: fixed;
+      width: 90%;
+      text-align: center;
+  }
+
+  .btn {
+    margin-bottom: 0px;
+  }
+
+  #content > div > div.div-cadastro-form > form > div:nth-child(8) > div > div > div {
+    width: 100%;
+  }

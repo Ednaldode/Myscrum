@@ -1,0 +1,274 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block title %} Espelho {% endblock %}
+
+{% block head %}
+
+<!-- CSS da pagina -->
+<link href="{% static 'Espelho/css/espelho.css' %}" rel="stylesheet">
+
+<!--Usando arquivos da app home para não duplicar arquivos-->
+<!-- Script para o funciomento dos DatePickers -->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+
+<!-- Script para reconher o PT-BR do DatePickers-->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.pt-BR.min.js' %}" charset="UTF-8"></script>
+
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="{% static 'Home/datepicker/css/bootstrap-datepicker3.min.css' %}" rel="stylesheet">
+
+<!-- Script -->
+<script src="{% static 'Kanban/js/kanban.js' %}"></script>
+<script src="{% static 'Kanban/js/executores.js' %}"></script>
+<script>$("#collapseOne").toggleClass("show");</script>
+
+{% endblock %}
+
+{% block content %}
+
+<!-- <div class="load" id="load">
+  <i class="fa fa-cog fa-spin fa-10x fa-fw"></i><span class="sr-only">Loading...</span>
+</div> -->
+
+<header>
+  <div class="d-flex justify-content-center empreendimento mb-4">
+    <img id="logo" src="" width="100">
+  </div>
+
+    <div class="d-flex justify-content-center">
+      <p class="legendas">Legenda:</p>
+      <div class="quadradinholegenda disponivel"></div><p>Disponível</p>
+      <p class="barradivisoria">|</p>
+      <div class="quadradinholegenda vendido"></div><p>Vendido</p>
+      <p class="barradivisoria">|</p>
+      <div class="quadradinholegenda alugado"></div><p>Locado</p>
+      <p class="barradivisoria">|</p>
+      <div class="quadradinholegenda reservado reservado"></div><p>Reservado</p>
+      <p class="barradivisoria">|</p>
+      <div class="quadradinholegenda vendidoterceiros"></div><p>Vendido/Terceiros</p>
+    </div>
+    <div class="d-flex justify-content-center">
+      <div class="quadradinholegenda proposta"></div><p>Proposta</p>
+      <p class="barradivisoria">|</p>
+      <div class="quadradinholegenda mutuo"></div><p>Mútuo</p>
+      <p class="barradivisoria">|</p>
+      <div class="quadradinholegenda permuta"></div><p>Permuta</p>
+      <p class="barradivisoria">|</p>
+      <div class="quadradinholegenda transferido"></div><p>Transferido</p>
+      <p class="barradivisoria">|</p>
+      <div class="quadradinholegenda reservatecnica"></div><p>Reserva Técnica</p>
+    </div>
+  <div class="colunasTorres">
+  </div>
+</header>
+
+{% endblock %}
+
+{% block navbar %}
+
+<div class="card-header" id="headingOne">
+  <button id="buttonCollapse" type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    <i class="fa fa-filter"></i>
+    <span id="botao-filtro">Filtros</span>
+  </button>
+</div>
+
+<!-- <button id="exportar" type="button" class="btn btn-info" onclick="download()">
+  <i class="fa fa-download"></i>
+  <span >Exportar</span>
+</button> -->
+
+
+{% endblock %}
+
+{% block expandirFiltros %}
+
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+        <form class="" action="/espelho" id="form" method="GET">
+          <div class="row">
+            <div id="botoes-filtro">
+              <div class="col" id="aplicar-filtro">
+                <input id="buttonAplicarFiltros" class="btn btn-primary" type="submit" value="Aplicar filtros">
+              </div>
+              <div class="col" id="limpar-filtro">
+                <input id="buttonLimparFiltros"class="btn btn-primary clearAll" type="button" value="Limpar filtros">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col" id="centrocusto-filtro">
+              <div class="centrocusto-filtro">
+                <label for="centrocusto-filtro">Centros de Custo</label>
+                <select class="form-control" id="centrocusto" name="centrocusto">
+                  <option>Centros de custo</option>
+                  {% for centrocusto in centrocustos %}
+                  {% if filtros.centrocusto == centrocusto.centrocusto %}
+                  <option label="{{centrocusto.centrocusto}}" value="{{centrocusto.id_centro_custo}}" selected>{{ centrocusto.id_sienge }}</option>
+                  {% else %}
+                  <option label="{{centrocusto.centrocusto}}" value="{{centrocusto.id_centro_custo}}">{{ centrocusto.id_sienge }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+  //Codigo do Loading
+  $(document).ready(function() {
+      document.getElementById("load").classList.toggle('esconder');
+      document.getElementById("tarefas").classList.toggle('mostrar');
+      $("#accordion").css("opacity", "1");
+      document.getElementById("collapseOne").classList.toggle('collapse');
+      document.getElementById("collapseOne").classList.toggle('collapse');
+      $('#buttonCollapse').attr('aria-expanded', 'false');
+      $("#load").attr("hidden", true);
+
+  });
+</script>
+
+<script>
+  // Acessa API's de Unidades e Empreendimentos
+  let url = 'https://masotti-app-api.herokuapp.com/unidades';
+  fetch(url, {
+    method: 'GET',
+      })
+  .then(res => res.json())      
+  .then(json => {
+    var unidades = json;
+    url = 'https://masotti-app-api.herokuapp.com/empreendimentos';
+    fetch(url, {
+      method: 'GET',     
+    }).then(res => res.json())
+      .then(json => {
+        var empreendimentos = json;
+        try{
+          let empreendimento = '', unidade = [], torres = [];
+          // Armazena o empreendimento e unidades referente ao centro de custo selecionado no filtro
+          for(let i = 0; i < empreendimentos.length; i++){
+            if (empreendimentos[i].enterpriseId == $("#centrocusto option:selected").text()){
+              empreendimento = empreendimentos[i];
+              // console.log(empreendimentos[i])
+              for(let j = 0; j < unidades.length; j++){
+                if(unidades[j].enterpriseId == $("#centrocusto option:selected").text()){
+                  unidade.push(unidades[j]);
+                  torres.includes(`${unidades[j].tipo} ${unidades[j].bloco}`) ? null : torres.push(`${unidades[j].tipo} ${unidades[j].bloco}`);
+                }
+              }
+            }
+
+          // console.log(unidade);
+          }
+          $("#logo").attr("src", empreendimento.logo);
+          // console.log(empreendimentos);
+          // Adiciona as colunas referente as torres do empreendimento
+          var unidadesDisponiveis = [];
+          var unidadesVendidas = [];
+          var unidadesLocadas = [];
+          var unidadesReservadas = [];
+          var unidadesTerceiros = [];
+          var unidadesProposta = [];
+          var unidadesMutuo = [];
+          var unidadesPermuta = [];
+          var unidadesTransferido = [];
+          var unidadesReservatec = [];
+          for(i = 0; i < torres.length; i++){
+            let torresFileira = torres[i].split(' ');
+            unidadesDisponiveis.push(torres[i], 0);
+            unidadesVendidas.push(torres[i], 0);
+            unidadesLocadas.push(torres[i], 0);
+            unidadesReservadas.push(torres[i], 0);
+            unidadesTerceiros.push(torres[i], 0);
+            unidadesProposta.push(torres[i], 0);
+            unidadesMutuo.push(torres[i], 0);
+            unidadesPermuta.push(torres[i], 0);
+            unidadesTransferido.push(torres[i], 0);
+            unidadesReservatec.push(torres[i], 0);
+            $(".colunasTorres").html($(".colunasTorres").html() + `
+              <div class="torres">
+                <span class="d-flex justify-content-center numeroTorre mb-2" id="${torres[i].replace(" ", "")}1">
+                  <h3 class="my-auto">${torres[i]}</h3>
+                </span>
+                <div id="${torresFileira[0]}${torresFileira[1]}" class="blocoTorre">
+                </div>
+              </div>
+            `);
+          }
+          console.log
+          
+
+          
+          // Adiciona as unidades conforme número de apartamentos por andar
+          let contador = 0, background = '';
+          for(i = 0; i <= (parseInt(unidade.length) / parseInt(empreendimento.andar) - 1) ; i++){
+            $(`#${unidade[contador].tipo}${unidade[contador].bloco}`).html($(`#${unidade[contador].tipo}${unidade[contador].bloco}`).html() + `
+            <div id="f${i}${unidade[contador].bloco}" class="fileira">`);
+            for(j=0; j < empreendimento.andar; j++){
+              if(unidade[contador].commercialStock == 'D'){
+                background = 'disponivel'
+                unidadesDisponiveis[unidadesDisponiveis.indexOf(`${unidade[contador].tipo} ${unidade[contador].bloco}`) + 1] += 1;
+              } else if (unidade[contador].commercialStock == 'V'){
+                background = 'vendido'
+                unidadesVendidas[unidadesVendidas.indexOf(`${unidade[contador].tipo} ${unidade[contador].bloco}`) + 1] += 1;
+              } else if (unidade[contador].commercialStock == 'L'){
+                background = 'alugado'
+                unidadesLocadas[unidadesLocadas.indexOf(`${unidade[contador].tipo} ${unidade[contador].bloco}`) + 1] += 1;
+              } else if (unidade[contador].commercialStock == 'C'){
+                background = 'reservado'
+                unidadesReservadas[unidadesReservadas.indexOf(`${unidade[contador].tipo} ${unidade[contador].bloco}`) + 1] += 1;
+              } else if (unidade[contador].commercialStock == 'E'){
+                background = 'permuta'
+                unidadesPermuta[unidadesPermuta.indexOf(`${unidade[contador].tipo} ${unidade[contador].bloco}`) + 1] += 1;
+              } else if (unidade[contador].commercialStock == 'R'){
+                background = 'reservatecnica'
+                unidadesReservatec[unidadesReservatec.indexOf(`${unidade[contador].tipo} ${unidade[contador].bloco}`) + 1] += 1;
+              } else if (unidade[contador].commercialStock == 'M'){
+                background = 'mutuo'
+                unidadesMutuo[unidadesMutuo.indexOf(`${unidade[contador].tipo} ${unidade[contador].bloco}`) + 1] += 1;
+              } else if (unidade[contador].commercialStock == 'P'){
+                background = 'proposta'
+                unidadesProposta[unidadesProposta.indexOf(`${unidade[contador].tipo} ${unidade[contador].bloco}`) + 1] += 1;
+              } else if (unidade[contador].commercialStock == 'T'){
+                background = 'transferido'
+                unidadesTransferido[unidadesTransferido.indexOf(`${unidade[contador].tipo} ${unidade[contador].bloco}`) + 1] += 1;
+              } else if (unidade[contador].commercialStock == 'G'){
+                background = 'vendidoterceiros'
+                unidadesTerceiros[unidadesTerceiros.indexOf(`${unidade[contador].tipo} ${unidade[contador].bloco}`) + 1] += 1;
+              }
+              
+              $(`#f${i}${unidade[contador].bloco}`).html($(`#f${i}${unidade[contador].bloco}`).html() + `
+                  <div class="quadradoUnidade ${background} d-flex justify-content-center">
+                    <h5 class="my-auto">${unidade[contador].unidade}</h5>
+                  </div>
+              `);
+              contador++;
+            }
+          }
+          console.log(unidadesDisponiveis);
+        let x = 1;
+        for(i=0;i<torres.length;i++){
+          $(`#${torres[i].replace(' ', '')}1`).attr('title', `Disponíveis: ${unidadesDisponiveis[i + x]}\nVendidas: ${unidadesVendidas[i + x]}\nAlugados: ${unidadesLocadas[i + x]}\nReservadas: ${unidadesReservadas[i + x]}\nPropostas: ${unidadesProposta[i + x]}\nTransferidos: ${unidadesTransferido[i + x]}\nPermutas: ${unidadesPermuta[i + x]}\nVendidos a terceiros: ${unidadesTerceiros[i + x]}\nMútuos: ${unidadesMutuo[i + x]}\nReservas Técnicas: ${unidadesReservatec[i + x]}
+          `);
+          x += 1;
+        } 
+
+        } catch {
+          console.log('empreendimento não selecionado')
+        }
+      })
+    })    
+</script>
+
+<!--Ativando o multiselect-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+
+{% endblock %}

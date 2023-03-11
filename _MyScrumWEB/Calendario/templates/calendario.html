@@ -1,0 +1,1564 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block title %} Calendário {% endblock %}
+
+{% block head %}
+<!-- CSS da pagina -->
+<link href="{% static 'css/calendario.css' %}" rel="stylesheet">
+
+<!--Usando arquivos da app home para não duplicar arquivos-->
+<!-- Script para o funciomento dos DatePickers -->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+
+<!-- Script para reconher o PT-BR do DatePickers-->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.pt-BR.min.js' %}" charset="UTF-8"></script>
+
+<!--CSS FontAwesome para icones-->
+<link rel="stylesheet" href="{% static '_Base/plugins/fontawesome/css/all.css' %}">
+<script src="https://kit.fontawesome.com/858e8845a9.js" crossorigin="anonymous"></script>
+
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="{% static 'Home/datepicker/css/bootstrap-datepicker3.min.css' %}" rel="stylesheet">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Permanent+Marker&family=Press+Start+2P&display=swap');
+</style>
+
+<!-- Script -->
+<script src="{% static 'Kanban/js/kanban.js' %}"></script>
+<script src="{% static 'Kanban/js/executores.js' %}"></script>
+<script>$("#collapseOne").toggleClass("show");</script>
+{% endblock %}
+
+{% block content %}
+<!-- <div class="load" id="load">
+  <i class="fa fa-cog fa-spin fa-10x fa-fw"></i><span class="sr-only">Loading...</span>
+</div> -->
+
+<section class="mes d-flex justify-content-center">
+    <!-- <div class="d-flex justify-content-center" style="flex-direction:column; margin-top:100px">
+        <h1>Em breve novidades!</h1>
+        <i class="fa-solid fa-person-digging fa-3x mx-auto my-auto"></i>
+        <h3 style="font-size:15px">Scrum em obras</h3>
+    </div> -->
+    
+    <!--Seletores de data / tipo de filtro do calendário-->
+    <!-- <span id="tarefas" style="display: none;">{{tarefas}}</span>
+    <div class="seletoresCalendario d-flex justify-content-start mb-4">
+        <div class="row">
+            <div>
+                <div class="seletorData d-flex my-auto">
+                    <i class="fas fa-calendar-alt fa-2x iconCalendar"></i><input id="data-filtro1" value="" type="text" class="input-sm form-control" name="start" autocomplete="off"/>
+                    <button type="submit" class="btn btn-sm btnSelectData ml-1 my-auto">Ok</button>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="seletorTipo d-flex my-auto">
+                    <button class="btn btn-light btnSelect1 sAtivo">Mês</button>
+                    <button class="btn btn-light btnSelect2 sInativo">Semana</button>
+                    <button class="btn btn-light btnSelect3 sInativo">Dia</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!--Calendário-->
+
+    <!--Mês-->
+    <div id="mes">
+        <!-- <div class="d-flex justify-content-center">
+            <div class="calendarioTitulo d-flex justify-content-center exibicaoMes">   
+                <div class="calendarioTopo">
+                </div>  
+                <button class="btn mr-2" disabled><i class="fa-regular fa-circle-left mr-1"></i>Ano Anterior</button>
+                <div class="blocoAno"></div>
+                <button class="btn ml-2" disabled>Próximo Ano<i class="fa-regular fa-circle-right ml-1"></i></button>
+                <i class="fa-solid fa-grip-lines-vertical fa-3x ml-4 mr-4"></i>
+                <button class="btn btnJan mr-2">JANEIRO</button>
+                <button class="btn btnFev mr-2">FEVEREIRO</button>
+                <button class="btn btnMar mr-2">MARÇO</button>
+                <button class="btn btnAbr mr-2">ABRIL</button>
+                <button class="btn btnMai mr-2">MAIO</button>
+                <button class="btn btnJun mr-2">JUNHO</button>
+                <button class="btn btnJul mr-2">JULHO</button>
+                <button class="btn btnAgo mr-2">AGOSTO</button>
+                <button class="btn btnSet mr-2">SETEMBRO</button>
+                <button class="btn btnOut mr-2">OUTUBRO</button>
+                <button class="btn btnNov mr-2">NOVEMBRO</button>
+                <button class="btn btnDez mr-2">DEZEMBRO</button>
+            </div>
+        </div> -->
+        <div class="calendarioGeral row d-flex justify-content-center">
+            <div class="calendarioCorpo d-flex justify-content-center">
+                <div class="blocoDomingo">
+                    <h5>Domingo</h5>
+                </div>
+                <div class="blocoSegunda">
+                    <h5>Segunda-feira</h5>
+                </div>
+                <div class="blocoTerca">
+                    <h5>Terça-feira</h5>
+                </div>
+                <div class="blocoQuarta">
+                    <h5>Quarta-feira</h5>
+                </div>
+                <div class="blocoQuinta">
+                    <h5>Quinta-feira</h5>
+                </div>
+                <div class="blocoSexta">
+                    <h5>Sexta-feira</h5>
+                </div>
+                <div class="blocoSabado">
+                    <h5>Sábado</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Fim Mês-->
+
+    <!--Semana-->
+        <!-- <div id="semana" class="d-flex justify-content-center filtradoSemana" style="display: none!important;">
+            <div class="d-flex semanaBlocoSup">
+                <div class="col-1 d-flex blocoHora justify-content-center">
+                    <div class="blocoIconCalendar d-flex justify-content-center">
+                        <i class="fas fa-solid fa-2x fa-calendar-week iconCalendar2 my-auto"></i>
+                        <i class="fas fa-solid fa-caret-right my-auto"></i>
+                    </div>
+                    <div class="blocoIconClock d-flex justify-content-center">
+                        <i class="fas fa-clock fa-2x iconClock my-auto"></i>
+                        <i class="fas fa-solid fa-caret-down my-auto"></i>
+                    </div> 
+                </div>
+                <div class="col-11 blocoDiasSemana">
+                    <div class="d-flex justify-content-center divDiasSemana">
+                        <div class="d-flex fileiraNomes"> 
+                            <div class="d-flex fileiraNomesSup">
+                                <h6 class="quadradoSemana">Domingo</h6>
+                                <h6 class="quadradoSemana">Segunda</h6>
+                                <h6 class="quadradoSemana">Terça</h6>
+                                <h6 class="quadradoSemana">Quarta</h6>
+                                <h6 class="quadradoSemana">Quinta</h6>
+                                <h6 class="quadradoSemana">Sexta</h6>
+                                <h6 class="quadradoSemana">Sábado</h6>
+                            </div>
+                            <div class="d-flex fileiraNomesInf">
+                                <h6 class="quadradoSemanaDia">1</h6>
+                                <h6 class="quadradoSemanaDia">2</h6>
+                                <h6 class="quadradoSemanaDia">3</h6>
+                                <h6 class="quadradoSemanaDia">4</h6>
+                                <h6 class="quadradoSemanaDia">5</h6>
+                                <h6 class="quadradoSemanaDia">6</h6>
+                                <h6 class="quadradoSemanaDia">7</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex semanaBlocoInf">
+                <div class="col d-flex blocoHorarios">
+                    <div class="quadradoHorario d-flex justify-content-center"><h6 class="h6Hora mx-auto my-auto">07:00</h6></div>
+                    <div class="quadradoHorario d-flex justify-content-center"><h6 class="h6Hora mx-auto my-auto">08:00</h6></div>
+                    <div class="quadradoHorario d-flex justify-content-center"><h6 class="h6Hora mx-auto my-auto">09:00</h6></div>
+                    <div class="quadradoHorario d-flex justify-content-center"><h6 class="h6Hora mx-auto my-auto">10:00</h6></div>
+                    <div class="quadradoHorario d-flex justify-content-center"><h6 class="h6Hora mx-auto my-auto">11:00</h6></div>
+                    <div class="quadradoHorario d-flex justify-content-center"><h6 class="h6Hora mx-auto my-auto">12:00</h6></div>
+                    <div class="quadradoHorario d-flex justify-content-center"><h6 class="h6Hora mx-auto my-auto">13:00</h6></div>
+                    <div class="quadradoHorario d-flex justify-content-center"><h6 class="h6Hora mx-auto my-auto">14:00</h6></div>
+                    <div class="quadradoHorario d-flex justify-content-center"><h6 class="h6Hora mx-auto my-auto">15:00</h6></div>
+                    <div class="quadradoHorario d-flex justify-content-center"><h6 class="h6Hora mx-auto my-auto">16:00</h6></div>
+                    <div class="quadradoHorario d-flex justify-content-center"><h6 class="h6Hora mx-auto my-auto">17:00</h6></div>
+                    <div class="quadradoHorario d-flex justify-content-center"><h6 class="h6Hora mx-auto my-auto">18:00</h6></div>
+
+                </div>
+                <div class="col d-flex blocoDiasSemana2">
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                </div>
+                <div class="col d-flex blocoDiasSemana2">
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                </div>
+                <div class="col d-flex blocoDiasSemana2">
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                </div>
+                <div class="col d-flex blocoDiasSemana2">
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                </div>
+                <div class="col d-flex blocoDiasSemana2">
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                </div>
+                <div class="col d-flex blocoDiasSemana2">
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                </div>
+                <div class="col d-flex blocoDiasSemana2">
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                    <div class="quadradoUnicoSemana"></div>
+                </div>
+            </div>
+        </div>  -->
+    <!--Fim Semana-->
+
+    <!--Dia-->
+        <!-- <div id="dia" class="d-flex justify-content-center filtradoDia exibicaoDia" style="display: none!important;">
+            <div class="row fileiraDia">
+                <div class="col-3 zeroPadding">
+                    <div class="diaData d-flex">
+                        <p class="pData my-auto">21/02</p> 
+                    </div>
+                </div>
+                <div class="col-9 zeroPadding">
+                    <div class="espacoAgendamento d-flex">
+                        <h3 class="h3Agenda my-auto">Agendamentos</h3>
+                    </div>
+                </div>  
+            </div>
+            <div class="espacoDia d-flex justify-content-center">
+                <div class="cardTarefa d-flex justify-content-center">
+                    <p class="pCardTarefa my-auto">13:00 - Entrega de chave do App. X - Torre X</p>
+                    <label class="switch my-auto">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                    <button class="btn btnTrash"><i class="fas fa-trash iconTrash"></i></button>
+                </div>
+            </div>
+        </div>   -->
+    <!--Fim Dia-->
+
+    <div class="modal fade mx-auto my-auto" id="modalDia" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header mx-auto">
+                <h1 id="dia-card">Dia: </h1> 
+            </div>
+            <div class="modal-body" id="list-card">
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block navbar %}
+  <div class="ml-1"></div>
+  <button id="buttonCollapse" type="button" class="btn btn-info ml-3 mr-3" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    <i class="fa fa-filter"></i>
+    <span id="botao-filtro">Filtros</span>
+  </button>
+  <button class="btn ml-5 mr-1" disabled><i class="fa-regular fa-circle-left"></i></button>
+  <div class="blocoAno"></div>
+  <button class="btn ml-1 mr-1" disabled><i class="fa-regular fa-circle-right"></i></button>
+  <div class="dropdown">
+    <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa-solid fa-calendar-days"></i>
+        Selecionar mês
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <button class="dropdown-item btn btnJan btnBorder mr-2">JANEIRO</button>
+        <button class="dropdown-item btn btnFev btnBorder mr-2">FEVEREIRO</button>
+        <button class="dropdown-item btn btnMar btnBorder mr-2">MARÇO</button>
+        <button class="dropdown-item btn btnAbr btnBorder mr-2">ABRIL</button>
+        <button class="dropdown-item btn btnMai btnBorder mr-2">MAIO</button>
+        <button class="dropdown-item btn btnJun btnBorder mr-2">JUNHO</button>
+        <button class="dropdown-item btn btnJul btnBorder mr-2">JULHO</button>
+        <button class="dropdown-item btn btnAgo btnBorder mr-2">AGOSTO</button>
+        <button class="dropdown-item btn btnSet btnBorder mr-2">SETEMBRO</button>
+        <button class="dropdown-item btn btnOut btnBorder mr-2">OUTUBRO</button>
+        <button class="dropdown-item btn btnNov btnBorder mr-2">NOVEMBRO</button>
+        <button class="dropdown-item btn btnDez btnBorder mr-2">DEZEMBRO</button>
+    </div>
+  </div>
+  <!-- <i class="fa-solid fa-grip-lines-vertical fa-3x ml-3"></i> -->
+  <!-- <div>
+    <div class="seletorData d-flex my-auto">
+        <i class="fas fa-calendar-alt fa-2x iconCalendar"></i><input id="data-filtro1" value="" type="text" class="input-sm form-control" name="start" autocomplete="off"/>
+        <button type="submit" class="btn btn-sm btnSelectData ml-1 my-auto">Ok</button>
+    </div>
+  </div> -->
+{% endblock %}
+
+
+{% block expandirFiltros %}
+
+<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                  <div class="card-body">
+                    <form class="" action="" id="form" method="GET">
+                      <div class="row d-flex justify-content-end">
+                        <div id="botoes-filtro">
+                        <div class="col" id="datas-filtro">
+                            <div class="col datas" style="display: none;">
+                                <span id="tarefas">{{tarefas}}</span>
+                                <label for="data">Selecione a data:</label>
+                                <div id="sandbox-container">
+                                <div class="input-daterange input-group" id="datepicker">
+                                    <input id="data-filtro" value="{{filtros.start}}" type="text" class="input-sm form-control" name="start" autocomplete="off" />
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" id="aplicar-filtro">
+                            <input id="buttonAplicarFiltros" class="btn btn-primary" type="submit" value="Aplicar filtros">
+                        </div>
+                        <div class="col" id="limpar-filtro">
+                            <input id="buttonLimparFiltros"class="btn btn-primary clearAll" type="button" value="Limpar filtros">
+                        </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-6" id="departamento-filtro">
+                          <div class="departamento-filtro">
+                            <label for="departamento-filtro">Departamentos:</label>
+                            <select class="select2 form-control" id="departamento" name="departamento" multiple="">
+                              <option>Departamentos</option>
+                              {% for departamento in departamentos %}
+                              {% if departamento.departamento in filtros.departamento %}
+                              <option selected>{{ departamento.departamento }}</option>
+                              {% else %}
+                              <option>{{ departamento.departamento }}</option>
+                              {% endif %}
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-6" id="processo-filtro">
+                          <div class="processo-filtro">
+                            <label for="processo-filtro">Processos:</label>
+                            <select class="select2 form-control" id="processo" name="processo" multiple="">
+                              <option>Processos</option>
+                              {% for processo in processos %}
+                              {% if processo.processo in filtros.processo %}
+                              <option selected>{{ processo.processo }}</option>
+                              {% else %}
+                              <option>{{ processo.processo }}</option>
+                              {% endif %}
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-6" id="executor-filtro">
+                          <div class="executor-filtro">
+                            <label for="executor-filtro">Executores:</label>
+                            <select class="select2 form-control" id="executor" name="executor" multiple="">
+                              <option>Executores</option>
+                              {% for pessoa in pessoas %}
+                              {% if pessoa.nome in filtros.executor %}
+                              <option selected>{{ pessoa.nome }}</option>
+                              {% else %}
+                              <option>{{ pessoa.nome }}</option>
+                              {% endif %} {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-6" id="impedimento-filtro">
+                          <div class="impedimento-filtro">
+                            <label for="impedimento-filtro">Impedimentos:</label>
+                            <select class="select2 form-control" id="impedimento" name="impedimento" multiple="">
+                              <option>Impedimentos</option>
+                              {% for pessoa in pessoas %}
+                              {% if pessoa.nome in filtros.impedimento %}
+                              <option selected>{{ pessoa.nome }}</option>
+                              {% else %}
+                              <option>{{ pessoa.nome }}</option>
+                              {% endif %}{% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-3" id="centrocusto-filtro">
+                          <div class="centrocusto-filtro">
+                            <label for="centrocusto-filtro">Centros de Custo</label>
+                            <select class="form-control" id="centrocusto" name="centrocusto">
+                              <option>Centros de custo</option>
+                              {% for centrocusto in centrocustos %}
+                              {% if filtros.centrocusto == centrocusto.centrocusto %}
+                              <option value="{{centrocusto.id_centro_custo}}" selected>{{ centrocusto.centrocusto }}</option>
+                              {% else %}
+                              <option value="{{centrocusto.id_centro_custo}}">{{ centrocusto.centrocusto }}</option>
+                              {% endif %}
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-3" id="autoridade-filtro">
+                            <div class="autoridade-filtro">
+                              <label for="autoridade-filtro">Autoridades:</label>
+                              <select class="select2 form-control" id="autoridade" name="autoridade" multiple="">
+                                <option>Autoridade</option>
+                                {% for pessoa in pessoas %} {% if pessoa.nome in filtros.autoridade %}
+                                <option selected>{{ pessoa.nome }}</option>
+                                {% else %}
+                                <option>{{ pessoa.nome }}</option>
+                                {% endif %} {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-3" id="responsavel-filtro">
+                            <div class="responsavel-filtro">
+                              <label for="responsavel-filtro">Responsáveis:</label>
+                              <select class="select2 form-control" id="responsavel" name="responsavel" multiple="">
+                                <option>Responsável</option>
+                                {% for pessoa in pessoas %} {% if pessoa.nome in filtros.responsavel %}
+                                <option selected>{{ pessoa.nome }}</option>
+                                {% else %}
+                                <option>{{ pessoa.nome }}</option>
+                                {% endif %} {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-3" id="pessoa-filtro">
+                            <div class="pessoa-filtro">
+                              <label for="pessoa-filtro">Pessoas:</label>
+                              <select class="select2 form-control" id="pessoa" name="pessoa" multiple="">
+                                {% for pessoa in pessoas %} {% if pessoa.nome in filtros.pessoa %}
+                                <option selected>{{ pessoa.nome }}</option>
+                                {% else %}
+                                <option>{{ pessoa.nome }}</option>
+                                {% endif %} {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                      </div>
+                    </form>
+                  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+$(".btnJan").click(() => {
+    $(".btnJan").addClass("mAtivo");
+    $(".btnJan").removeClass("mInativo");
+    $(".btnFev").removeClass("mAtivo");
+    $(".btnFev").addClass("mInativo");
+    $(".btnMar").removeClass("mAtivo");
+    $(".btnMar").addClass("mInativo");
+    $(".btnAbr").removeClass("mAtivo");
+    $(".btnAbr").addClass("mInativo");
+    $(".btnMai").removeClass("mAtivo");
+    $(".btnMai").addClass("mInativo");
+    $(".btnJun").removeClass("mAtivo");
+    $(".btnJun").addClass("mInativo");
+    $(".btnJul").removeClass("mAtivo");
+    $(".btnJul").addClass("mInativo");
+    $(".btnAgo").removeClass("mAtivo");
+    $(".btnAgo").addClass("mInativo");
+    $(".btnSet").removeClass("mAtivo");
+    $(".btnSet").addClass("mInativo");
+    $(".btnOut").removeClass("mAtivo");
+    $(".btnOut").addClass("mInativo");
+    $(".btnNov").removeClass("mAtivo");
+    $(".btnNov").addClass("mInativo");
+    $(".btnDez").removeClass("mAtivo");
+    $(".btnDez").addClass("mInativo");
+    handleMonth(2022, 0, 1)
+});
+
+$(".btnFev").click(() => {
+    $(".btnJan").removeClass("mAtivo");
+    $(".btnJan").addClass("mInativo");
+    $(".btnFev").addClass("mAtivo");
+    $(".btnFev").removeClass("mInativo");
+    $(".btnMar").removeClass("mAtivo");
+    $(".btnMar").addClass("mInativo");
+    $(".btnAbr").removeClass("mAtivo");
+    $(".btnAbr").addClass("mInativo");
+    $(".btnMai").removeClass("mAtivo");
+    $(".btnMai").addClass("mInativo");
+    $(".btnJun").removeClass("mAtivo");
+    $(".btnJun").addClass("mInativo");
+    $(".btnJul").removeClass("mAtivo");
+    $(".btnJul").addClass("mInativo");
+    $(".btnAgo").removeClass("mAtivo");
+    $(".btnAgo").addClass("mInativo");
+    $(".btnSet").removeClass("mAtivo");
+    $(".btnSet").addClass("mInativo");
+    $(".btnOut").removeClass("mAtivo");
+    $(".btnOut").addClass("mInativo");
+    $(".btnNov").removeClass("mAtivo");
+    $(".btnNov").addClass("mInativo");
+    $(".btnDez").removeClass("mAtivo");
+    $(".btnDez").addClass("mInativo");
+    handleMonth(2022, 1, 1)
+});
+
+$(".btnMar").click(() => {
+    $(".btnJan").removeClass("mAtivo");
+    $(".btnJan").addClass("mInativo");
+    $(".btnFev").removeClass("mAtivo");
+    $(".btnFev").addClass("mInativo");
+    $(".btnMar").addClass("mAtivo");
+    $(".btnMar").removeClass("mInativo");
+    $(".btnAbr").removeClass("mAtivo");
+    $(".btnAbr").addClass("mInativo");
+    $(".btnMai").removeClass("mAtivo");
+    $(".btnMai").addClass("mInativo");
+    $(".btnJun").removeClass("mAtivo");
+    $(".btnJun").addClass("mInativo");
+    $(".btnJul").removeClass("mAtivo");
+    $(".btnJul").addClass("mInativo");
+    $(".btnAgo").removeClass("mAtivo");
+    $(".btnAgo").addClass("mInativo");
+    $(".btnSet").removeClass("mAtivo");
+    $(".btnSet").addClass("mInativo");
+    $(".btnOut").removeClass("mAtivo");
+    $(".btnOut").addClass("mInativo");
+    $(".btnNov").removeClass("mAtivo");
+    $(".btnNov").addClass("mInativo");
+    $(".btnDez").removeClass("mAtivo");
+    $(".btnDez").addClass("mInativo");
+    handleMonth(2022, 2, 1)
+});
+
+$(".btnAbr").click(() => {
+    $(".btnJan").removeClass("mAtivo");
+    $(".btnJan").addClass("mInativo");
+    $(".btnFev").removeClass("mAtivo");
+    $(".btnFev").addClass("mInativo");
+    $(".btnMar").removeClass("mAtivo");
+    $(".btnMar").addClass("mInativo");
+    $(".btnAbr").addClass("mAtivo");
+    $(".btnAbr").removeClass("mInativo");
+    $(".btnMai").removeClass("mAtivo");
+    $(".btnMai").addClass("mInativo");
+    $(".btnJun").removeClass("mAtivo");
+    $(".btnJun").addClass("mInativo");
+    $(".btnJul").removeClass("mAtivo");
+    $(".btnJul").addClass("mInativo");
+    $(".btnAgo").removeClass("mAtivo");
+    $(".btnAgo").addClass("mInativo");
+    $(".btnSet").removeClass("mAtivo");
+    $(".btnSet").addClass("mInativo");
+    $(".btnOut").removeClass("mAtivo");
+    $(".btnOut").addClass("mInativo");
+    $(".btnNov").removeClass("mAtivo");
+    $(".btnNov").addClass("mInativo");
+    $(".btnDez").removeClass("mAtivo");
+    $(".btnDez").addClass("mInativo");
+    handleMonth(2022, 3, 1)
+});
+
+$(".btnMai").click(() => {
+    $(".btnJan").removeClass("mAtivo");
+    $(".btnJan").addClass("mInativo");
+    $(".btnFev").removeClass("mAtivo");
+    $(".btnFev").addClass("mInativo");
+    $(".btnMar").removeClass("mAtivo");
+    $(".btnMar").addClass("mInativo");
+    $(".btnAbr").removeClass("mAtivo");
+    $(".btnAbr").addClass("mInativo");
+    $(".btnMai").addClass("mAtivo");
+    $(".btnMai").removeClass("mInativo");
+    $(".btnJun").removeClass("mAtivo");
+    $(".btnJun").addClass("mInativo");
+    $(".btnJul").removeClass("mAtivo");
+    $(".btnJul").addClass("mInativo");
+    $(".btnAgo").removeClass("mAtivo");
+    $(".btnAgo").addClass("mInativo");
+    $(".btnSet").removeClass("mAtivo");
+    $(".btnSet").addClass("mInativo");
+    $(".btnOut").removeClass("mAtivo");
+    $(".btnOut").addClass("mInativo");
+    $(".btnNov").removeClass("mAtivo");
+    $(".btnNov").addClass("mInativo");
+    $(".btnDez").removeClass("mAtivo");
+    $(".btnDez").addClass("mInativo");
+    handleMonth(2022, 4, 1)
+});
+
+$(".btnJun").click(() => {
+    $(".btnJan").removeClass("mAtivo");
+    $(".btnJan").addClass("mInativo");
+    $(".btnFev").removeClass("mAtivo");
+    $(".btnFev").addClass("mInativo");
+    $(".btnMar").removeClass("mAtivo");
+    $(".btnMar").addClass("mInativo");
+    $(".btnAbr").removeClass("mAtivo");
+    $(".btnAbr").addClass("mInativo");
+    $(".btnMai").removeClass("mAtivo");
+    $(".btnMai").addClass("mInativo");
+    $(".btnJun").addClass("mAtivo");
+    $(".btnJun").removeClass("mInativo");
+    $(".btnJul").removeClass("mAtivo");
+    $(".btnJul").addClass("mInativo");
+    $(".btnAgo").removeClass("mAtivo");
+    $(".btnAgo").addClass("mInativo");
+    $(".btnSet").removeClass("mAtivo");
+    $(".btnSet").addClass("mInativo");
+    $(".btnOut").removeClass("mAtivo");
+    $(".btnOut").addClass("mInativo");
+    $(".btnNov").removeClass("mAtivo");
+    $(".btnNov").addClass("mInativo");
+    $(".btnDez").removeClass("mAtivo");
+    $(".btnDez").addClass("mInativo");
+    handleMonth(2022, 5, 1)
+});
+
+$(".btnJul").click(() => {
+    $(".btnJan").removeClass("mAtivo");
+    $(".btnJan").addClass("mInativo");
+    $(".btnFev").removeClass("mAtivo");
+    $(".btnFev").addClass("mInativo");
+    $(".btnMar").removeClass("mAtivo");
+    $(".btnMar").addClass("mInativo");
+    $(".btnAbr").removeClass("mAtivo");
+    $(".btnAbr").addClass("mInativo");
+    $(".btnMai").removeClass("mAtivo");
+    $(".btnMai").addClass("mInativo");
+    $(".btnJun").removeClass("mAtivo");
+    $(".btnJun").addClass("mInativo");
+    $(".btnJul").addClass("mAtivo");
+    $(".btnJul").removeClass("mInativo");
+    $(".btnAgo").removeClass("mAtivo");
+    $(".btnAgo").addClass("mInativo");
+    $(".btnSet").removeClass("mAtivo");
+    $(".btnSet").addClass("mInativo");
+    $(".btnOut").removeClass("mAtivo");
+    $(".btnOut").addClass("mInativo");
+    $(".btnNov").removeClass("mAtivo");
+    $(".btnNov").addClass("mInativo");
+    $(".btnDez").removeClass("mAtivo");
+    $(".btnDez").addClass("mInativo");
+    handleMonth(2022, 6, 1)
+});
+
+$(".btnAgo").click(() => {
+    
+    $(".btnJan").removeClass("mAtivo");
+    $(".btnJan").addClass("mInativo");
+    $(".btnFev").removeClass("mAtivo");
+    $(".btnFev").addClass("mInativo");
+    $(".btnMar").removeClass("mAtivo");
+    $(".btnMar").addClass("mInativo");
+    $(".btnAbr").removeClass("mAtivo");
+    $(".btnAbr").addClass("mInativo");
+    $(".btnMai").removeClass("mAtivo");
+    $(".btnMai").addClass("mInativo");
+    $(".btnJun").removeClass("mAtivo");
+    $(".btnJun").addClass("mInativo");
+    $(".btnJul").removeClass("mAtivo");
+    $(".btnJul").addClass("mInativo");
+    $(".btnAgo").addClass("mAtivo");
+    $(".btnAgo").removeClass("mInativo");
+    $(".btnSet").removeClass("mAtivo");
+    $(".btnSet").addClass("mInativo");
+    $(".btnOut").removeClass("mAtivo");
+    $(".btnOut").addClass("mInativo");
+    $(".btnNov").removeClass("mAtivo");
+    $(".btnNov").addClass("mInativo");
+    $(".btnDez").removeClass("mAtivo");
+    $(".btnDez").addClass("mInativo");
+    handleMonth(2022, 7, 1)
+});
+
+$(".btnSet").click(() => {
+    $(".btnJan").removeClass("mAtivo");
+    $(".btnJan").addClass("mInativo");
+    $(".btnFev").removeClass("mAtivo");
+    $(".btnFev").addClass("mInativo");
+    $(".btnMar").removeClass("mAtivo");
+    $(".btnMar").addClass("mInativo");
+    $(".btnAbr").removeClass("mAtivo");
+    $(".btnAbr").addClass("mInativo");
+    $(".btnMai").removeClass("mAtivo");
+    $(".btnMai").addClass("mInativo");
+    $(".btnJun").removeClass("mAtivo");
+    $(".btnJun").addClass("mInativo");
+    $(".btnJul").removeClass("mAtivo");
+    $(".btnJul").addClass("mInativo");
+    $(".btnAgo").removeClass("mAtivo");
+    $(".btnAgo").addClass("mInativo");
+    $(".btnSet").addClass("mAtivo");
+    $(".btnSet").removeClass("mInativo");
+    $(".btnOut").removeClass("mAtivo");
+    $(".btnOut").addClass("mInativo");
+    $(".btnNov").removeClass("mAtivo");
+    $(".btnNov").addClass("mInativo");
+    $(".btnDez").removeClass("mAtivo");
+    $(".btnDez").addClass("mInativo");
+    handleMonth(2022, 8, 1)
+});
+
+$(".btnOut").click(() => {
+    $(".btnJan").removeClass("mAtivo");
+    $(".btnJan").addClass("mInativo");
+    $(".btnFev").removeClass("mAtivo");
+    $(".btnFev").addClass("mInativo");
+    $(".btnMar").removeClass("mAtivo");
+    $(".btnMar").addClass("mInativo");
+    $(".btnAbr").removeClass("mAtivo");
+    $(".btnAbr").addClass("mInativo");
+    $(".btnMai").removeClass("mAtivo");
+    $(".btnMai").addClass("mInativo");
+    $(".btnJun").removeClass("mAtivo");
+    $(".btnJun").addClass("mInativo");
+    $(".btnJul").removeClass("mAtivo");
+    $(".btnJul").addClass("mInativo");
+    $(".btnAgo").removeClass("mAtivo");
+    $(".btnAgo").addClass("mInativo");
+    $(".btnSet").removeClass("mAtivo");
+    $(".btnSet").addClass("mInativo");
+    $(".btnOut").addClass("mAtivo");
+    $(".btnOut").removeClass("mInativo");
+    $(".btnNov").removeClass("mAtivo");
+    $(".btnNov").addClass("mInativo");
+    $(".btnDez").removeClass("mAtivo");
+    $(".btnDez").addClass("mInativo");
+    handleMonth(2022, 9, 1)
+});
+
+$(".btnNov").click(() => {
+    $(".btnJan").removeClass("mAtivo");
+    $(".btnJan").addClass("mInativo");
+    $(".btnFev").removeClass("mAtivo");
+    $(".btnFev").addClass("mInativo");
+    $(".btnMar").removeClass("mAtivo");
+    $(".btnMar").addClass("mInativo");
+    $(".btnAbr").removeClass("mAtivo");
+    $(".btnAbr").addClass("mInativo");
+    $(".btnMai").removeClass("mAtivo");
+    $(".btnMai").addClass("mInativo");
+    $(".btnJun").removeClass("mAtivo");
+    $(".btnJun").addClass("mInativo");
+    $(".btnJul").removeClass("mAtivo");
+    $(".btnJul").addClass("mInativo");
+    $(".btnAgo").removeClass("mAtivo");
+    $(".btnAgo").addClass("mInativo");
+    $(".btnSet").removeClass("mAtivo");
+    $(".btnSet").addClass("mInativo");
+    $(".btnOut").removeClass("mAtivo");
+    $(".btnOut").addClass("mInativo");
+    $(".btnNov").addClass("mAtivo");
+    $(".btnNov").removeClass("mInativo");
+    $(".btnDez").removeClass("mAtivo");
+    $(".btnDez").addClass("mInativo");
+    handleMonth(2022, 10, 1)
+});
+
+$(".btnDez").click(() => {
+    $(".btnJan").removeClass("mAtivo");
+    $(".btnJan").addClass("mInativo");
+    $(".btnFev").removeClass("mAtivo");
+    $(".btnFev").addClass("mInativo");
+    $(".btnMar").removeClass("mAtivo");
+    $(".btnMar").addClass("mInativo");
+    $(".btnAbr").removeClass("mAtivo");
+    $(".btnAbr").addClass("mInativo");
+    $(".btnMai").removeClass("mAtivo");
+    $(".btnMai").addClass("mInativo");
+    $(".btnJun").removeClass("mAtivo");
+    $(".btnJun").addClass("mInativo");
+    $(".btnJul").removeClass("mAtivo");
+    $(".btnJul").addClass("mInativo");
+    $(".btnAgo").removeClass("mAtivo");
+    $(".btnAgo").addClass("mInativo");
+    $(".btnSet").removeClass("mAtivo");
+    $(".btnSet").addClass("mInativo");
+    $(".btnOut").removeClass("mAtivo");
+    $(".btnOut").addClass("mInativo");
+    $(".btnNov").removeClass("mAtivo");
+    $(".btnNov").addClass("mInativo");
+    $(".btnDez").addClass("mAtivo");
+    $(".btnDez").removeClass("mInativo");
+    handleMonth(2022, 11, 1)
+});
+
+function handleMonth(ano, mes, dia){
+    $(".blocoDomingo").html('<h5>Domingo</h5>')
+    $(".blocoSegunda").html('<h5>Segunda</h5>')
+    $(".blocoTerca").html('<h5>Terça</h5>')
+    $(".blocoQuarta").html('<h5>Quarta</h5>')
+    $(".blocoQuinta").html('<h5>Quinta</h5>')
+    $(".blocoSexta").html('<h5>Sexta</h5>')
+    $(".blocoSabado").html('<h5>Sábado</h5>')
+    var date = new Date(ano, mes, dia);
+    $('#data-filtro').val(date.toLocaleDateString('pt-BR', {timeZone: 'UTC'}));
+    let format_date = $("#data-filtro").val().split('/');
+
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    var lastMonth = new Date(date.getFullYear(), date.getMonth(), 0);
+    var nextMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+
+    var domingo = []
+    var segunda = []
+    var terca = []
+    var quarta = []
+    var quinta = []
+    var sexta = []
+    var sabado = []
+    var auxiliar = 0
+
+    date = new Date(format_date[2], parseInt(format_date[1]) - 1, format_date[0]);
+    for(let i = 1; i <= lastDay.getDate(); i++){
+        if(firstDay.getDay() == 0 && domingo.length == 0){
+            domingo.push(firstDay.getDate())
+            auxiliar = 1;
+            $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 2}-${i}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${1}"></p>
+    </div>`)
+        } else if(firstDay.getDay() == 1 && segunda.length == 0){
+            segunda.push(firstDay.getDate())
+            domingo.push(0)
+            auxiliar = 2;
+            $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 2}-${i}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${i}"></p>
+    </div>`)
+            $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate()}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}"></p>
+    </div>`)
+        } else if(firstDay.getDay() == 2 && terca.length == 0){
+            terca.push(firstDay.getDate())
+            domingo.push(0)
+            segunda.push(0)
+            auxiliar = 3;
+            $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${i}"></p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 2}-${i}">0</button>
+    </div>`)
+            $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 1}</p><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}"></p>
+    </div>`)
+            $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate()}</p><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}"></p>
+    </div>`)
+        } else if(firstDay.getDay() == 3 && quarta.length == 0){
+            quarta.push(firstDay.getDate())
+            domingo.push(0)
+            segunda.push(0)
+            terca.push(0)
+            auxiliar = 4;
+            $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 2}-${i}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${i}"></p>
+    </div>`)
+            $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 2}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}"></p>
+    </div>`)
+            $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 1}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}"></p>
+    </div>`)
+            $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate()}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}"></p>
+    </div>`)
+        } else if(firstDay.getDay() == 4 && quinta.length == 0){
+            quinta.push(firstDay.getDate())
+            domingo.push(0)
+            segunda.push(0)
+            terca.push(0)
+            quarta.push(0)
+            auxiliar = 5;
+            $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 2}-${i}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${i}"></p>
+    </div>`)
+            $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 3}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 3}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 3}"></p>
+    </div>`)
+            $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 2}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}"></p>
+    </div>`)
+            $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 1}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" d="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}"></p>
+    </div>`)
+            $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate()}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}"></p>
+    </div>`)
+        } else if(firstDay.getDay() == 5 && sexta.length == 0){
+            sexta.push(firstDay.getDate())
+            domingo.push(0)
+            segunda.push(0)
+            terca.push(0)
+            quarta.push(0)
+            quinta.push(0)
+            auxiliar = 6;
+            $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden id="dia-${lastMonth.getMonth() + 2}-${i}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${i}"></p>
+    </div>`)
+            $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 4}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 4}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 4}"></p>
+    </div>`)
+            $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 3}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 3}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 3}"></p>
+    </div>`)
+            $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 2}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}"></p>
+    </div>`)
+            $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 1}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}"></p>
+    </div>`)
+            $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate()}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}"></p>
+    </div>`)
+        } else if(firstDay.getDay() == 6 && sabado.length == 0){
+            sabado.push(firstDay.getDate())
+            domingo.push(0)
+            segunda.push(0)
+            terca.push(0)
+            quarta.push(0)
+            quinta.push(0)
+            sexta.push(0)
+            auxiliar = 0;
+            $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 2}-${i}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${i}"></p>
+    </div>`)
+            $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 5}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 5}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 5}"></p>
+    </div>`)
+            $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 4}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 4}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 4}"></p>
+    </div>`)
+            $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 3}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 3}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 3}"></p>
+    </div>`)
+            $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 2}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}"></p>
+    </div>`)
+            $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 1}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}"></p>
+    </div>`)
+            $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate()}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}"></p>
+    <div id="pDescri"></div></div>`)
+        }
+        else {
+            if(auxiliar == 0){
+                domingo.push(i)
+                auxiliar = 1;
+                $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${date.getMonth() + 1}-${i}">0</button><p class="pDescri" id="descri-${date.getMonth() + 1}-${i}"></p>
+    </div>`)
+            } else if(auxiliar == 1){
+                segunda.push(i)
+                auxiliar = 2;
+                $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${date.getMonth() + 1}-${i}">0</button><p class="pDescri" id="descri-${date.getMonth() + 1}-${i}"></p>
+    </div>`)
+            } else if(auxiliar == 2){
+                terca.push(i)
+                auxiliar = 3;
+                $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${date.getMonth() + 1}-${i}">0</button><p class="pDescri" id="descri-${date.getMonth() + 1}-${i}"></p>
+    </div>`)
+            } else if(auxiliar == 3){
+                quarta.push(i)
+                auxiliar = 4;
+                $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${date.getMonth() + 1}-${i}">0</button><p class="pDescri" id="descri-${date.getMonth() + 1}-${i}"></p>
+    </div>`)
+            } else if(auxiliar == 4){
+                quinta.push(i)
+                auxiliar = 5;
+                $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${date.getMonth() + 1}-${i}">0</button><p class="pDescri" id="descri-${date.getMonth() + 1}-${i}"></p>
+    </div>`)
+            } else if(auxiliar == 5){
+                sexta.push(i)
+                auxiliar = 6;
+                $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${date.getMonth() + 1}-${i}">0</button><p class="pDescri" id="descri-${date.getMonth() + 1}-${i}"></p>
+    </div>`)
+            } else if(auxiliar == 6){
+                sabado.push(i)
+                auxiliar = 0;
+                $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${date.getMonth() + 1}-${i}">0</button><p class="pDescri" id="descri-${date.getMonth() + 1}-${i}"></p>
+    </div>`)        
+            } else {
+                null
+            }
+        }
+    }
+
+    if(segunda.length < domingo.length){
+        $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">1</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${1}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-1"></p>
+    </div>`)
+        $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">2</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${2}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-2"></p>
+    </div>`)
+        $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">3</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${3}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-3"></p>
+    </div>`)
+        $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">4</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${4}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-4"></p>
+    </div>`)
+        $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">5</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${5}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-5"></p>
+    </div>`)
+        $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">6</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${6}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-6"></p>
+    </div>`)
+    } else if(terca.length < domingo.length){
+        $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">1</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${1}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-1"></p>
+    </div>`)
+        $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">2</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${2}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-2"></p>
+    </div>`)
+        $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">3</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${3}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-3"></p>
+    </div>`)
+        $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">4</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${4}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-4"></p>
+    </div>`)
+        $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">5</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${5}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-5"></p>
+    </div>`)
+    } else if(quarta.length < domingo.length){
+        $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">1</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${1}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-1"></p>
+    </div>`)
+        $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">2</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${2}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-2"></p>
+    </div>`)
+        $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">3</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${3}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-3"></p>
+    </div>`)
+        $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">4</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${4}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-4"></p>
+    </div>`)
+    } else if(quinta.length < domingo.length){
+        $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">1</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${1}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-1"></p>
+    </div>`)
+        $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">2</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${2}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-2"></p>
+    </div>`)
+        $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">3</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${3}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-3"></p>
+    </div>`)
+    } else if(sexta.length < domingo.length){
+        $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">1</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${1}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-1"></p>
+    </div>`)
+        $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">2</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${2}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-2"></p>
+    </div>`)
+    } else if(sabado.length < domingo.length){
+        $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">1</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${1}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-1"></p>
+    </div>`)
+    } else {
+        // console.log(domingo, segunda, terca, quarta, quinta, sexta, sabado);
+        null
+    }
+
+    let tarefas = $("#tarefas").html().replaceAll("'", '"').replaceAll("None", '"None"').replaceAll("datetime.date(", '"').replaceAll("datetime.datetime(", '"').replaceAll(", tzinfo=datetime.timezone.utc", '').replaceAll(")", '"');
+    // $("#tarefas").html('')
+
+    tarefas = JSON.parse(tarefas)
+
+    let data_calendario = '';
+
+    for(let i = 0; i < tarefas.length; i++){
+        data_calendario = tarefas[i].data_calendario.split(', ');
+        // Calcula os itens no mês
+        $(`#dia-${data_calendario[1]}-${data_calendario[2]}`).html(parseInt($(`#dia-${data_calendario[1]}-${data_calendario[2]}`).html()) + 1)
+        $(`#dia-${data_calendario[1]}-${data_calendario[2]}`).removeAttr('hidden')
+        $(`#descri-${data_calendario[1]}-${data_calendario[2]}`).html($(`#descri-${data_calendario[1]}-${data_calendario[2]}`).html() + `<p id="pDescri">${tarefas[i].descri}</p>`)
+
+        // $('#pDescri').html($('#pDescri').html() + `<p class="pDescri">${tarefas[i].descri}</p>`)
+        // console.log(`dia: ${data_calendario[2]}, mês: ${data_calendario[1]}, mês: ${data_calendario[0]}, hora: ${data_calendario[3]}, minuto: ${data_calendario[4]}`)
+        // tarefas[i].
+    }
+
+    $('.btn-dia').click(e => {
+        let listaDia = [];
+        data_selecionada = e.target.attributes[3].nodeValue.split('-');
+        $('#list-card').html('')
+        for(i = 0;  i < tarefas.length; i++){
+            data_calendario = tarefas[i].data_calendario.split(', ');
+            if(data_calendario[1] == data_selecionada[1] && data_calendario[2] == data_selecionada[2]){
+                listaDia.push(tarefas[i]);
+                $('#dia-card').text(`Dia: ${data_calendario[2]}/${parseInt(data_calendario[1])}`)
+                $('#list-card').html($('#list-card').html() + `
+                    <div class="card">
+                        <div class="card-header row d-flex justify-content-center">
+                            <div class="col-2 d-flex justify-content-center">
+                                <i class="fa-solid fa-hashtag mr-2 my-auto"></i>
+                                <p class="pTarefa my-auto">${tarefas[i].id_tarefa}</p>
+                            </div>
+                            <div class="col-2 d-flex justify-content-center">
+                                <i class="fa-solid fa-clock mr-2  my-auto"></i>
+                                <p class="pTarefa my-auto">${data_calendario[3]}:${data_calendario[4] == 0 ? '00' : data_calendario[4]}</p>
+                            </div>
+                            <div class="col-6 d-flex justify-content-center">
+                                <i class="fa-solid fa-code-fork mr-2 my-auto"></i>
+                                <p class="pTarefa my-auto">${tarefas[i].processo_relacionado}</p>
+                            </div>
+                            <div class="col-1 d-flex justify-content-center">
+                                <a id="termosChaves${tarefas[i].id_tarefa}" class="btn my-auto mr-2 termosChaves" target='_blank' href="https://myscrum.com.br/termo"><i class="fa-solid fa-key"></i></a>
+                            </div>
+                            <div class="col-1 d-flex justify-content-center">
+                                <a class="btn my-auto mr-2" target='_blank' href="https://myscrum.com.br/tarefas/editar/${tarefas[i].id_tarefa}"><i class="fa-regular fa-pen-to-square"></i></a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                        <h5 class="card-title">${tarefas[i].descri}</h5>
+                        <div class="d-flex row justify-content-center">
+                            <div class="col-4 d-flex justify-content-center">
+                                <i class="fa-solid fa-users-gear mr-2  my-auto"></i>
+                                <p class="pTarefa my-auto">${tarefas[i].executor1}
+                            </div>
+                        </div>
+                    </div>
+                `)
+                if(`${tarefas[i].processo_relacionado}` == 'Entrega de Chaves'){
+                    $(`#termosChaves${tarefas[i].id_tarefa}`).attr("style", "display: block!important");
+                }
+            }
+        }
+    })
+}
+
+var date = new Date();
+$('#data-filtro').val(date.toLocaleDateString('pt-BR', {timeZone: 'UTC'}));
+let format_date = $("#data-filtro").val().split('/');
+
+var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+var lastMonth = new Date(date.getFullYear(), date.getMonth(), 0);
+var nextMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+
+var domingo = []
+var segunda = []
+var terca = []
+var quarta = []
+var quinta = []
+var sexta = []
+var sabado = []
+var auxiliar = 0
+
+date = new Date(format_date[2], parseInt(format_date[1]) - 1, format_date[0]);
+for(let i = 1; i <= lastDay.getDate(); i++){
+    if(firstDay.getDay() == 0 && domingo.length == 0){
+        domingo.push(firstDay.getDate())
+        auxiliar = 1;
+        $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 2}-${i}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${1}"></p>
+</div>`)
+    } else if(firstDay.getDay() == 1 && segunda.length == 0){
+        segunda.push(firstDay.getDate())
+        domingo.push(0)
+        auxiliar = 2;
+        $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 2}-${i}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${i}"></p>
+</div>`)
+        $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate()}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}"></p>
+</div>`)
+    } else if(firstDay.getDay() == 2 && terca.length == 0){
+        terca.push(firstDay.getDate())
+        domingo.push(0)
+        segunda.push(0)
+        auxiliar = 3;
+        $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${i}"></p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 2}-${i}">0</button>
+</div>`)
+        $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 1}</p><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}"></p>
+</div>`)
+        $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate()}</p><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}"></p>
+</div>`)
+    } else if(firstDay.getDay() == 3 && quarta.length == 0){
+        quarta.push(firstDay.getDate())
+        domingo.push(0)
+        segunda.push(0)
+        terca.push(0)
+        auxiliar = 4;
+        $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 2}-${i}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${i}"></p>
+</div>`)
+        $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 2}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}"></p>
+</div>`)
+        $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 1}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}"></p>
+</div>`)
+        $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate()}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}"></p>
+</div>`)
+    } else if(firstDay.getDay() == 4 && quinta.length == 0){
+        quinta.push(firstDay.getDate())
+        domingo.push(0)
+        segunda.push(0)
+        terca.push(0)
+        quarta.push(0)
+        auxiliar = 5;
+        $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 2}-${i}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${i}"></p>
+</div>`)
+        $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 3}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 3}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 3}"></p>
+</div>`)
+        $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 2}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}"></p>
+</div>`)
+        $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 1}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" d="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}"></p>
+</div>`)
+        $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate()}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}"></p>
+</div>`)
+    } else if(firstDay.getDay() == 5 && sexta.length == 0){
+        sexta.push(firstDay.getDate())
+        domingo.push(0)
+        segunda.push(0)
+        terca.push(0)
+        quarta.push(0)
+        quinta.push(0)
+        auxiliar = 6;
+        $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden id="dia-${lastMonth.getMonth() + 2}-${i}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${i}"></p>
+</div>`)
+        $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 4}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 4}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 4}"></p>
+</div>`)
+        $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 3}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 3}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 3}"></p>
+</div>`)
+        $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 2}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}"></p>
+</div>`)
+        $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 1}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}"></p>
+</div>`)
+        $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate()}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}"></p>
+</div>`)
+    } else if(firstDay.getDay() == 6 && sabado.length == 0){
+        sabado.push(firstDay.getDate())
+        domingo.push(0)
+        segunda.push(0)
+        terca.push(0)
+        quarta.push(0)
+        quinta.push(0)
+        sexta.push(0)
+        auxiliar = 0;
+        $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 2}-${i}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${i}"></p>
+</div>`)
+        $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 5}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 5}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 5}"></p>
+</div>`)
+        $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 4}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 4}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 4}"></p>
+</div>`)
+        $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 3}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 3}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 3}"></p>
+</div>`)
+        $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 2}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 2}"></p>
+</div>`)
+        $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate() - 1}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate() - 1}"></p>
+</div>`)
+        $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">${lastMonth.getDate()}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}">0</button><p class="pDescri" id="descri-${lastMonth.getMonth() + 1}-${lastMonth.getDate()}"></p>
+div id="pDescri"></div></div>`)
+    }
+    else {
+        if(auxiliar == 0){
+            domingo.push(i)
+            auxiliar = 1;
+            $(`.blocoDomingo`).html($(`.blocoDomingo`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${date.getMonth() + 1}-${i}">0</button><p class="pDescri" id="descri-${date.getMonth() + 1}-${i}"></p>
+</div>`)
+        } else if(auxiliar == 1){
+            segunda.push(i)
+            auxiliar = 2;
+            $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${date.getMonth() + 1}-${i}">0</button><p class="pDescri" id="descri-${date.getMonth() + 1}-${i}"></p>
+</div>`)
+        } else if(auxiliar == 2){
+            terca.push(i)
+            auxiliar = 3;
+            $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${date.getMonth() + 1}-${i}">0</button><p class="pDescri" id="descri-${date.getMonth() + 1}-${i}"></p>
+</div>`)
+        } else if(auxiliar == 3){
+            quarta.push(i)
+            auxiliar = 4;
+            $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${date.getMonth() + 1}-${i}">0</button><p class="pDescri" id="descri-${date.getMonth() + 1}-${i}"></p>
+</div>`)
+        } else if(auxiliar == 4){
+            quinta.push(i)
+            auxiliar = 5;
+            $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${date.getMonth() + 1}-${i}">0</button><p class="pDescri" id="descri-${date.getMonth() + 1}-${i}"></p>
+</div>`)
+        } else if(auxiliar == 5){
+            sexta.push(i)
+            auxiliar = 6;
+            $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${date.getMonth() + 1}-${i}">0</button><p class="pDescri" id="descri-${date.getMonth() + 1}-${i}"></p>
+</div>`)
+        } else if(auxiliar == 6){
+            sabado.push(i)
+            auxiliar = 0;
+            $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoUnico"><p style="font-family: 'Permanent Marker', cursive!important;">${i}</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${date.getMonth() + 1}-${i}">0</button><p class="pDescri" id="descri-${date.getMonth() + 1}-${i}"></p>
+</div>`)        
+        } else {
+            console.log("auxiliar incorreto");
+            null
+        }
+    }
+}
+
+if(segunda.length < domingo.length){
+    $(`.blocoSegunda`).html($(`.blocoSegunda`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">1</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${1}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-1"></p>
+</div>`)
+    $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">2</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${2}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-2"></p>
+</div>`)
+    $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">3</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${3}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-3"></p>
+</div>`)
+    $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">4</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${4}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-4"></p>
+</div>`)
+    $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">5</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${5}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-5"></p>
+</div>`)
+    $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">6</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${6}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-6"></p>
+</div>`)
+} else if(terca.length < domingo.length){
+    $(`.blocoTerca`).html($(`.blocoTerca`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">1</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${1}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-1"></p>
+</div>`)
+    $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">2</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${2}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-2"></p>
+</div>`)
+    $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">3</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${3}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-3"></p>
+</div>`)
+    $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">4</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${4}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-4"></p>
+</div>`)
+    $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">5</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${5}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-5"></p>
+</div>`)
+} else if(quarta.length < domingo.length){
+    $(`.blocoQuarta`).html($(`.blocoQuarta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">1</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${1}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-1"></p>
+</div>`)
+    $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">2</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${2}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-2"></p>
+</div>`)
+    $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">3</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${3}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-3"></p>
+</div>`)
+    $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">4</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${4}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-4"></p>
+</div>`)
+} else if(quinta.length < domingo.length){
+    $(`.blocoQuinta`).html($(`.blocoQuinta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">1</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${1}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-1"></p>
+</div>`)
+    $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">2</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${2}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-2"></p>
+</div>`)
+    $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">3</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${3}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-3"></p>
+</div>`)
+} else if(sexta.length < domingo.length){
+    $(`.blocoSexta`).html($(`.blocoSexta`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">1</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${1}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-1"></p>
+</div>`)
+    $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">2</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${2}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-2"></p>
+</div>`)
+} else if(sabado.length < domingo.length){
+    $(`.blocoSabado`).html($(`.blocoSabado`).html() + `<div class="quadradoVazio"><p style="font-family: 'Permanent Marker', cursive!important;">1</p><button class="btn-dia" hidden data-toggle="modal" data-target="#modalDia" id="dia-${nextMonth.getMonth() + 1}-${1}">0</button><p class="pDescri" id="descri-${nextMonth.getMonth()}-1"></p>
+</div>`)
+} else {
+    // console.log(domingo, segunda, terca, quarta, quinta, sexta, sabado);
+    null
+}
+
+let tarefas = $("#tarefas").html().replaceAll("'", '"').replaceAll("None", '"None"').replaceAll("datetime.date(", '"').replaceAll("datetime.datetime(", '"').replaceAll(", tzinfo=datetime.timezone.utc", '').replaceAll(")", '"');
+// $("#tarefas").html('')
+
+tarefas = JSON.parse(tarefas)
+
+let data_calendario = '';
+
+for(let i = 0; i < tarefas.length; i++){
+    data_calendario = tarefas[i].data_calendario.split(', ');
+    // Calcula os itens no mês
+    $(`#dia-${data_calendario[1]}-${data_calendario[2]}`).html(parseInt($(`#dia-${data_calendario[1]}-${data_calendario[2]}`).html()) + 1)
+    $(`#dia-${data_calendario[1]}-${data_calendario[2]}`).removeAttr('hidden')
+    $(`#descri-${data_calendario[1]}-${data_calendario[2]}`).html($(`#descri-${data_calendario[1]}-${data_calendario[2]}`).html() + `<p id="pDescri">${tarefas[i].descri}</p>`)
+
+    // $('#pDescri').html($('#pDescri').html() + `<p class="pDescri">${tarefas[i].descri}</p>`)
+    // console.log(`dia: ${data_calendario[2]}, mês: ${data_calendario[1]}, mês: ${data_calendario[0]}, hora: ${data_calendario[3]}, minuto: ${data_calendario[4]}`)
+    // tarefas[i].
+}
+
+$('.btn-dia').click(e => {
+    let listaDia = [];
+    data_selecionada = e.target.attributes[3].nodeValue.split('-');
+    $('#list-card').html('')
+    for(i = 0;  i < tarefas.length; i++){
+        data_calendario = tarefas[i].data_calendario.split(', ');
+        if(data_calendario[1] == data_selecionada[1] && data_calendario[2] == data_selecionada[2]){
+            listaDia.push(tarefas[i]);
+            $('#dia-card').text(`Dia: ${data_calendario[2]}/${parseInt(data_calendario[1])}`)
+            $('#list-card').html($('#list-card').html() + `
+                <div class="card">
+                    <div class="card-header row d-flex justify-content-center">
+                        <div class="col-3 d-flex justify-content-center">
+                            <i class="fa-solid fa-hashtag mr-2 my-auto" style="color:#B4C6E7"></i>
+                            <p class="pTarefa my-auto">${tarefas[i].id_tarefa}</p>
+                        </div>
+                        <div class="col-3 d-flex justify-content-center">
+                            <i class="fa-solid fa-info mr-2  my-auto" style="color:#B4C6E7"></i>
+                            <p class="pTarefa my-auto">${tarefas[i].stat}</p>
+                        </div>
+                        <div class="col-3 d-flex justify-content-center">
+                            <i class="fa-solid fa-clock mr-2  my-auto" style="color:#B4C6E7"></i>
+                            <p class="pTarefa my-auto">${data_calendario[3]}:${data_calendario[4] == 0 ? '00' : data_calendario[4]}</p>
+                        </div>
+                        <div class="col-3 d-flex justify-content-center">
+                            <a class="btn my-auto mr-2" target='_blank' href="https://myscrum.com.br/tarefas/editar/${tarefas[i].id_tarefa}"><i class="fa-regular fa-pen-to-square"></i></a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">${tarefas[i].descri}</h5>
+                      <div class="d-flex row justify-content-center">
+                        <div class="col-4 d-flex justify-content-center">
+                            <i class="fa-solid fa-users-gear mr-2  my-auto" style="color:#B4C6E7"></i>
+                            <p class="pTarefa my-auto">${tarefas[i].executor1}
+                        </div>
+                        <div class="col-4 d-flex justify-content-center">
+                            <i class="fa-solid fa-code-fork mr-2 my-auto" style="color:#B4C6E7"></i>
+                            <p class="pTarefa my-auto">${tarefas[i].processo_relacionado}</p>
+                        </div>
+                        <div class="col-4 d-flex justify-content-center">
+                            <a id="termosChaves${tarefas[i].id_tarefa}" class="my-auto mr-2 termosChaves" target='_blank' href="https://myscrum.com.br/entregachaves/Entregachaves"><i class="fa-solid fa-key fa-2x" style="color: #203566;"></i></a>
+                        </div>
+                    </div>
+                </div>
+                `)
+                if(`${tarefas[i].processo_relacionado}` == 'Entrega de Chaves'){
+                    $(`#termosChaves${tarefas[i].id_tarefa}`).attr("style", "display: block!important");
+                }
+        }
+    }
+    // console.log(listaDia)
+    //Percorrer listaDia para pegar tarefas
+})
+
+
+
+$(".btnSelect1").click(() => {
+    if($(".btnSelect1").hasClass("sInativo")){
+        $(".btnSelect1").addClass("sAtivo");
+        $(".btnSelect1").removeClass("sInativo");
+        $("#mes").show();
+        $("#dia").attr("style", "display: none!important");
+        $("#semana").attr("style", "display: none!important");
+        $(".btnSelect2").addClass("sInativo");
+        $(".btnSelect2").removeClass("sAtivo");
+        $(".btnSelect3").addClass("sInativo");
+        $(".btnSelect3").removeClass("sAtivo");
+    };
+});
+
+$(".btnSelect1").click(() => {
+    if($(".btnSelect1").hasClass("sInativo")){
+        $(".btnSelect1").addClass("sAtivo");
+        $(".btnSelect1").removeClass("sInativo");
+        $("#mes").show();
+        $("#dia").attr("style", "display: none!important");
+        $("#semana").attr("style", "display: none!important");
+        $(".btnSelect2").addClass("sInativo");
+        $(".btnSelect2").removeClass("sAtivo");
+        $(".btnSelect3").addClass("sInativo");
+        $(".btnSelect3").removeClass("sAtivo");
+    };
+});
+
+$(".btnSelect2").click(() => {
+    if($(".btnSelect2").hasClass("sInativo")){
+        $(".btnSelect2").addClass("sAtivo");
+        $(".btnSelect2").removeClass("sInativo");
+        $("#semana").show();
+        $("#dia").attr("style", "display: none!important");
+        $("#mes").attr("style", "display: none!important");
+        $(".btnSelect1").addClass("sInativo");
+        $(".btnSelect1").removeClass("sAtivo");
+        $(".btnSelect3").addClass("sInativo");
+        $(".btnSelect3").removeClass("sAtivo");
+    };
+});
+
+$(".btnSelect3").click(() => {
+    if($(".btnSelect3").hasClass("sInativo")){
+        $(".btnSelect3").addClass("sAtivo");
+        $(".btnSelect3").removeClass("sInativo");
+        $("#dia").show();
+        $("#semana").attr("style", "display: none!important");
+        $("#mes").attr("style", "display: none!important");
+        $(".btnSelect1").addClass("sInativo");
+        $(".btnSelect1").removeClass("sAtivo");
+        $(".btnSelect2").addClass("sInativo");
+        $(".btnSelect2").removeClass("sAtivo");
+    };
+});
+
+const month = date.toLocaleString('pt-BR', { month: 'long'});
+
+    if(month == 'janeiro'){
+        $(".btnJan").click();
+    } else if(month == 'fevereiro') {
+        $(".btnFev").click();
+    } else if(month == 'março') {
+        $(".btnMar").click();
+    } else if(month == 'abril') {
+        $(".btnAbr").click();
+    } else if(month == 'maio') {
+        $(".btnMai").click();
+    } else if(month == 'junho') {
+        $(".btnJun").click();
+    } else if(month == 'julho') {
+        $(".btnJul").click();
+    } else if(month == 'agosto') {
+        $(".btnAgo").click();
+    } else if(month == 'setembro') {
+        $(".btnSet").click();
+    } else if(month == 'outubro') {
+        $(".btnOut").click();
+    } else if(month == 'novembro') {
+        $(".btnNov").click();
+    } else if(month == 'dezembro') {
+        $(".btnDez").click();
+    }
+
+$(`.calendarioTopo`).html($(`.calendarioTopo`).html() + `<h3>${month}</h3>`)
+
+$(`.blocoAno`).html($(`.blocoAno`).html() + `<h5 class="hYear my-auto">${parseInt(data_calendario[0])}</h5>`)
+
+$('#data-filtro').datepicker({
+    todayBtn: "linked",
+    language: "pt-BR",
+    daysOfWeekHighlighted: "1,2,3,4,5",
+    autoclose: true,
+    todayHighlight: true
+});
+</script>
+
+<script>
+  //Codigo do Loading
+  $(document).ready(function() {
+      document.getElementById("load").classList.toggle('esconder');
+      document.getElementById("tarefas").classList.toggle('mostrar');
+      $("#accordion").css("opacity", "1");
+      document.getElementById("collapseOne").classList.toggle('collapse');
+      document.getElementById("collapseOne").classList.toggle('collapse');
+      $('#buttonCollapse').attr('aria-expanded', 'false');
+      $("#load").attr("hidden", true);
+  });
+</script>
+
+<!--Limpa Filtros-->
+<script>
+
+    $('.clearAll').on('click', function() {
+        $("#centrocusto").val( $('option:contains("Centros de custo")').val() );
+    
+        var $status = $("#status").select2();
+        $status.val(null).trigger("change");
+    
+        var $departamento = $("#departamento").select2();
+        $departamento.val(null).trigger("change");
+    
+        var $processo = $("#processo").select2();
+        $processo.val(null).trigger("change");
+    });
+    </script>
+
+<!--Ativando o multiselect-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+<script>
+    $(".select2").select2();
+</script>
+
+
+{% endblock %}

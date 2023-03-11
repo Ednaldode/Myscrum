@@ -1,0 +1,177 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block title %} Pendências Vistorias {% endblock %}
+
+{% block head %}
+
+<!-- CSS da pagina -->
+<link href="{% static 'Espelho/css/pendencias.css' %}" rel="stylesheet">
+
+<!--Usando arquivos da app home para não duplicar arquivos-->
+<!-- Script para o funciomento dos DatePickers -->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+
+<!-- Script para reconher o PT-BR do DatePickers-->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.pt-BR.min.js' %}" charset="UTF-8"></script>
+
+<!--CSS FontAwesome para icones-->
+<link rel="stylesheet" href="{% static '_Base/plugins/fontawesome/css/all.css' %}">
+
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="{% static 'Home/datepicker/css/bootstrap-datepicker3.min.css' %}" rel="stylesheet">
+
+<!-- Script -->
+<script src="{% static 'Kanban/js/kanban.js' %}"></script>
+<script src="{% static 'Kanban/js/executores.js' %}"></script>
+<script>$("#collapseOne").toggleClass("show");</script>
+
+{% endblock %}
+
+{% block content %}
+
+<!-- <div class="load" id="load">
+  <i class="fa fa-cog fa-spin fa-10x fa-fw"></i><span class="sr-only">Loading...</span>
+</div> -->
+
+<section class="d-flex justify-content-center">
+
+    <div class="estruturaPendencias d-flex">
+        <div class="divPendencias">
+            <h2>Pendências</h2>
+            <div class="blocoPendencia d-flex">
+                <div class="headerPendencia d-flex">
+                    <div class="unidadePendencia">
+                        <h3 class="h3_1">Bloco A - 001<h3>
+                    </div>
+                    <div class="responsavelPendencia">
+                        <h3 class="h3_2">Pedreiro</h3>
+                    </div>
+                </div>
+                <div class="bodyPendencia d-flex">
+                    <div class="tipoPendencia">
+                        <p class="p_1">Piso/Rodapé</p>
+                    </div>
+                    <div class="descricaoPendencia">
+                        <p class="p_2">SALA/CIRCULAÇÃO: Rejunte com falha; Rodapé lascado; DORMITORIO 1: Rejunte com falha;</p>
+                    </div>
+                </div>
+                <div class="bodyPendencia d-flex">
+                    <div class="tipoPendencia">
+                        <p class="p_1">Azulejo/Cantoneira</p>
+                    </div>
+                    <div class="descricaoPendencia">
+                        <p class="p_2">COZINHA + A.S.: Rejunte com falha; BANHEIRO SOCIAL: Azulejo com tonalidade;</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divNaoVistoriado d-flex justify-content-center">
+            <h2>Não Vistoriado</h2>
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}
+
+{% block navbar %}
+
+<a href="{% url 'Espelho:espelhovistorias'%}"  target="_blank"><button class="btn btn-light ml-3"><i class="fas fa-th mr-1"></i>Espelho</button></a>
+
+
+{% endblock %}
+
+{% block expandirFiltros %}
+
+    {% comment %} <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+        <form class="" action="/espelho/vistoria" id="form" method="GET">
+          <div class="row">
+            <div id="botoes-filtro">
+              <div class="col" id="aplicar-filtro">
+                <input id="buttonAplicarFiltros" class="btn btn-primary" type="submit" value="Aplicar filtros">
+              </div>
+              <div class="col" id="limpar-filtro">
+                <input id="buttonLimparFiltros"class="btn btn-primary clearAll" type="button" value="Limpar filtros">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col" id="centrocusto-filtro">
+              <div class="centrocusto-filtro">
+                <label for="centrocusto-filtro">Centros de Custo</label>
+                <select class="form-control" id="centrocusto" name="centrocusto">
+                  <option>Centros de custo</option>
+                  {% for centrocusto in centrocustos %}
+                  {% if filtros.centrocusto == centrocusto.centrocusto %}
+                  <option label="{{centrocusto.centrocusto}}" value="{{centrocusto.id_centro_custo}}" selected>{{ centrocusto.id_sienge }}</option>
+                  {% else %}
+                  <option label="{{centrocusto.centrocusto}}" value="{{centrocusto.id_centro_custo}}">{{ centrocusto.id_sienge }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div> {% endcomment %}
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    // Acessa API's de Unidades e Empreendimentos
+    let url = 'https://masotti-app-api.herokuapp.com/unidades';
+    fetch(url, {method: 'GET',})
+    .then(res => res.json())
+    .then(json => {
+        var unidades = json;
+        url = 'https://masotti-app-api.herokuapp.com/empreendimentos';
+        fetch(url, {method: 'GET',})
+        .then(res => res.json())
+        .then(json => {
+            var empreendimentos = json;
+            try{
+                let empreendimento = '', unidade = [], torres = [];
+                // Armazena o empreendimento e unidades referente ao centro de custo selecionado no filtro
+                for(let i = 0; i < empreendimentos.length; i++){
+                    if (empreendimentos[i].enterpriseId == $("#centrocusto option:selected").text()){
+                        empreendimento = empreendimentos[i];
+                        // console.log(empreendimentos[i])
+                        for(let j = 0; j < unidades.length; j++){
+                            if(unidades[j].enterpriseId == $("#centrocusto option:selected").text()){
+                                unidade.push(unidades[j]);
+                                torres.includes(`${unidades[j].tipo} ${unidades[j].bloco}`) ? null : torres.push(`${unidades[j].tipo} ${unidades[j].bloco}`);
+                            }
+                        }
+                    }   
+                }
+                $("#logo").attr("src", empreendimento.logo);
+                $("#nome").text(empreendimento.empreendimento);
+            } catch {
+                console.log('empreendimento não selecionado')
+            }
+        });
+    });
+</script>
+
+<script>
+  //Codigo do Loading
+  $(document).ready(function() {
+      document.getElementById("load").classList.toggle('esconder');
+      document.getElementById("tarefas").classList.toggle('mostrar');
+      $("#accordion").css("opacity", "1");
+      document.getElementById("collapseOne").classList.toggle('collapse');
+      document.getElementById("collapseOne").classList.toggle('collapse');
+      $('#buttonCollapse').attr('aria-expanded', 'false');
+      $("#load").attr("hidden", true);
+  });
+</script>
+
+<!--Ativando o multiselect-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+
+{% endblock %}

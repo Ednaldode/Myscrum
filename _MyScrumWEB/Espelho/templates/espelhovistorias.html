@@ -1,0 +1,239 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block title %} Espelho Vistorias {% endblock %}
+
+{% block head %}
+
+<!-- CSS da pagina -->
+<link href="{% static 'Espelho/css/espelho.css' %}" rel="stylesheet">
+
+<!--Usando arquivos da app home para não duplicar arquivos-->
+<!-- Script para o funciomento dos DatePickers -->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+
+<!-- Script para reconher o PT-BR do DatePickers-->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.pt-BR.min.js' %}" charset="UTF-8"></script>
+
+<!--CSS FontAwesome para icones-->
+<link rel="stylesheet" href="{% static '_Base/plugins/fontawesome/css/all.css' %}">
+<script src="https://kit.fontawesome.com/858e8845a9.js" crossorigin="anonymous"></script>
+
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="{% static 'Home/datepicker/css/bootstrap-datepicker3.min.css' %}" rel="stylesheet">
+
+<!-- Script -->
+<script src="{% static 'Kanban/js/kanban.js' %}"></script>
+<script src="{% static 'Kanban/js/executores.js' %}"></script>
+<script>$("#collapseOne").toggleClass("show");</script>
+
+{% endblock %}
+
+{% block content %}
+
+<!-- <div class="load" id="load">
+  <i class="fa fa-cog fa-spin fa-10x fa-fw"></i><span class="sr-only">Loading...</span>
+</div> -->
+
+<section>
+
+  <div class="d-flex justify-content-center" style="flex-direction:column; margin-top:100px">
+    <h1 class="mx-auto my-auto" style="font-size:20px; font-weight:bold;">Em breve novidades!</h1>
+    <i class="fa-solid fa-person-digging fa-3x mx-auto my-auto"></i>
+    <h3 class="mx-auto my-auto" style="font-size:15px">SCRUM EM OBRAS</h3>
+  </div>
+    <!-- <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-8 d-flex justify-content-center mb-3">
+            <img id="logo" src="" width="100">
+        </div>
+        <div class="col-md-2 d-flex justify-content-end">
+          <a href="{% url 'Calendario:calendario'%}" target="_blank"><button class="btn btn-light btnCalendar"><i class="fas fa-calendar-alt fa-3x iconCalendar"></i></button></a>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center mb-3">
+        <h4 class="nomeEmpreendimento" id="nome">
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <p class="legendas">Legenda:</p>
+      <div class="quadradinholegenda naovistoriado"></div><p>Não Vistoriado</p>
+      <p class="barradivisoria">|</p>
+      <div class="quadradinholegenda execucao"></div><p>Em Execução</p>
+      <p class="barradivisoria">|</p>
+      <div class="quadradinholegenda finalizadas"></div><p>Finalizadas</p>
+    </div>
+    
+    <div class="divEspelho d-flex justify-content-start mt-4 ml-3">
+        <div class="divSeparadora mr-3">
+            <div class="row">
+                <div class="colunaEspelho">
+                    <h6 class="titulosTorre">Nome da Torre</h6>
+                    <div class="d-flex linhaUnidades">
+                        <button class="btn btn-light quadradoUnidade unidade" data-toggle="modal" data-target="#modalUnidade"><p class="infoQuadrados">001<p></button>
+                        <button class="btn btn-light quadradoUnidade unidade" data-toggle="modal" data-target="#modalUnidade"><p class="infoQuadrados">002<p></button>
+                        <button class="btn btn-light quadradoUnidade unidade" data-toggle="modal" data-target="#modalUnidade"><p class="infoQuadrados">003<p></button>
+                        <button class="btn btn-light quadradoUnidade unidade" data-toggle="modal" data-target="#modalUnidade"><p class="infoQuadrados">004<p></button>
+                        <button class="btn btn-light quadradoUnidade unidade" data-toggle="modal" data-target="#modalUnidade"><p class="infoQuadrados">005<p></button>
+                        <button class="btn btn-light quadradoUnidade unidade" data-toggle="modal" data-target="#modalUnidade"><p class="infoQuadrados">006<p></button>
+                        <button class="btn btn-light quadradoUnidade unidade" data-toggle="modal" data-target="#modalUnidade"><p class="infoQuadrados">007<p></button>
+                        <button class="btn btn-light quadradoUnidade unidade" data-toggle="modal" data-target="#modalUnidade"><p class="infoQuadrados">008<p></button>
+                    </div>
+                </div>
+                <div class="colunaPorcentagem">
+                    <h6 class="titulosTorre">%</h6>
+                    <div class="d-flex linhaUnidades">
+                        <div class="quadradoUnidade porcentagem"><p class="infoQuadrados">0%<p></div>
+                    </div>
+                    <div class="d-flex linhaUnidades">
+                        <div class="quadradoUnidade total"><p class="infoQuadrados">0%<p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-start mt-4">
+                <div class="quadradinholegenda1 naovistoriado"></div><p>8 Unidades (100%)</p>
+            </div>
+            <div class="d-flex justify-content-start">
+                <div class="quadradinholegenda1 execucao"></div><p>0 Unidades (0%)</p>
+            </div>
+            <div class="d-flex justify-content-start">
+                <div class="quadradinholegenda1 finalizadas"></div><p>0 Unidades (0%)</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade mx-auto my-auto" id="modalUnidade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title tituloModal naovistoriado" id="modalLabel">Nome do Empreendimento > Torre > 001</h5> 
+          </div>
+          <div class="modal-body">
+            <p class="pModal mb-2">
+              Prioridade: 0</br>
+              Conclusão 0/52 (0%)
+            </p>
+            <div class="d-flex justify-content-center"><a href="{% url 'Espelho:pendenciasvistoria'%}" target="_blank"><button class="btn btn-light btnModal">Ver pendências</button></a></div>
+            <p class="pModal2 mb-2">
+              Vagas da unidade: 
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+ -->
+
+</section>
+
+{% endblock %}
+
+{% block navbar %}
+
+<div class="card-header" id="headingOne">
+  <button id="buttonCollapse" type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    <i class="fa fa-filter"></i>
+    <span id="botao-filtro">Filtros</span>
+  </button>
+</div>
+
+{% endblock %}
+
+{% block expandirFiltros %}
+
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body">
+        <form class="" action="/espelho/vistoria" id="form" method="GET">
+          <div class="row">
+            <div id="botoes-filtro">
+              <div class="col" id="aplicar-filtro">
+                <input id="buttonAplicarFiltros" class="btn btn-primary" type="submit" value="Aplicar filtros">
+              </div>
+              <div class="col" id="limpar-filtro">
+                <input id="buttonLimparFiltros"class="btn btn-primary clearAll" type="button" value="Limpar filtros">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col" id="centrocusto-filtro">
+              <div class="centrocusto-filtro">
+                <label for="centrocusto-filtro">Centros de Custo</label>
+                <select class="form-control" id="centrocusto" name="centrocusto">
+                  <option>Centros de custo</option>
+                  {% for centrocusto in centrocustos %}
+                  {% if filtros.centrocusto == centrocusto.centrocusto %}
+                  <option label="{{centrocusto.centrocusto}}" value="{{centrocusto.id_centro_custo}}" selected>{{ centrocusto.id_sienge }}</option>
+                  {% else %}
+                  <option label="{{centrocusto.centrocusto}}" value="{{centrocusto.id_centro_custo}}">{{ centrocusto.id_sienge }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    // Acessa API's de Unidades e Empreendimentos
+    let url = 'https://masotti-app-api.herokuapp.com/unidades';
+    fetch(url, {method: 'GET',})
+    .then(res => res.json())
+    .then(json => {
+        var unidades = json;
+        url = 'https://masotti-app-api.herokuapp.com/empreendimentos';
+        fetch(url, {method: 'GET',})
+        .then(res => res.json())
+        .then(json => {
+            var empreendimentos = json;
+            try{
+                let empreendimento = '', unidade = [], torres = [];
+                // Armazena o empreendimento e unidades referente ao centro de custo selecionado no filtro
+                for(let i = 0; i < empreendimentos.length; i++){
+                    if (empreendimentos[i].enterpriseId == $("#centrocusto option:selected").text()){
+                        empreendimento = empreendimentos[i];
+                        // console.log(empreendimentos[i])
+                        for(let j = 0; j < unidades.length; j++){
+                            if(unidades[j].enterpriseId == $("#centrocusto option:selected").text()){
+                                unidade.push(unidades[j]);
+                                torres.includes(`${unidades[j].tipo} ${unidades[j].bloco}`) ? null : torres.push(`${unidades[j].tipo} ${unidades[j].bloco}`);
+                            }
+                        }
+                    }   
+                }
+                $("#logo").attr("src", empreendimento.logo);
+                $("#nome").text(empreendimento.empreendimento);
+            } catch {
+                console.log('empreendimento não selecionado')
+            }
+        });
+    });
+</script>
+
+<script>
+  //Codigo do Loading
+  $(document).ready(function() {
+      document.getElementById("load").classList.toggle('esconder');
+      document.getElementById("tarefas").classList.toggle('mostrar');
+      $("#accordion").css("opacity", "1");
+      document.getElementById("collapseOne").classList.toggle('collapse');
+      document.getElementById("collapseOne").classList.toggle('collapse');
+      $('#buttonCollapse').attr('aria-expanded', 'false');
+      $("#load").attr("hidden", true);
+  });
+</script>
+
+<!--Ativando o multiselect-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+
+{% endblock %}

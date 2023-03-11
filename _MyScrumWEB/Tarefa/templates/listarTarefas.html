@@ -1,0 +1,569 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block head %}
+
+<!--CSS Data Table-->
+<link href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">
+
+<!-- CSS da tabela desenvolvido por Abner Matias -->
+<link rel="stylesheet" href="{% static '/Tarefa/css/tabela.css' %}">
+
+<!-- CSS da pagina desenvolvido por Abner Matias -->
+<link rel="stylesheet" href="{% static '/Tarefa/css/listarTarefas.css' %}">
+<link rel="stylesheet" href="{% static '/_Base/css/base.css' %}">
+
+<!--Usando arquivos da app home para não duplicar arquivos-->
+<!-- Script para o funciomento dos DatePickers -->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+
+<!-- Script para reconher o PT-BR do DatePickers-->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.pt-BR.min.js' %}" charset="UTF-8"></script>
+
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="{% static 'Home/datepicker/css/bootstrap-datepicker3.min.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block title %} Listar Tarefas {% endblock %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{message.extra_tags}}" role="alert">
+            <center>{{ message }}</center>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="conteudo" id="conteudo">
+    <div class="load" id="load">
+        <i class="fa fa-cog fa-spin fa-10x fa-fw"></i><span class="sr-only"></span>
+    </div>
+
+    <div class="table" id="tabela">
+        <table id="minhaTabela" class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="100%">
+            <thead>
+                <tr>
+                    <th class="th-sm">ID
+                    </th>
+                    <th class="th-sm">Descrição
+                    </th>
+                    <th class="th-sm">Porcentagem
+                    </th>
+                    <th class="th-sm">Prioridade
+                    </th>
+                    <th class="th-sm">C.C.
+                    </th>
+                    <th class="th-sm">Departamento
+                    </th>
+                    <th class="th-sm">Status
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for tarefa in tarefas %}
+                <tr>
+                    <td><a href="{% url 'Tarefa:editar' tarefa.id_tarefa %}" target="_blank"></a>{{tarefa.id_tarefa}}</a></td>
+                    <td><a href="{% url 'Tarefa:editar' tarefa.id_tarefa %}" target="_blank">{{tarefa.descri}}</a></td>
+                    <td><a href="{% url 'Tarefa:editar' tarefa.id_tarefa %}" target="_blank">{{tarefa.porcentagem}}</a></td>
+                    <td><a href="{% url 'Tarefa:editar' tarefa.id_tarefa %}" target="_blank">{{tarefa.prioridade}}</a></td>
+                    <td><a href="{% url 'Tarefa:editar' tarefa.id_tarefa %}" target="_blank">{{tarefa.centro_custo}}</a></td>
+                    <td><a href="{% url 'Tarefa:editar' tarefa.id_tarefa %}" target="_blank">{{tarefa.departamento}}</a></td>
+                    <td><a href="{% url 'Tarefa:editar' tarefa.id_tarefa %}" target="_blank">{{tarefa.stat}}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block navbar %}
+
+<div class="card-header" id="headingOne">
+  <button id="buttonCollapse" type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    <i class="fa fa-filter"></i>
+    <span id="botao-filtro">Filtros</span>
+  </button>
+</div>
+
+<button id="exportar" type="button" class="btn btn-info" onclick="download()">
+  <i class="fa fa-download"></i>
+  <span >Exportar</span>
+</button>
+
+
+{% endblock %}
+
+{% block expandirFiltros %}
+
+<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                  <div class="card-body">
+                    <form class="" action="/tarefas/listar" id="form" method="GET">
+                      <div class="row">
+                        <div class="col-8" id="datas-filtro">
+                          <div class="datas">
+                            <label for="data">Periodo de pesquisa</label>
+                            <div id="sandbox-container">
+                              <div class="input-daterange input-group" id="datepicker">
+                                <input id="inicio-filtro" value="{{filtros.start}}" type="text" class="input-sm form-control" name="start" autocomplete="off" />
+                                <span class="input-group-addon">Até</span>
+                                <input id="final-filtro" value="{{filtros.end}}" type="text" class="input-sm form-control" name="end" autocomplete="off" />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="botoes-filtro">
+                          <div class="col" id="aplicar-filtro">
+                            <input id="buttonAplicarFiltros" class="btn btn-primary" type="submit" value="Aplicar filtros">
+                          </div>
+                          <div class="col" id="limpar-filtro">
+                            <input id="buttonLimparFiltros"class="btn btn-primary clearAll" type="button" value="Limpar filtros">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col" id="centrocusto-filtro">
+                          <div class="centrocusto-filtro">
+                            <label for="centrocusto-filtro">Centros de Custo</label>
+                            <select class="form-control" id="centrocusto" name="centrocusto">
+                              <option>Centros de custo</option>
+                              {% for centrocusto in centrocustos %}
+                              {% if filtros.centrocusto == centrocusto.centrocusto %}
+                              <option value="{{centrocusto.id_centro_custo}}" selected>{{ centrocusto.centrocusto }}</option>
+                              {% else %}
+                              <option value="{{centrocusto.id_centro_custo}}">{{ centrocusto.centrocusto }}</option>
+                              {% endif %}
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col" id="etapa-filtro">
+                          <div class="etapa-filtro">
+                            <label for="etapa-filtro">Etapas</label>
+                            <select class="form-control" id="etapa" name="etapa">
+                              <option value="0">Etapas</option>
+                              {% for etapa in etapas %}
+                              {% if filtros.etapa == etapa.etapa %}
+                              <option value="{{etapa.id_etapa}}" selected>{{ etapa.etapa }}</option>
+                              {% else %}
+                              <option value="{{etapa.id_etapa}}">{{ etapa.etapa }}</option>
+                              {% endif %}
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col" id="subetapa-filtro">
+                          <div class="subetapa-filtro">
+                            <label for="subetapa-filtro">SubEtapas</label>
+                            <select class="form-control" id="subetapa" name="subetapa">
+                              <option value="0">Sub Etapas</option>
+                              {% for subetapa in subetapas %}
+                              {% if filtros.subetapa == subetapa.sub_etapa %}
+                              <option value="{{subetapa.id_sub_etapas}}" selected>{{ subetapa.sub_etapa }}</option>
+                              {% else %}
+                              <option value="{{subetapa.id_sub_etapas}}">{{ subetapa.sub_etapa }}</option>
+                              {% endif %}
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-4" id="status-filtro">
+                            <div class="status-filtro">
+                                <label for="status-filtro">Status da tarefa:</label>
+                                <select class="select2 form-control" multiple="" id="status" name="status">
+
+                                    {% if 'A fazer' in filtros.status %}
+                                        <option value="A fazer" selected="selected">A fazer</option>
+                                    {% else %}
+                                        <option value="A fazer">A fazer</option>
+                                    {% endif %}
+
+                                    {% if 'Fazendo' in filtros.status %}
+                                        <option value="Fazendo" selected="selected">Fazendo</option>
+                                    {% else %}
+                                        <option value="Fazendo">Fazendo</option>
+                                    {% endif %}
+
+                                    {% if 'Feito' in filtros.status %}
+                                        <option value="Feito" selected="selected">Feito</option>
+                                    {% else %}
+                                        <option value="Feito">Feito</option>
+                                    {% endif %}
+
+                                    {% if 'Cancelado' in filtros.status %}
+                                        <option value="Cancelado" selected="selected">Cancelado</option>
+                                    {% else %}
+                                        <option value="Cancelado">Cancelado</option>
+                                    {% endif %}
+
+                                </select>
+                              </div>
+                        </div>
+                        <div class="col-4" id="departamento-filtro">
+                          <div class="departamento-filtro">
+                            <label for="departamento-filtro">Departamentos:</label>
+                            <select class="select2 form-control" id="departamento" name="departamento" multiple="">
+                              <option>Departamentos</option>
+                              {% for departamento in departamentos %}
+                              {% if departamento.departamento in filtros.departamento %}
+                              <option selected>{{ departamento.departamento }}</option>
+                              {% else %}
+                              <option>{{ departamento.departamento }}</option>
+                              {% endif %}
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-4" id="processo-filtro">
+                          <div class="processo-filtro">
+                            <label for="processo-filtro">Processos:</label>
+                            <select class="select2 form-control" id="processo" name="processo" multiple="">
+                              <option>Processos</option>
+                              {% for processo in processos %}
+                              {% if processo.processo in filtros.processo %}
+                              <option selected>{{ processo.processo }}</option>
+                              {% else %}
+                              <option>{{ processo.processo }}</option>
+                              {% endif %}
+                              {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-4" id="autoridade-filtro">
+                          <div class="autoridade-filtro">
+                            <label for="autoridade-filtro">Autoridades:</label>
+                            <select class="select2 form-control" id="autoridade" name="autoridade" multiple="">
+                              <option>Autoridade</option>
+                              {% for pessoa in pessoas %} {% if pessoa.nome in filtros.autoridade %}
+                              <option selected>{{ pessoa.nome }}</option>
+                              {% else %}
+                              <option>{{ pessoa.nome }}</option>
+                              {% endif %} {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-4" id="responsavel-filtro">
+                          <div class="responsavel-filtro">
+                            <label for="responsavel-filtro">Responsáveis:</label>
+                            <select class="select2 form-control" id="responsavel" name="responsavel" multiple="">
+                              <option>Responsável</option>
+                              {% for pessoa in pessoas %} {% if pessoa.nome in filtros.responsavel %}
+                              <option selected>{{ pessoa.nome }}</option>
+                              {% else %}
+                              <option>{{ pessoa.nome }}</option>
+                              {% endif %} {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-4" id="pessoa-filtro">
+                          <div class="pessoa-filtro">
+                            <label for="pessoa-filtro">Pessoas:</label>
+                            <select class="select2 form-control" id="pessoa" name="pessoa" multiple="">
+                              {% for pessoa in pessoas %} {% if pessoa.nome in filtros.pessoa %}
+                              <option selected>{{ pessoa.nome }}</option>
+                              {% else %}
+                              <option>{{ pessoa.nome }}</option>
+                              {% endif %} {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-4" id="executor-filtro">
+                          <div class="executor-filtro">
+                            <label for="executor-filtro">Executores:</label>
+                            <select class="select2 form-control" id="executor" name="executor" multiple="">
+                              <option>Executores</option>
+                              {% for pessoa in pessoas %}
+                              {% if pessoa.nome in filtros.executor %}
+                              <option selected>{{ pessoa.nome }}</option>
+                              {% else %}
+                              <option>{{ pessoa.nome }}</option>
+                              {% endif %} {% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-4" id="impedimento-filtro">
+                          <div class="impedimento-filtro">
+                            <label for="impedimento-filtro">Impedimentos:</label>
+                            <select class="select2 form-control" id="impedimento" name="impedimento" multiple="">
+                              <option>Impedimentos</option>
+                              {% for pessoa in pessoas %}
+                              {% if pessoa.nome in filtros.impedimento %}
+                              <option selected>{{ pessoa.nome }}</option>
+                              {% else %}
+                              <option>{{ pessoa.nome }}</option>
+                              {% endif %}{% endfor %}
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col" id="r5w2h-filtro">
+                          <div class="r5w2h-filtro">
+                            <label for="r5w2h-filtro">5W2H:</label>
+                            <select class="form-control" id="r5w2h" name="r5w2h">
+                              <option>-------</option>
+                              {% if r5w2hT == "('1')" %}
+                              <option value="1" selected>Sim</option>
+                              {% else %}
+                              <option value="1">Sim</option>
+                              {% endif %}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+  $('#sandbox-container .input-daterange').datepicker({
+      format: "dd/mm/yyyy",
+      language: "pt-BR",
+      daysOfWeekDisabled: "0,6",
+      daysOfWeekHighlighted: "1,2,3,4,5"
+  });
+  $('#inicio-filtro').datepicker({
+      todayBtn: "linked",
+      language: "pt-BR",
+      daysOfWeekHighlighted: "1,2,3,4,5",
+      autoclose: true,
+      todayHighlight: true
+  });
+  $('#final-filtro').datepicker({
+      todayBtn: "linked",
+      language: "pt-BR",
+      daysOfWeekHighlighted: "1,2,3,4,5",
+      autoclose: true,
+      todayHighlight: true
+  });
+</script>
+
+<script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready(function(){
+$('#minhaTabela').DataTable({
+    "language": {
+          "search": "Pesquisar:",
+          "searchPlaceholder": "...",
+          "lengthMenu": "Mostrando _MENU_ tarefas.",
+          "loadingRecords": "Carregando...",
+          "zeroRecords": "Nada encontrado",
+          "info": "Página: _PAGE_ de _PAGES_ | Total: _MAX_ tarefas",
+          "infoEmpty": "Nenhum registro disponível",
+          "infoFiltered": "| Filtro: _TOTAL_ tarefas",
+          "previous": "Anterior",
+          "next": "Próximo",
+      },
+      "scrollY": "200px",
+      "scrollCollapse": true,
+  });
+
+  $('[name=minhaTabela_length]').addClass('custom-select custom-select-sm form-control form-control-sm');
+  $('#minhaTabela_length').addClass('bs-select');
+  $('#minhaTabela_filter > label > input[type=search]').addClass('form-control form-control-sm');
+  $('#minhaTabela_filter').addClass('form-control-sm');
+});
+</script>
+
+<script>
+    //código usando jQuery
+    $(document).ready(function() {
+        document.getElementById("load").classList.toggle('esconder');
+        document.getElementById("tabela").classList.toggle('mostrar');
+        document.getElementById("accordion").classList.toggle('mostrar');
+        $("#accordion").css("opacity", "1");
+        document.getElementById("collapseOne").classList.toggle('collapse');
+        document.getElementById("collapseOne").classList.toggle('collapse');
+        $('#buttonCollapse').attr('aria-expanded', 'false');
+
+        $("#load").attr("hidden", true);
+    });
+</script>
+
+<script>
+    function removerElementos(select){
+        //Removendo todos option atualmente na combo
+        while (select.length != 1) {
+            select.remove(select.length-1);
+        }
+
+        $(select).attr('readonly', 'true');
+    }
+
+    var ccSelect = document.getElementById('centrocusto');
+
+    var cc_antigo = ccSelect.options[ccSelect.selectedIndex].value;
+    var cc_novo = ccSelect.options[ccSelect.selectedIndex].value;
+
+    function ControlCC(){
+        var cc_novo = ccSelect.options[ccSelect.selectedIndex].value;
+        var selectEtapa = document.getElementById('etapa');
+
+        if (cc_antigo != cc_novo){
+            if (ccSelect.selectedIndex == 0){
+                removerElementos(selectEtapa);
+                cc_antigo = cc_novo;
+            } else {
+                cc_antigo = cc_novo;
+
+                url = "{% url 'Tarefa:getEtapa' %}"
+                url_completa = url+cc_novo
+
+                $.ajax({
+                type: 'GET',
+                url: url_completa,
+                dataType: 'json',
+                success: function (data){
+                    var etapas = JSON.parse(data);
+
+                    removerElementos(selectEtapa);
+
+                    // Preenchendo a combos com as etapa vinculadas ao CC escolhido
+                    for (indice in etapas){
+                        var elem = document.createElement('option')
+                        elem.value = etapas[indice].pk ;
+                        elem.text  = etapas[indice].fields.etapa;
+                        selectEtapa.add(elem, selectEtapa.options[indice+1]);
+                    }
+
+                    $(selectEtapa).removeAttr('readonly');
+
+                },
+                });
+            }
+        }
+
+        setTimeout("ControlCC()",100)
+    }
+    ControlCC()
+
+    var etapaSelect = document.getElementById('etapa');
+
+    var etapa_antigo = etapaSelect.options[etapaSelect.selectedIndex].value;
+    var etapa_novo = etapaSelect.options[etapaSelect.selectedIndex].value;
+
+    function ControlEtapa(){
+        var etapa_novo = etapaSelect.options[etapaSelect.selectedIndex].value;
+        var selectSubEtapa = document.getElementById('subetapa');
+
+        if (etapa_antigo != etapa_novo){
+            if (etapaSelect.selectedIndex == 0){
+                removerElementos(selectSubEtapa);
+                etapa_antigo = etapa_novo;
+            } else {
+                etapa_antigo = etapa_novo;
+
+                url = "{% url 'Tarefa:getSubEtapa' %}"
+                url_completa = url+etapa_novo
+
+                $.ajax({
+                type: 'GET',
+                url: url_completa,
+                dataType: 'json',
+                success: function (data){
+                    var subetapas = JSON.parse(data);
+
+                    removerElementos(selectSubEtapa);
+
+                    // Preenchendo a combos com as etapa vinculadas ao CC escolhido
+                    for (indice in subetapas){
+                        var elem = document.createElement('option')
+                        elem.value = subetapas[indice].pk ;
+                        elem.text  = subetapas[indice].fields.sub_etapa;
+                        selectSubEtapa.add(elem, selectSubEtapa.options[indice+1]);
+                    }
+
+                    $(selectSubEtapa).removeAttr('readonly');
+
+                },
+                error: function(){
+                    alert('deu ruim');
+                }
+                });
+            }
+        }
+
+        setTimeout("ControlEtapa()",100)
+    }
+    ControlEtapa()
+</script>
+
+<!--Ativando o multiselect-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+<script>
+    $(".select2").select2();
+</script>
+
+<!--Limpa Filtros-->
+<script>
+  
+  $('.clearAll').on('click', function() {
+      $("#centrocusto").val( $('option:contains("Centros de custo")').val() );
+
+      var $status = $("#status").select2();
+      $status.val(null).trigger("change");
+
+      var $departamento = $("#departamento").select2();
+      $departamento.val(null).trigger("change");
+
+      var $processo = $("#processo").select2();
+      $processo.val(null).trigger("change");
+
+      var $autoridade = $("#autoridade").select2();
+      $autoridade.val(null).trigger("change");
+
+      var $responsavel = $("#responsavel").select2();
+      $responsavel.val(null).trigger("change");
+
+      var $pessoa = $("#pessoa").select2();
+      $pessoa.val(null).trigger("change");
+
+      var $executor = $("#executor").select2();
+      $executor.val(null).trigger("change");
+
+      var $impedimento = $("#impedimento").select2();
+      $impedimento.val(null).trigger("change");
+  });
+
+</script>
+
+<script>
+
+  function download(){
+    var form = document.getElementById("form");
+    form.setAttribute('action', '/tarefas/exportar/')
+
+    form.submit();
+
+    form.setAttribute('action', '/tarefas/listar/')
+
+  }
+
+</script>
+
+<script>
+  $("#buttonAplicarFiltros").click(function(){
+    localStorage.pesquisa = $("#minhaTabela_filter > label > input").val();
+  });
+  $(function(){
+    if (localStorage.getItem("pesquisa") != ""){
+      $("#minhaTabela_filter > label > input").val(localStorage.getItem("pesquisa"));
+      $("#minhaTabela_filter > label > input").focus();
+      localStorage.removeItem("pesquisa");
+    }
+  });
+</script>
+{% endblock %}

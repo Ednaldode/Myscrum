@@ -1,0 +1,79 @@
+{% extends 'base.html' %} {% load static %} {% load widget_tweaks%}
+
+{% block title %} Editar Departamento {% endblock %}
+
+{% block head %}
+
+<link rel="stylesheet" href="{% static '_Departamento/css/cadastrarUsuario.css' %}">
+
+<link rel="stylesheet" href="{% static '_Departamento/css/tabela.css' %}">
+
+<link rel="stylesheet" href="{% static '_Departamento/css/listarUsuarios.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+<div class="conteudo" id="conteudo">
+    <div class="load" id="load"> 
+        <i class="fa fa-cog fa-spin fa-10x fa-fw"></i><span class="sr-only"></span> 
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <form action='/departamentos/editar/' method='POST'>
+                {% csrf_token %}
+                  <label>Departamento:</label>
+                  {% render_field departamento.departamento class="form-control form-control-sm"%}
+        </div>
+                    <div class="row">
+                        <div class="col-md-auto">
+                            <input class="btn btn-primary" type="submit" value="Cadastrar">
+                        </div>
+                    </div>
+            </form>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+
+  <script src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+  <script>
+  $(document).ready(function(){
+  $('#minhaTabela').DataTable({
+      "language": {
+            "search": "Pesquisar:",
+            "searchPlaceholder": "...",
+            "lengthMenu": "Mostrando _MENU_ pessoas.",
+            "loadingRecords": "Carregando...",
+            "zeroRecords": "Nada encontrado",
+            "info": "Página: _PAGE_ de _PAGES_ | Total: _MAX_ pessoas",
+            "infoEmpty": "Nenhum registro disponível",
+            "infoFiltered": "| Filtro: _TOTAL_ pessoas",
+            "previous": "Anterior",
+            "next": "Próximo",
+        },
+        "scrollY": "200px",
+        "scrollCollapse": true,
+    });
+  
+    $('[name=minhaTabela_length]').addClass('custom-select custom-select-sm form-control form-control-sm');
+    $('#minhaTabela_length').addClass('bs-select');
+    $('#minhaTabela_filter > label > input[type=search]').addClass('form-control form-control-sm');
+    $('#minhaTabela_filter').addClass('form-control-sm');
+  });
+  </script>
+  
+  <script>
+      //código usando jQuery
+      $(document).ready(function() {
+          document.getElementById("load").classList.toggle('esconder');
+          document.getElementById("tabela").classList.toggle('mostrar');
+          $("#load").attr("hidden", true);
+      });
+   </script>
+
+{% endblock %}

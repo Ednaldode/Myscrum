@@ -1,0 +1,184 @@
+  <!-- MODAL EDITAR TAREFAS -->
+  <div class="modal fade" id="{{ tarefa.id_tarefa.id_tarefa }}_modal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h2>{{ tarefa.id_tarefa }}</h2>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label class="mb-1" for="editar_descri_{{ tarefa.id_tarefa.id_tarefa }}">Descrição:</label>
+            <textarea class="form-control" rows="2" id="editar_descri_{{ tarefa.id_tarefa.id_tarefa }}">{{ tarefa.descri }}</textarea>
+          </div>  <!-- Descrição  -->
+          <div class="form-row justify-content-between">
+            <div class="col-xs">
+              <select class="mdb-select md-form" required>
+                <option value="" disabled selected>Prioridade</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </div> <!-- Prioridade  -->
+            <div class="col-xs">
+              <select class="mdb-select md-form" required>
+                <option value="" disabled>Tamanho</option>
+                <option value="{{ tarefa.id_tarefa.id_tamanho.descricao }}" selected>{{ tarefa.tamanho }}</option>
+                {% for id_tamanho in tamanhos %}
+                {% ifnotequal id_tamanho tarefa.id_tamanho %}
+                <option value="{% id_tamanho.descricao }}">{{ id_tamanho.descricao }}</option>
+                {% endifnotequal %}
+                {% endfor %}
+              </select>
+            </div> <!-- Tamanho  -->
+            <div class="col-xs">
+              <select class="mdb-select md-form" required>
+                <option value="" disabled>Status</option>
+                <option value="Fazendo" selected>Fazendo</option>
+                <option value="A Fazer">A Fazer</option>
+                <option value="Feito">Feito</option>
+              </select>
+            </div> <!-- Status  -->
+              <div class="col w-100">
+                <select class="limite-select mdb-select md-form w-100" required>
+                  <option value="" disabled>Centro de custo</option>
+                  <option value="{{ tarefa.id_tarefa.id_centro_custo.centrocusto }}" selected>{{ tarefa.id_tarefa.id_centro_custo.centrocusto }}</option>
+                  {% for id_centro_custo in centrocustos %}
+                  {% ifnotequal id_centro_custo tarefa.id_centro_custo %}
+                  <option value="{{ id_centro_custo.centrocusto }}">{{ id_centro_custo.centrocusto }}</option>
+                  {% endifnotequal %}
+                  {% endfor %}
+                </select>
+              </div> <!-- CC  -->
+          </div>
+          <div class="form-row justify-content-between mt-2" style="height: 25px;">
+            <div class="col-xs" style="width: 22%;text-align: center;">
+              <div class="input-group date" data-provide="datepicker" style="flex: 0 0 auto; max-height: 25px;">
+                <input style="max-height: 25px; padding: 6px; width: 95px;" type="text" class="form-control" class="datepicker" data-date-format="dd/mm/yyyy" data-date-autoclose="true" data-date-today-highlight="true" value="{{ tarefa.id_tarefa.data_ini }}">
+                <div class="input-group-addon"></div>
+              </div>
+            </div> <!-- Data Inicial -->
+            <div class="col-xs" style="width: 22%;text-align: center;">
+              <div class="input-group date" data-provide="datepicker" style="flex: 0 0 auto; max-height: 25px;">
+                <input style="max-height: 25px; padding: 6px; width: 95px;" type="text" class="form-control" class="datepicker" data-date-format="dd/mm/yyyy" data-date-autoclose="true" data-date-today-highlight="true" value="{{ tarefa.id_tarefa.data_ini }}">
+                <div class="input-group-addon"></div>
+              </div>
+            </div> <!-- Data Real -->
+            <div class="col-xs" style="width: 12%;text-align: center;">
+              <select class="mdb-select md-form" required>
+                <option value="" disabled>Prazo</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="8">8</option>
+                <option value="13">13</option>
+                <option value="21" selected>21</option>
+              </select>
+            </div> <!-- Duração -->
+            <div class="col-xs" style="width: 22%;text-align: center;">
+              <div class="input-group date" data-provide="datepicker" style="flex: 0 0 auto; max-height: 25px;">
+                <input style="max-height: 25px; padding: 6px; width: 95px;" type="text" class="form-control" class="datepicker" data-date-format="dd/mm/yyyy" data-date-autoclose="true" data-date-today-highlight="true" value="{{ tarefa.id_tarefa.data_ini }}">
+                <div class="input-group-addon"></div>
+              </div>
+            </div> <!-- Data Final -->
+            <div class="col-xs" style="width:20%;display: flex; text-align: center;">
+              <input type="text" class="form-control p-1 mr-1" placeholder="Porcentagem" style="height:25px; font-size: 8pt;">%
+            </div> <!-- Porcentagem  -->
+          </div>
+          <div class="form-row justify-content-center mt-2">
+            <div class="col-xs" style="width:13%;">
+              <input type="text" class="form-control p-1" placeholder="Predecessora" style="height:25px;font-size: 8pt;">
+            </div> <!-- Predecessora -->
+            <div class="col-xs" style="width:29%;">
+              <select class="limite-select mdb-select md-form w-100" required>
+                <option value="" selected disabled>Etapa</option>
+                <option value="Teste1">Teste 1</option>
+                <option value="Teste2">Teste 2</option>
+              </select>
+            </div> <!-- Etapa -->
+            <div class="col w-100">
+              <select class="limite-select mdb-select md-form w-100" required>
+                <option value="" selected disabled>Processo relacionado</option>
+                <option value="Teste1">Teste 1</option>
+                <option value="Teste2">Teste 2</option>
+              </select>
+            </div> <!-- Processo Relacionado  -->
+          </div>
+          <div class="form-row justify-content-center mt-2">
+            <div class="col-xs" style="width:13%;">
+              <input type="text" class="form-control p-1" placeholder="Predecessora" style="height:25px;font-size: 8pt;">
+            </div> <!-- Predecessora -->
+            <div class="col-xs" style="width:29%; height:25px;">
+              <select class="limite-select mdb-select md-form w-100" required>
+                <option value="" selected disabled>Subetapa</option>
+                <option value="Teste1">Teste 1</option>
+                <option value="Teste2">Teste 2</option>
+              </select>
+            </div> <!-- SubEtapa -->
+            <div class="col-xs" style="width:29%;">
+              <select class="limite-select mdb-select md-form w-100" required>
+                <option value="" selected disabled>Checado</option>
+                <option value="Teste1">Teste 1</option>
+                <option value="Teste2">Teste 2</option>
+              </select>
+            </div> <!-- Checado -->
+            <div class="col-xs" style="width:29%;">
+              <select class="limite-select mdb-select md-form w-100" required>
+                <option value="" selected disabled>Pendência</option>
+                <option value="Teste1">Teste 1</option>
+                <option value="Teste2">Teste 2</option>
+              </select>
+            </div> <!-- Pendência -->
+          </div>
+          <div class="form-row justify-content-between mt-2">
+            <div class="col-xs" style="width:13%;">
+              <input type="text" class="form-control p-1" placeholder="Predecessora" style="height:25px;font-size: 8pt;">
+            </div> <!-- Predecessora -->
+            <div class="col-xs" style="width:29%;">
+              <select class="limite-select mdb-select md-form w-100" required>
+                <option value="" selected disabled>Responsável</option>
+                <option value="Teste1">Teste 1</option>
+                <option value="Teste2">Teste 2</option>
+              </select>
+            </div> <!-- Responsável -->
+            <div class="col-xs" style="width:29%;">
+              <select class="limite-select mdb-select md-form w-100" required>
+                <option value="" selected disabled>Autoridade</option>
+                <option value="Teste1">Teste 1</option>
+                <option value="Teste2">Teste 2</option>
+              </select>
+            </div> <!-- Autoridade -->
+            <div class="col-xs" style="width:29%;">
+              <select class="limite-select mdb-select md-form w-100" required>
+                <option value="" selected disabled>Departamento</option>
+                <option value="Teste1">Teste 1</option>
+                <option value="Teste2">Teste 2</option>
+              </select>
+            </div> <!-- Departamento -->
+          </div>
+          <div class="form-group">
+            <label class="mb-1" for="editar_descri_{{ tarefa.id_tarefa.id_tarefa }}">Status Pendência:</label>
+            <textarea class="form-control" rows="2" id="editar_descri_{{ tarefa.id_tarefa.id_tarefa }}">{{ tarefa.id_tarefa.status_pendencia }}</textarea>
+          </div>  <!-- Status  -->
+          <div class="form-group">
+            <label class="mb-1" for="editar_descri_{{ tarefa.id_tarefa.id_tarefa }}">Histórico:</label>
+            <textarea class="form-control" rows="2" id="editar_descri_{{ tarefa.id_tarefa.id_tarefa }}">{{ tarefa.id_tarefa.historico }}</textarea>
+          </div>  <!-- Histórico  -->
+        </form>
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-success" disabled>Salvar</button>
+          <button type="button" class="btn btn-primary">Atualizar</button>
+          <button type="button" class="btn btn-secondary">Duplicar</button>
+        </div>
+      </div>
+    </div>
+  </div>

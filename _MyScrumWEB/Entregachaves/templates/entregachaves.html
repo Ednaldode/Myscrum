@@ -1,0 +1,737 @@
+{% extends 'base.html' %} {% load static %}
+
+{% block title %} Entrega de chaves {% endblock %}
+
+{% block head %}
+
+<!-- CSS da pagina -->
+<link href="{% static 'css/entregachaves.css' %}" rel="stylesheet">
+
+<!--Usando arquivos da app home para não duplicar arquivos-->
+<!-- Script para o funciomento dos DatePickers -->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+
+<!-- Script para reconhecer o PT-BR do DatePickers-->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.pt-BR.min.js' %}" charset="UTF-8"></script>
+
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="{% static 'Home/datepicker/css/bootstrap-datepicker3.min.css' %}" rel="stylesheet">
+
+<!-- Script -->
+<script src="{% static 'Kanban/js/kanban.js' %}"></script>
+<script src="{% static 'Kanban/js/executores.js' %}"></script>
+<script>$("#collapseOne").toggleClass("show");</script>
+
+<!-- Import Font Awesome -->
+<script src="https://kit.fontawesome.com/858e8845a9.js" crossorigin="anonymous"></script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center" style="flex-direction:column; margin-top:100px">
+  <h1 class="mx-auto my-auto" style="font-size:20px; font-weight:bold;">Em breve novidades!</h1>
+  <i class="fa-solid fa-person-digging fa-3x mx-auto my-auto"></i>
+  <h3 class="mx-auto my-auto" style="font-size:15px">SCRUM EM OBRAS</h3>
+</div>
+<!-- 
+<div class="blocoSuperior no-print">
+  <div class="d-flex justify-content-center">
+    <h1 class="tituloProtocolo my-auto">Formulário Entrega de Chaves</h1>
+  </div>
+</div>
+
+<div class="d-flex justify-content-start espacoGeral">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-xl-4 colunaUm">
+      <div class="espacamentoForm1">
+        <label for="empreendimento"
+          style="margin-top: 7px!important; margin-right: 5px!important;">*Empreendimento:</label>
+        {{ form.empreendimento }}
+      </div>
+      <div class="espacamentoForm">
+        <label for="proprietario1">*1. Proprietário:</label>
+        <textarea name="proprietario1" rows="1" required id="id_proprietario1" value=""
+          maxlength="150">{{entrega.proprietario1}}</textarea>
+      </div>
+      <div class="espacamentoForm">
+        <label for="proprietario2">2. Proprietário:</label>
+        <textarea name="proprietario2" rows="1" required id="id_proprietario2" value=""
+          maxlength="150">{{entrega.proprietario2}}</textarea>
+      </div>
+      <div class="espacamentoForm">
+        <label for="testemunha1">*1. Nome testemunha:</label>
+        <textarea name="testemunha1" rows="1" required id="id_testemunha1" value=""
+          maxlength="150">{{entrega.testemunha1}}</textarea>
+      </div>
+      <div class="espacamentoForm">
+        <label for="testemunha2">2. Nome testemunha:</label>
+        <textarea name="testemunha2" rows="1" required id="id_testemunha2" value=""
+          maxlength="150">{{entrega.testemunha2}}</textarea>
+      </div>
+    </div>
+    <div class="col-xl-4 colunaDois">
+      <div class="espacamentoForm1">
+        <label for="bloco">*Bloco:</label>
+        <textarea name="bloco" rows="1" required id="id_bloco" value="" maxlength="150">{{entrega.bloco}}</textarea>
+      </div>
+      <div class="espacamentoForm">
+        <label for="rg_proprietario1">*1. RG:</label>
+        <textarea name="rg_proprietario1" rows="1" required id="id_rg_proprietario1" value=""
+          maxlength="150">{{entrega.rg_proprietario1}}</textarea>
+      </div>
+      <div class="espacamentoForm">
+        <label for="rg_proprietario2">2. RG:</label>
+        <textarea name="rg_proprietario2" rows="1" required id="id_rg_proprietario2" value=""
+          maxlength="150">{{entrega.rg_proprietario2}}</textarea>
+      </div>
+      <div class="espacamentoForm">
+        <label for="rg_testemunha1">*1. RG:</label>
+        <textarea name="rg_testemunha1" rows="1" required id="id_rg_testemunha1" value=""
+          maxlength="150">{{entrega.rg_testemunha1}}</textarea>
+      </div>
+      <div class="espacamentoForm">
+        <label for="testemunha2">2. RG:</label>
+        <textarea name="rg_testemunha2" rows="1" required id="id_rg_testemunha2" value=""
+          maxlength="150">{{entrega.rg_testemunha2}}</textarea>
+      </div>
+    </div>
+    <div class="col-xl-4 colunaTres">
+      <div class="d-flex">
+        <div class="espacamentoForm3 d-flex">
+          <label for="data_entrega">*Data:</label>
+          {{ form.data_entrega }}
+        </div>
+        <div class="espacamentoForm3 d-flex">
+          <label for="data_assin">*Data da assinatura:</label>
+          {{ form.data_assin }}
+        </div>
+      </div>
+      <div class="espacamentoForm">
+        <label for="apto">*Apto:</label>
+        <textarea name="apto" rows="1" required id="id_apto" value="" maxlength="150">{{entrega.apto}}</textarea>
+      </div>
+      <div class="espacamentoForm">
+        <label for="cpf_proprietario1">*1. CPF:</label>
+        <textarea name="cpf_proprietario1" rows="1" required id="id_cpf_proprietario1" value=""
+          maxlength="150">{{entrega.cpf_proprietario1}}</textarea>
+      </div>
+      <div class="espacamentoForm">
+        <label for="cpf_proprietario2">2. CPF:</label>
+        <textarea name="cpf_proprietario2" rows="1" required id="id_cpf_proprietario2" value=""
+          maxlength="150">{{entrega.cpf_proprietario2}}</textarea>
+      </div>
+      <div class="espacamentoForm">
+        <label for="cpf_testemunha1">*1. CPF:</label>
+        <textarea name="cpf_testemunha1" rows="1" required id="id_cpf_testemunha1" value=""
+          maxlength="150">{{entrega.cpf_testemunha1}}</textarea>
+      </div>
+      <div class="espacamentoForm">
+        <label for="cpf_testemunha2">2. CPF:</label>
+        <textarea name="cpf_testemunha2" rows="1" required id="id_cpf_testemunha2" value=""
+          maxlength="150">{{entrega.cpf_testemunha2}}</textarea>
+      </div>
+    </div>
+  </div>
+  <div class="divBotoes row justify-content-center" id="posSave">
+    <input class="btn btn-info btncustom btnsalvar" id="salvar" type="submit" value="Salvar"></input>
+    <input class="btn btn-info btncustom" id="editar" type="submit" value="Editar"></input>
+    <input class="btn btn-info btncustom" id="limpar" type="submit" value="Limpar"></input>
+    <button class="btn btn-info btncustom" data-toggle="modal" data-target="#termo">Termo de Entrega de Chaves</button>
+    <button class="btn btn-info btncustom" data-toggle="modal" data-target="#protocolos">Protocolo de Entrega</button>
+  </div>
+
+  <div id="divBusca">
+    <input type="text" id="txtBusca" placeholder="Buscar..." />
+    <button><i class="fas fa-search"></i></button>
+  </div> -->
+
+
+  <!-- <div class="modal fade" id="termo" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">Imprimir Protocolo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div> -->
+        <!-- =================================== INICIO MODAL DO IMPRIMIR TERMO =================================== -->
+        <!-- <div class="modal-body">
+          <img src="https://i.imgur.com/jNLk19q.png" alt="logo-helvetia" width="100">
+          <p class="intro-title"><span class="empreendimentoModal">Nome do empreendimento</span><br>
+            <span class="enderecoModal">Rua Chafic José Saif, 2780, Bairro Sapezal - Indaiatuba-SP - 13338-229</span>
+          </p>
+
+          <h1><u>TERMO DE ENTREGA DE CHAVES</u></h1>
+
+          <p class="intro">Por este instrumento DECLARO, para os devidos fins de direito que, NESTE ATO RECEBO AS CHAVES do imóvel constituído do APARTAMENTO Nº. <span class="aptoModal"></span>, BLOCO: <span class="blocoModal"></span>, do conjunto de prédios denominado <span class="empreendimentoModal"></span>, situado na Rua Chafic José Saif, 2780, Bairro Sapezal - Indaiatuba-SP - 13338-229, bem como, tomo posse do mesmo nesta data, respeitando e aceitando os termos abaixo:<br><br>
+
+            <b>1. Vistoria</b> - Declaro que:<br>
+            <b>A. Vistoriei e constatei</b> que o apartamento citado se encontra de acordo com o contrato de venda e compra, estando as paredes pintadas, sem manchas, com os acabamentos hidráulicos, estando com todas as torneiras em perfeito estado de funcionamento, acabamentos cerâmicos, e as instalações elétricas. Nada tenho a reclamar ou ressalvar, no tocante a eventuais defeitos visíveis.<br><b>B. No prazo improrrogável de 24 (vinte e quatro) horas, vistoriarei e constatarei</b> se o apartamento citado se encontra de acordo com o contrato de venda e compra, estando as paredes pintadas, sem manchas, com os acabamentos hidráulicos, estando com todas as torneiras em perfeito estado de funcionamento, acabamentos cerâmicos, e as instalações elétricas. Declaro ainda, estar ciente de que nada tenho a reclamar ou ressalvar, no tocante a eventuais defeitos visíveis, caso não realize a vistoria no prazo declarado acima.<br><br>
+
+            <b>Opção desejada: </b><br>
+          </p>
+
+          <div class="row assinFooter">
+            <div class="col-xl-3 mt-2">
+              <p>
+                <hr>
+                <span class="proprietario1Modal">Nome do proprietário</span><br>
+                RG: <span class="proprietario1RG"></span><br>
+                CPF: <span class="proprietario1CPF"></span>
+              </p>
+            </div>
+
+            <div class="col-xl-3 mt-2">
+              <p>
+                <hr>
+                <span class="proprietario2Modal">Nome do proprietário</span><br>
+                RG: <span class="proprietario2RG"></span><br>
+                CPF: <span class="proprietario2CPF"></span> 
+              </p>
+            </div>
+            <div class="col-6"></div>
+          </div>
+          <br>
+          <p class="intro">
+            <b>2.</b> Não Conformidade – Declaro estar ciente que, se não fizer reclamação formal, por escrito, no
+            escritório da <span class="empreendimentoModal"></span>, localizado na Avenida Francisco de Paula Leite, 970, Bairro Jardim Nely, CEP: 13.345-125,
+            no Município de Indaiatuba/SP, ou através do e-mail sac@masottiinvestimentos.com.br, cujo assunto deverá
+            conter o Empreendimento, Bloco e o termo “Não Conformidade”. (Ex.: <span class="empreendimentoModal"></span>
+            , Apartamento <span class="aptoModal"></span>, Bloco <span class="blocoModal"></span> – Não Conformidade), no prazo de até 24 (vinte e
+            quatro) horas, a contar da retirada das chaves, DOU PLENA QUITAÇÃO da obrigação assumida pela vendedora
+            no contrato de compra e venda supracitado. <br><br>
+
+            <b>3.</b> Prazo de Garantia – Declaro que recebo, neste ato, o Manual do Proprietário e estou ciente e de
+            acordo com os prazos de garantia para reparo nele especificados. Os prazos de garantia para reparo
+            informados (inerente da unidade autônoma) não se somam aos prazos legais de garantias, e passam a vigorar a
+            partir do recebimento do imóvel (Artigo 26, §1º do Código de Defesa do Consumidor). Para solicitar reparos
+            em eventuais vícios ocultos e outros que possam surgir, dentro do período de garantia para solicitações,
+            declaro que seguirei os procedimentos mencionados no Manual do Proprietário que estou recebendo neste ato.
+            <br><br>
+
+            <b>4.</b> Quitação - Dou quitação à vendedora <span class="empreendimentoModal"></span>, inscrita no CNPJ:
+            21.551.241/0001-07, quanto a entrega das chaves da unidade supracitada, de forma plena, geral e irrevogável, referente às
+            suas obrigações contratuais assumidas, de maneira que me responsabilizo por cumprir todas as determinações
+            constantes no Manual do Proprietário. <br><br>
+
+            <b>5.</b> Após o recebimento, orientamos que proceda com a substituição do miolo da fechadura da porta de
+            entrada. <br><br>
+            Por ser expressão da verdade, firmo o presente nesta data. <br>
+          </p>
+          <p class="dataFooter">Indaiatuba, <span class="data_entregaModal"></span></p>
+
+          <div class="assinFooter">
+            <p>
+              <hr class="assinLinha">
+              <span class="proprietario1Modal">Nome do proprietário</span><br>
+              RG: <span class="proprietario1CPF"></span><br>
+              CPF: <span class="proprietario1CPF"></span>
+            </p>
+          </div>
+
+          <div class="assinFooter">
+            <p>
+              <hr class="assinLinha">
+              Testemunha: <span class="testemunha1Modal"></span><br>
+              RG: <span class="testemunha1RG"></span><br>
+              CPF: <span class="testemunha1CPF"></span>
+            </p>
+          </div>
+
+        </div> -->
+        <!-- ===================================== TEMINO MODAL IMPRIMIR TERMO ===================================== -->
+
+        <!-- =================================== BOTÃO DE IMPRIMIR TERMO DE ENTREGA =================================== -->
+        <!-- <div class="modal-footer">
+          <div class="bImpressao">
+            <button type="button" class="btn btn-info" id="printButton">
+              <i class="fa-solid fa-print"></i>
+              <span>Imprimir</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <!-- Manter o modal ativo para fazer as edições -->
+  <!-- <script type="text/javascript">
+    $(window).on('load', function () {
+      $('#termo').modal('show');
+    });
+  </script> -->
+
+  <!-- =================================== INICIO MODAL IMPRIMIR PROTOCOLO HELVETIA =================================== -->
+  <div class="modal fade mx-auto my-auto" id="protocolos" tabindex="-1" role="dialog" aria-labelledby="modalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content printable" id="protocoloHelvetia">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">Imprimir Protocolo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <img src="https://i.imgur.com/jNLk19q.png" alt="logo-helvetia" width="100">
+          <p class="intro-title"><span class="empreendimentoModal">Nome do empreendimento</span><br>
+            <span class="enderecoModal">Rua Chafic José Saif, 2780, Bairro Sapezal - Indaiatuba-SP - 13338-229</span>
+          </p>
+
+          <h1><u>PROTOCOLO DE ENTREGA</u></h1>
+
+          <p class="intro">Por este instrumento DECLARO, para os devidos fins de direito que, NESSE ATO RECEBO OS
+            DOCUMENTOS CITADOS ABAIXO do imóvel constituido do APARTAMENTO Nº <span class="aptoModal"></span> BLOCO <b><span
+                class="blocoModal"></span></b>, do conjunto de prédios denominado "Residencial Villa Helvétia", situado
+            na Rua Chafic José Saif, 2780, Bairro Sapezal - Indaiatuba/SP - CEP:
+            13338-229, bem como, tomo posse do mesmo nesta data, respeitando e aceitando os termos abaixo:</p>
+          <h5 id="titleTable">Documentos Entregues:</h5>
+
+          <!-- Tabela de itens especificos do Helvetia -->
+          <table class="itensTable">
+            <tr>
+              <th class="title-table">Item</th>
+              <th class="title-table">Descrição</th>
+              <th class="title-table">Recebido</th>
+              <th class="title-table">Não recebido</th>
+            </tr>
+            <tr>
+              <td class="first-column">1</td>
+              <td class="second-column">Cartão do Departamento do SAC Masotti</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="first-column">2</td>
+              <td class="second-column">Cartão da Administradora do Condomínio</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="first-column">3</td>
+              <td class="second-column">Procedimento de ligação de energia junto à CPFL</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="first-column">4</td>
+              <td class="second-column">Administradora: Carta de procedimentos e boas vindas</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="first-column">5</td>
+              <td class="second-column">Administradora: 5 Passos para realização de reformas</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="first-column">6</td>
+              <td class="second-column">Caixa personalizada contento: Pen drive conforme item 7, chaves da porta de
+                entrada e dormitórios da
+                unidade e chaveiro personalizado</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="first-column">7</td>
+              <td class="second-column">Pen drive personalizado contendo: Manual do proprietário, Guia de Orientações
+                para Reformas e plantas
+                da unidade</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="first-column">8</td>
+              <td class="second-column">1 Válvula esfera de gás</td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="first-column">9</td>
+              <td class="second-column">1 Via do Termo de Entrega de Chaves </td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="first-column">10</td>
+              <td class="second-column">Contas da unidade ( ) IPTU ( ) TAXA CONDOMINIAL</td>
+              <td></td>
+              <td></td>
+            </tr>
+          </table>
+
+          <p id="textModal"> Por ser expressão da verdade, firmo o presente nesta data. <br></p>
+          <p class="dataFooter">Indaiatuba, <span class="data_entregaModal"></span></p>
+
+          <div class="assinFooter">
+            <p>
+              <hr class="assinLinha">
+              <span class="proprietario1Modal">Nome do proprietário</span><br>
+              RG: <span class="proprietario1RG"></span><br>
+              CPF: <span class="proprietario1CPF"></span>
+            </p>
+          </div>
+
+          <div class="assinFooter">
+            <p>
+              <hr class="assinLinha">
+              Testemunha: <span class="testemunha1Modal"></span><br>
+              RG: <span class="testemunha1RG"></span><br>
+              CPF: <span class="testemunha1CPF"></span>
+            </p>
+          </div>
+        </div>
+
+        <!-- =================================== TERMINO MODAL DO IMPRIMIR PROTOCOLO HELVETIA =================================== -->
+
+        <!-- ======================================== BOTÃO DE IMPRIMIR PROTOCOLO HELVETIA ======================================= -->
+        <div class="modal-footer">
+          <div class="bImpressao">
+            <button type="button" class="btn btn-info" id="btnPrint">
+              <i class="fa-solid fa-print"></i>
+              <span>Imprimir</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
+
+  {% block navbar %}
+
+  <div class="card-header no-print" id="headingOne">
+    <button id="buttonCollapse" type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseOne"
+      aria-expanded="true" aria-controls="collapseOne">
+      <i class="fa fa-filter"></i>
+      <span id="botao-filtro">Filtros</span>
+    </button>
+  </div>
+
+  {% endblock %}
+
+  {% block expandirFiltros %}
+
+  <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+    <div class="card-body">
+      <form class="" action="/entregachaves/Entregachaves" id="form" method="GET">
+        <div class="row">
+          <div id="botoes-filtro">
+            <div class="col" id="aplicar-filtro">
+              <input id="buttonAplicarFiltros" class="btn btn-primary" type="submit" value="Aplicar filtros">
+            </div>
+            <div class="col" id="limpar-filtro">
+              <input id="buttonLimparFiltros" class="btn btn-primary clearAll" type="button" value="Limpar filtros">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col" id="centrocusto-filtro">
+            <div class="centrocusto-filtro">
+              <label for="centrocusto-filtro">Centros de Custo</label>
+              <select class="form-control" id="centrocusto" name="centrocusto">
+                <option>Centros de custo</option>
+                {% for centrocusto in centrocustos %}
+                {% if filtros.centrocusto == centrocusto.centrocusto %}
+                <option label="{{centrocusto.centrocusto}}" value="{{centrocusto.id_centro_custo}}" selected>{{
+                  centrocusto.id_sienge }}</option>
+                {% else %}
+                <option label="{{centrocusto.centrocusto}}" value="{{centrocusto.id_centro_custo}}">{{
+                  centrocusto.id_sienge }}</option>
+                {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col" id="empreendimento-filtro">
+            <div class="centrocusto-filtro">
+              <label for="centrocusto-filtro">Empreendimento</label>
+              <select class="form-control" id="centrocusto" name="centrocusto">
+                <!-- <option>Empreemdimento</option>
+                {% for centrocusto in centrocustos %}
+                {% if filtros.centrocusto == centrocusto.centrocusto %}
+                <option label="{{centrocusto.centrocusto}}" value="{{centrocusto.id_centro_custo}}" selected>{{
+                  centrocusto.id_sienge }}</option>
+                {% else %}
+                <option label="{{centrocusto.centrocusto}}" value="{{centrocusto.id_centro_custo}}">{{
+                  centrocusto.id_sienge }}</option>
+                {% endif %}
+                {% endfor %}
+              </select> -->
+            </div>
+          </div>
+        </div>
+        <div class="col" id="proprietario-filtro">
+          <div class="centrocusto-filtro">
+            <label for="centrocusto-filtro">Proprietário</label>
+            <select class="form-control" id="centrocusto" name="centrocusto">
+              <!-- <option>Empreemdimento</option>
+              {% for centrocusto in centrocustos %}
+              {% if filtros.centrocusto == centrocusto.centrocusto %}
+              <option label="{{centrocusto.centrocusto}}" value="{{centrocusto.id_centro_custo}}" selected>{{
+                centrocusto.id_sienge }}</option>
+              {% else %}
+              <option label="{{centrocusto.centrocusto}}" value="{{centrocusto.id_centro_custo}}">{{
+                centrocusto.id_sienge }}</option>
+              {% endif %}
+              {% endfor %}
+            </select> -->
+          </div>
+        </div>
+    </div>
+  </div>
+  </form>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+  $('#printButton').on('click', function () {
+    if ($('.modal').is(':visible')) {
+        var modalId = $(event.target).closest('.modal').attr('id');
+        $('body').css('visibility', 'hidden');
+        $("#" + modalId).css('visibility', 'visible');
+        $('#' + modalId).removeClass('modal');
+        window.print();
+        $('body').css('visibility', 'visible');
+        $('#' + modalId).addClass('modal');
+
+    } else {
+        window.print();
+    }
+  });
+</script>
+
+<!-- Script para imprimir apenas o conteúdo dentro do modal -->
+<!-- <script>
+  function printElement(elem, append, delimiter) {
+      var domClone = elem.cloneNode(true);
+
+      var $printSection = document.getElementById("#protocoloHelvetia");
+
+      if (!$printSection) {
+          $printSection = document.createElement("div");
+          $printSection.id = "#protocoloHelvetia";
+          document.body.appendChild($printSection);
+      }
+
+      if (append !== true) {
+          $printSection.innerHTML = "";
+      }
+
+      else if (append === true) {
+          if (typeof (delimiter) === "string") {
+              $printSection.innerHTML += delimiter;
+          }
+          else if (typeof (delimiter) === "object") {
+              $printSection.appendChild(delimiter);
+          }
+      }
+
+      $printSection.appendChild(domClone);
+
+      // Pausa JS executado
+      window.print();
+
+      // Remover div uma vez impresso
+      $print.remove();
+  }​
+</script> -->
+
+
+
+<!-- <script>
+  function imprimir() {
+    var $print = $('#protocoloHelvetia')
+      // .clone()
+      .addClass('print')
+      .prependTo('body');
+
+    // Pausa JS executado
+    window.print();
+
+    // Remover div uma vez impresso
+    $print.remove();
+  }
+</script> -->
+
+<!-- Estilização dos inputs e alteração das informações nos modals-->
+<script>
+  $('#id_empreendimento').addClass('custom-select custom-select form-control form-control-sm')
+  $('#id_proprietario1').addClass('form-control form-control-sm')
+  $('#id_proprietario2').addClass('form-control form-control-sm')
+  $('#id_testemunha1').addClass('form-control form-control-sm')
+  $('#id_testemunha2').addClass('form-control form-control-sm')
+  $('#id_bloco').addClass('form-control form-control-sm')
+  $('#id_rg_proprietario1').addClass('form-control form-control-sm')
+  $('#id_rg_proprietario2').addClass('form-control form-control-sm')
+  $('#id_rg_testemunha1').addClass('form-control form-control-sm')
+  $('#id_rg_testemunha2').addClass('form-control form-control-sm')
+  $('#id_data_entrega').addClass('form-control form-control-sm')
+  $('#id_data_entrega').css('width', '160%')
+  $('#id_data_assin').addClass('form-control form-control-sm')
+  $('#id_apto').addClass('form-control form-control-sm')
+  $('#id_cpf_proprietario1').addClass('form-control form-control-sm')
+  $('#id_cpf_proprietario2').addClass('form-control form-control-sm')
+  $('#id_cpf_testemunha1').addClass('form-control form-control-sm')
+  $('#id_cpf_testemunha2').addClass('form-control form-control-sm')
+
+  $('#id_empreendimento').change(() => {
+    $(".empreendimentoModal").text($('#id_empreendimento').val());
+    // $(".enderecoModal").text('');
+  })
+
+  $('#id_proprietario1').change(() => {
+    $(".proprietario1Modal").text($('#id_proprietario1').val());
+  })
+
+  $('#id_proprietario2').change(() => {
+    $(".proprietario2Modal").text($('#id_proprietario2').val());
+  })
+
+  $('#id_testemunha1').change(() => {
+    $(".testemunha1Modal").text($('#id_testemunha1').val());
+  })
+
+  $('#id_testemunha2').change(() => {
+    $(".testemunha2Modal").text($('#id_testemunha2').val());
+  })
+
+  $('#id_bloco').change(() => {
+    $(".blocoModal").text($('#id_bloco').val());
+  })
+
+  $('#id_rg_proprietario1').change(() => {
+    $(".proprietario1RG").text($('#id_rg_proprietario1').val());
+  })
+
+  $('#id_rg_proprietario2').change(() => {
+    $(".proprietario2RG").text($('#id_rg_proprietario2').val());
+  })
+
+  $('#id_rg_testemunha1').change(() => {
+    $(".testemunha1RG").text($('#id_rg_testemunha1').val());
+  })
+
+  $('#id_rg_testemunha2').change(() => {
+    $(".testemunha2RG").text($('#id_rg_testemunha2').val());
+  })
+
+  $('#id_data_entrega').change(() => {
+    $(".data_entregaModal").data($('#id_data_entrega').val()); // AJUSTAR!!!
+  })
+
+  $('#id_data_assin').change(() => {
+    $(".data_assin").data($('#id_data_assin').val());
+  })
+
+  $('#id_apto').change(() => {
+    $(".aptoModal").text($('#id_apto').val());
+  })
+
+  $('#id_cpf_proprietario1').change(() => {
+    $(".proprietario1CPF").text($('#id_cpf_proprietario1').val());
+  })
+
+  $('#id_cpf_proprietario2').change(() => {
+    $(".proprietario2CPF").text($('#id_cpf_proprietario2').val());
+  })
+
+  $('#id_cpf_testemunha1').change(() => {
+    $(".testemunha1CPF").text($('#id_cpf_testemunha1').val());
+  })
+
+  $('#id_cpf_testemunha2').change(() => {
+    $(".testemunha2CPF").text($('#id_cpf_testemunha2').val());
+  })
+
+</script>
+
+<script>
+  // Acessa API's de Unidades e Empreendimentos
+  let url = 'https://masotti-app-api.herokuapp.com/unidades';
+  fetch(url, { method: 'GET', })
+    .then(res => res.json())
+    .then(json => {
+      var unidades = json;
+      url = 'https://masotti-app-api.herokuapp.com/empreendimentos';
+      fetch(url, { method: 'GET', })
+        .then(res => res.json())
+        .then(json => {
+          var empreendimentos = json;
+          try {
+            let empreendimento = '', unidade = [], torres = [];
+            // Armazena o empreendimento e unidades referente ao centro de custo selecionado no filtro
+            for (let i = 0; i < empreendimentos.length; i++) {
+              if (empreendimentos[i].enterpriseId == $("#centrocusto option:selected").text()) {
+                empreendimento = empreendimentos[i];
+                // console.log(empreendimentos[i])
+                for (let j = 0; j < unidades.length; j++) {
+                  if (unidades[j].enterpriseId == $("#centrocusto option:selected").text()) {
+                    unidade.push(unidades[j]);
+                    torres.includes(`${unidades[j].tipo} ${unidades[j].bloco}`) ? null : torres.push(`${unidades[j].tipo} ${unidades[j].bloco}`);
+                  }
+                }
+              }
+            }
+            $("#logo").attr("src", empreendimento.logo);
+            $("#nome").text(empreendimento.empreendimento);
+          } catch {
+            console.log('empreendimento não selecionado')
+          }
+        });
+    });
+
+</script>
+
+<script>
+  $('#id_data_entrega').datepicker({
+    todayBtn: "linked",
+    language: "pt-BR",
+    daysOfWeekDisabled: "0,6",
+    daysOfWeekHighlighted: "1,2,3,4,5",
+    autoclose: true,
+    todayHighlight: true
+  });
+</script>
+
+<script>
+  $('#id_data_assin').datepicker({
+    todayBtn: "linked",
+    language: "pt-BR",
+    daysOfWeekDisabled: "0,6",
+    daysOfWeekHighlighted: "1,2,3,4,5",
+    autoclose: true,
+    todayHighlight: true
+  });
+</script>
+
+<script>
+  //Codigo do Loading
+  $(document).ready(function () {
+    document.getElementById("load").classList.toggle('esconder');
+    document.getElementById("tarefas").classList.toggle('mostrar');
+    $("#accordion").css("opacity", "1");
+    document.getElementById("collapseOne").classList.toggle('collapse');
+    document.getElementById("collapseOne").classList.toggle('collapse');
+    $('#buttonCollapse').attr('aria-expanded', 'false');
+    $("#load").attr("hidden", true);
+
+  });
+</script>
+
+
+<!--Ativando o multiselect-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+
+{% endblock %}

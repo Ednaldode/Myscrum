@@ -1,0 +1,273 @@
+{% extends 'base.html' %} {% load static %} 
+
+{% block title %} Dashboards | MyScrum {% endblock %} 
+
+{% block head %}
+
+<!-- CSS da pagina home.html-->
+<link rel="stylesheet" href="{% static 'Home/css/home.css' %}">
+
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+
+<!-- Script para funciomento dos graficos -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+<script src="{% static 'Home/js/home.js' %}"></script>
+<script src="{% static 'Home/js/Gauge.js' %}"></script>
+
+<!-- Script para o funciomento dos DatePickers -->
+<script src = "https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+
+<!-- Script para reconher o PT-BR do DatePickers-->
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.pt-BR.min.js" charset="UTF-8"></script>
+
+{% endblock %}
+
+{% block home %}
+
+<div class="atraso informativos">
+  <img src="{% static '/Home/img/iconesBase/atraso.png' %}" alt="">
+</div>
+
+<a target="_blank" href="{% url 'Tarefa:listar' %}?status=A+fazer&centrocusto=Centros+de+custo&etapa=0&subetapa=0&pessoa={{nome_usuario}}">
+  <div class="afazer informativos">
+    <img src="{% static '/Home/img/iconesBase/afazer.png' %}" alt="">
+    <div class="container">
+      <p> {{afazer}} </p>
+      <p> Tarefas A fazer </p>
+    </div>
+  </div>
+</a>
+
+<a target="_blank" href="{% url 'Tarefa:listar' %}?status=Fazendo&centrocusto=Centros+de+custo&etapa=0&subetapa=0&pessoa={{nome_usuario}}">
+  <div class="fazendo informativos">
+    <img src="{% static '/Home/img/iconesBase/fazendo.png' %}" alt="">
+    <div class="container">
+      <p> {{fazendo}} </p>
+      <p> Tarefas fazendo </p>
+    </div>
+  </div>
+</a>
+
+<a target="_blank" href="{% url 'Tarefa:listar' %}?status=Feito&centrocusto=Centros+de+custo&etapa=0&subetapa=0&pessoa={{nome_usuario}}">
+  <div class="concluidas informativos">
+    <img src="{% static '/Home/img/iconesBase/feito.png' %}" alt="">
+    <div class="container">
+      <p> {{feito}} </p>
+      <p> Tarefas concluidas </p>
+    </div>
+  </div>
+</a>
+
+<a target="_blank" href="{% url 'Kanban:kanban' %}?impedimento={{nome_usuario}}">
+  <div class="inpedimentos informativos">
+    <img src="{% static 'Home/img/iconesBase/inpedimento.png' %}" alt="">
+    <div class="container">
+      <p> {{impedimentos}} </p>
+      <p> Impedimentos </p>
+    </div>
+  </div>          
+</a>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="conteudo">
+{% if messages %}
+  {% for message in messages %}
+  <div id="alert-tarefa" class="alert alert-{{message.extra_tags}} alert-dismissible fade show" role="alert">
+          <center>{{ message }}</center>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+
+  {% endfor %}
+{% endif %}
+
+  <div class="lateral-direita">
+    <canvas id="barrasH"></canvas>
+  </div>
+  <script>
+    graficoProcedimento({{graficoProcedimento.processos|safe}}, {{graficoProcedimento.realizado|safe}}, {{graficoProcedimento.atrasado|safe}}, {{graficoProcedimento.impedimento|safe}})
+  </script>
+  
+  <div class="lateral-esquerda-superior">
+    <canvas id="quadros"></canvas>
+  </div>
+  <script>
+    graficoDemanda({{graficoDemanda.processos|safe}}, {{graficoDemanda.realizado|safe}}, {{graficoDemanda.cores|safe}})
+  </script>
+  
+  <div class="lateral-esquerda-inferior-1">
+    <p id="titulo-produtividade">Nivel de produtividade (pontos)</p>
+    <canvas id="velocimetro"></canvas>
+    <div id="preview-textfield"></div>
+    <script>
+      graficoVelocimetro({{graficoVelocimetro.pontos}})
+    </script>
+  </div>
+  
+  <div class="lateral-esquerda-inferior-2">
+    <canvas id="barrasV"></canvas>
+  </div>
+  <script>
+    graficoProdutividade({{graficoProdutividade.previsto}}, {{graficoProdutividade.periodo}}, {{graficoProdutividade.realizado}})
+  </script>
+  
+</div>
+
+{% endblock %}
+
+{% block navbar %}
+
+<div class="row">
+      <button id="buttonCollapse1" type="button" class="btn btn-info opcoesGraficos" data-toggle="collapse" data-target="#collapseOne">
+          <i class="fa fa-filter"></i>
+          <span id="botao-usuario">Filtros</span>
+      </button>
+</div>
+
+{% endblock %}
+
+{% block expandirFiltros %}
+
+<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+  <div class="card-body">
+     <form class="" action="/home/dashboardResult" id="form" method="GET" target="_blank">
+        <div class="row">
+           <div class="col-8" id="datas-filtro">
+              <div class="datas">
+                 <label for="data">Periodo de pesquisa</label>
+                 <div id="sandbox-container">
+                    <div class="input-daterange input-group" id="datepicker">
+                       <input id="inicio-filtro" value="{{filtros.start}}" type="text" class="input-sm form-control" name="start" autocomplete="off" />
+                       <span class="input-group-addon">Até</span>
+                       <input id="final-filtro" value="{{filtros.end}}" type="text" class="input-sm form-control" name="end" autocomplete="off" />
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div id="botoes-filtro">
+              <div class="col" id="aplicar-filtro">
+                 <input id="buttonAplicarFiltros" class="btn btn-primary" type="submit" value="Gerar dashboard">
+              </div>
+              <div class="col" id="limpar-filtro">
+                 <input id="buttonLimparFiltros"class="btn btn-primary clearAll" type="button" value="Limpar filtros">
+              </div>
+           </div>
+        </div>
+        <div class="row">
+           <div class="col-4" id="centrocusto-filtro">
+              <div class="centrocusto-filtro">
+                 <label for="centrocusto-filtro">Centros de Custo</label>
+                 <select class="select2 form-control" id="centrocusto" name="ccs" multiple="">
+                    <option>Centros de custo</option>
+                    {% for centrocusto in centrocustos %}
+                    {% if filtros.centrocusto == centrocusto.centrocusto %}
+                    <option selected>{{ centrocusto.centrocusto }}</option>
+                    {% else %}
+                    <option>{{ centrocusto.centrocusto }}</option>
+                    {% endif %}
+                    {% endfor %}
+                 </select>
+              </div>
+           </div>
+           <div class="col-4" id="departamento-filtro">
+            <div class="departamento-filtro">
+              <label for="departamento-filtro">Departamentos:</label>
+              <select class="select2 form-control" id="departamento" name="dptos" multiple="">
+                 <option>Departamentos</option>
+                 {% for departamento in departamentos %}
+                 {% if departamento.departamento in filtros.departamento %}
+                 <option selected>{{ departamento.departamento }}</option>
+                 {% else %}
+                 <option>{{ departamento.departamento }}</option>
+                 {% endif %}
+                 {% endfor %}
+              </select>
+           </div>
+           </div>
+           <div class="col-4" id="pessoa-filtro">
+            <div class="pessoa-filtro">
+              <label for="pessoa-filtro">Pessoas:</label>
+              <select class="select2 form-control" id="pessoa" name="usuarios" multiple="" required>
+                 {% for pessoa in usuarios %} 
+                 {% if pessoa.nome in filtros.usuarios %}
+                 <option selected>{{ pessoa.nome }}</option>
+                 {% else %}
+                 <option>{{ pessoa.nome }}</option>
+                 {% endif %} {% endfor %}
+              </select>
+           </div>
+           </div>
+        </div>
+     </form>
+  </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+<script>
+  $('#sandbox-container .input-daterange').datepicker({
+      format: "dd/mm/yyyy",
+      language: "pt-BR",
+      daysOfWeekDisabled: "0,6",
+      daysOfWeekHighlighted: "1,2,3,4,5"
+  });
+</script>
+
+<script>
+    //código usando jQuery
+    $(document).ready(function() {
+        document.getElementById("load").classList.toggle('esconder');
+        document.getElementById("accordion").classList.toggle('mostrar');
+        $("#accordion").css("opacity", "1");
+        document.getElementById("collapseOne").classList.toggle('collapse');
+        document.getElementById("collapseOne").classList.toggle('collapse');
+        document.getElementById("collapseTwo").classList.toggle('collapse');
+        document.getElementById("collapseTwo").classList.toggle('collapse');
+        $('#buttonCollapse').attr('aria-expanded', 'false');
+        $('#buttonCollapse2').attr('aria-expanded', 'false');
+
+        $("#load").attr("hidden", true);
+    });
+</script>
+
+<!--Ativando o multiselect-->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+<script>
+    $(".select2").select2();
+</script>
+
+<!--Limpa Filtros-->
+<script>
+  
+  $('.clearAll').on('click', function() {
+      $("#centrocusto").val( $('option:contains("Centros de custo")').val() );
+
+      var $centrocusto = $("#centrocusto").select2();
+      $centrocusto.val(null).trigger("change");
+
+      var $departamento = $("#departamento").select2();
+      $departamento.val(null).trigger("change");
+
+      var $executor = $("#usuarios").select2();
+      $executor.val(null).trigger("change");
+  });
+
+</script>
+
+<!--Script para fade do alerta-->
+<script>
+  $(document).ready(function() {
+    $('#alert-tarefa').fadeOut(7000);
+  });
+</script>
+{% endblock %}

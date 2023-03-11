@@ -1,0 +1,90 @@
+/* Retirando barra de scroll vertical da página */
+body{
+    overflow-y: hidden;
+  }
+  /* Alterando tamanho do select de qtd de registro */
+  #minhaTabela_length > label > select, #tabelaAlertas_length > label > select{
+     width: 60px
+    }
+  
+    table.dataTable thead .sorting:after,
+    table.dataTable thead .sorting:before,
+    table.dataTable thead .sorting_asc:after,
+    table.dataTable thead .sorting_asc:before,
+    table.dataTable thead .sorting_asc_disabled:after,
+    table.dataTable thead .sorting_asc_disabled:before,
+    table.dataTable thead .sorting_desc:after,
+    table.dataTable thead .sorting_desc:before,
+    table.dataTable thead .sorting_desc_disabled:after,
+    table.dataTable thead .sorting_desc_disabled:before {
+    bottom: .5em;
+    }
+  
+  
+    /* Tamanho do input Search */
+    #minhaTabela_filter > label > input, #tabelaAlertas_filter > label > input {
+        width: 18vh;
+    }
+  
+    /* Colocando a label e o input da search na msm linha */
+    #minhaTabela_filter > label {
+        display: -webkit-inline-box;
+    }
+  
+    thead, tfoot {
+        font-family: "Roboto",sans-serif;
+        font-weight: 300;
+    }
+  
+    /* Espaço entre o Head e os dados da table e o Head e o search*/
+    #minhaTabela_wrapper > div.dataTables_scroll > div.dataTables_scrollHead > div > table {
+        margin-bottom: 15px;
+        margin-top: 15px;
+    }
+  
+    /* Espaço entre o Rodapé e os dados da table */
+    #minhaTabela_wrapper > div.dataTables_scroll > div.dataTables_scrollFoot > div > table {
+        margin-top: 15px;
+        margin-bottom: 0;
+    }
+  
+    /* Alterando fonte da tabela */
+    table, thead, tfoot {
+        font-size: .875rem !important;
+    }
+  
+    #minhaTabela_wrapper > div.dataTables_scroll > div.dataTables_scrollHead > div > table {
+        font-weight: 100 !important;
+    }
+  
+    #minhaTabela_wrapper{
+        height: 98vh !important;
+    }
+  
+  /* Difinindo limites de tamanho horizontal do thead e tfoot */
+    #minhaTabela_wrapper > div.dataTables_scroll > div.dataTables_scrollHead > div {
+        width: 100vh;
+        padding-right: 0px !important;
+    }
+  
+    #minhaTabela_wrapper > div.dataTables_scroll > div.dataTables_scrollBody {
+        max-height: 66vh!important;
+    }
+  
+    @media (min-width:719px) and (max-width: 1367px) {
+        #minhaTabela_wrapper > div.dataTables_scroll > div.dataTables_scrollBody {
+        max-height: 52vh!important;
+      }
+    }
+  
+    /* Definindo cor dos texto dos utilitarios da tabela*/
+  
+    #minhaTabela_length, #minhaTabela_info, #minhaTabela_filter, #minhaTabela_previous, #minhaTabela_next {
+        color: white !important;
+    }
+
+    /* Alterando cor dos botões da pagina */
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        color: white !important;
+    }

@@ -1,0 +1,112 @@
+{% extends 'baseDashboards.html' %} {% load static %} 
+
+{% block title %} Home | MyScrum {% endblock %} 
+
+{% block head %}
+
+<!-- CSS da pagina home.html-->
+<link rel="stylesheet" href="{% static 'Home/css/dashboards.css' %}">
+
+<!-- Script para funciomento dos graficos -->
+<script src="{% static 'Home/graficos/js/Chart.bundle.js' %}"></script>
+<script src="{% static 'Home/graficos/js/home.js' %}"></script>
+<script src="{% static 'Home/graficos/js/Gauge.js' %}"></script>
+
+{% endblock %}
+
+{% block home %}
+
+<div class="atraso informativos">
+  <img src="{% static '/Home/img/iconesBase/atraso.png' %}" alt="">
+</div>
+
+<a target="_blank" href="{% url 'Tarefa:listar' %}?status=A+fazer&centrocusto=Centros+de+custo&etapa=0&subetapa=0&pessoa={{nome_usuario}}">
+  <div class="afazer informativos">
+    <img src="{% static '/Home/img/iconesBase/afazer.png' %}" alt="">
+    <div class="container">
+      <p> {{afazer}} </p>
+      <p> Tarefas A fazer </p>
+    </div>
+  </div>
+</a>
+
+<a target="_blank" href="{% url 'Tarefa:listar' %}?status=Fazendo&centrocusto=Centros+de+custo&etapa=0&subetapa=0&pessoa={{nome_usuario}}">
+  <div class="fazendo informativos">
+    <img src="{% static '/Home/img/iconesBase/fazendo.png' %}" alt="">
+    <div class="container">
+      <p> {{fazendo}} </p>
+      <p> Tarefas fazendo </p>
+    </div>
+  </div>
+</a>
+
+<a target="_blank" href="{% url 'Tarefa:listar' %}?status=Feito&centrocusto=Centros+de+custo&etapa=0&subetapa=0&pessoa={{nome_usuario}}">
+  <div class="concluidas informativos">
+    <img src="{% static '/Home/img/iconesBase/feito.png' %}" alt="">
+    <div class="container">
+      <p> {{feito}} </p>
+      <p> Tarefas concluidas </p>
+    </div>
+  </div>
+</a>
+
+<a target="_blank" href="{% url 'Kanban:kanban' %}?impedimento={{nome_usuario}}">
+  <div class="inpedimentos informativos">
+    <img src="{% static 'Home/img/iconesBase/inpedimento.png' %}" alt="">
+    <div class="container">
+      <p> {{impedimentos}} </p>
+      <p> Impedimentos </p>
+    </div>
+  </div>          
+</a>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="conteudo">
+{% if messages %}
+  {% for message in messages %}
+  <div id="alert-tarefa" class="alert alert-{{message.extra_tags}} alert-dismissible fade show" role="alert">
+          <center>{{ message }}</center>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+
+  {% endfor %}
+{% endif %}
+
+  <div class="lateral-direita">
+    <canvas id="barrasH"></canvas>
+  </div>
+  <script>
+    graficoProcedimento({{graficoProcedimento.processos|safe}}, {{graficoProcedimento.realizado|safe}}, {{graficoProcedimento.atrasado|safe}}, {{graficoProcedimento.impedimento|safe}})
+  </script>
+  
+  <div class="lateral-esquerda-superior">
+    <canvas id="quadros"></canvas>
+  </div>
+  <script>
+    graficoDemanda({{graficoDemanda.processos|safe}}, {{graficoDemanda.realizado|safe}}, {{graficoDemanda.cores|safe}})
+  </script>
+  
+  <div class="lateral-esquerda-inferior-1">
+    <p id="titulo-produtividade">Nivel de produtividade (pontos)</p>
+    <canvas id="velocimetro"></canvas>
+    <div id="preview-textfield"></div>
+    <script>
+      graficoVelocimetro({{graficoVelocimetro.pontos}})
+    </script>
+  </div>
+  
+  <div class="lateral-esquerda-inferior-2">
+    <canvas id="barrasV"></canvas>
+  </div>
+  <script>
+    graficoProdutividade({{graficoProdutividade.previsto}}, {{graficoProdutividade.periodo}}, {{graficoProdutividade.realizado}})
+  </script>
+  
+</div>
+
+{% endblock %}

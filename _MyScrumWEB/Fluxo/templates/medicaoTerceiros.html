@@ -1,0 +1,596 @@
+{% extends 'base.html' %} {% load static %} {% block title %} Fluxo - Medição Terceiros {% endblock %} {% block head %}
+
+<link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+
+<!-- CSS da pagina desenvolvido por Alan Souza -->
+<link href="{% static 'Fluxo/css/medicaoTerceiros.css' %}" rel="stylesheet">
+
+<!-- Script para o funciomento dos DatePickers -->
+<script src = "https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+
+<!-- Script para reconher o PT-BR do DatePickers-->
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.pt-BR.min.js" charset="UTF-8"></script>
+
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+
+<!-- favicon -->
+<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+
+<!-- Multi-Select -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+<script>$("#collapseOne").toggleClass("show");</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="load" id="load">
+  <i class="fa fa-cog fa-spin fa-10x fa-fw"></i><span class="sr-only">Loading...</span>
+</div>
+
+<header class="fluxo" id="fluxo">
+  <nav id="fluxos">
+      <div class="titulos">
+        <div class="titulo-child analise">Análise</div>
+        <div class="titulo-child agendamento">Agendamento</div>
+        <div class="titulo-child atendimento">Atendimento</div>
+        <div class="titulo-child quitacao">Termo de Quitação</div>
+        <div class="titulo-child concluido">Concluído</div>
+        <div class="titulo-child garantia">Fora de Garantia</div>
+      </div>
+      <span id="qtdProcessos" style="display: none;">{{qtdProcessos}}</span>
+      <div class="quadro" id="quadro">
+          <!--Quadro de tarefas em Elaboração-->
+          <div class="quadro-child quadro1 1">
+            {% for medicao in elaboracao %}
+            <div id="{{ medicao.id_tarefa }}" class="card tarefa mt-3 mb-3 w-95 p">
+              <div class="card-body">
+                <div class="row justify-content-between">
+                  <div class="col-xs align-self-start idTarefa p">
+                      <span class="id" title="ID" aria-label="100%">{{ medicao.id_tarefa }}</span>
+                  </div>
+                  <div class="col-xs prioridadeTarefa p">
+                      <span id="prioridade{{ medicao.id_tarefa }}" title="Prioridade" aria-label="100%">{{ medicao.prioridade }}</span>
+                  </div>
+                  <div id="statusSolicitacao" class="col-xs situacao_data p">
+                    <div id="idMedicao{{medicao.id_tarefa}}" style="display: none;">{{medicao.id_medicao}}</div>
+                    <div id="stat{{medicao.id_tarefa}}" style="display: none;">{{medicao.stat}}</div>
+                    <div id="prazo{{medicao.id_tarefa}}" style="display: none;">{{medicao.prazo}}</div>
+                    <div id="statusPrazo{{ medicao.id_tarefa }}" class="col-xs situacao_data p">
+                      <span title="" aria-label="100%"></span>
+                  </div>
+                    <!-- Atraso/Adiantado -->
+                  </div>
+                  <div class="col-xs ccTarefa p">
+                      <span title="Centro de Custo" aria-label="100%">{{ medicao.centro_custo }}</span>
+                  </div>
+                  <span title="Editar">
+                      <div class="bt_editar col-xs align-self-end p">
+                        <a href="#" class="card-link">
+                          <img src="{% static 'Kanban/img/editar.png' %}" class="editar" onclick="editarTarefa( {{medicao.id_tarefa}} )"/>
+                        </a>
+                      </div>
+                  </span>
+                </div>
+                <span title="Descrição" class="descricaoTarefa border">{{ medicao.descri }}</span>
+                <span title="{{ medicao.porcentagem }}%" class="progress mt-1" style="height:6px;">
+                  <div class="progress-bar{{ medicao.id_tarefa }}" role="progressbar" style="width: {{ medicao.porcentagem }}%;" aria-valuenow="{{ medicao.porcentagem }}" aria-valuemin="0" aria-valuemax="100"></div>
+                </span>
+              </div>
+              <div class="card-footer bg-transparent">
+                <div class="row justify-content-between">
+                      <span style="display:none;" id="executores{{medicao.id_tarefa}}">{{medicao.executor1}},{{medicao.executor2}},{{medicao.executor3}},{{medicao.executor4}},{{medicao.executor5}},{{medicao.executor6}},{{medicao.executor7}},{{medicao.executor8}},{{medicao.executor9}},{{medicao.executor10}}</span>
+                      <div class="row" id="imagensExecutores{{medicao.id_tarefa}}">
+                      </div>
+                      <span class="col-xs align-self-center dptoTarefa" title="Departamento">{{ medicao.departamento }}</span>
+                      <span id="impedimento{{ medicao.id_tarefa }}" class="col-xs i-icone pendente" title="{{ medicao.pendente_por }}"><img id="imgImpedimento{{medicao.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                  <span class="bt_expandir col-xs align-self-end" title="Expandir"><a><img src="{% static 'Kanban/img/expandir.png' %}" class="expandir"/></a></span>
+                </div>
+                <div id="{{ medicao.id_tarefa }}_mostrar" class="container mostrar mt-2">
+                  <span class="statusTarefa border" title="Pendente">{{ medicao.status_pendencia }}</span>
+                  <div class="row justify-content-center mt-2">
+                    <span class="col-xs data_inicio border mr-1" id="dataInicial{{ medicao.id_tarefa }}" title="Início Previsto">{{ medicao.data_ini }}</span>
+                    <span class="col-xs data_limite border ml-1" id="dataFinal{{ medicao.id_tarefa }}" title="Finalização Real">{{ medicao.data_fim }}</span>
+                  </div>
+                  <div class="row justify-content-center mt-2">
+                    <span title="Nome do Proprietário" aria-label="100%">{{ medicao.proprietario_nome }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+           <!--Quadro de tarefas em Validação-->
+           <div class="quadro-child quadro1 2">
+            {% for medicao in validacao %}
+            <div id="{{ medicao.id_tarefa }}" class="card tarefa mt-3 mb-3 w-95 p">
+              <div class="card-body">
+                <div class="row justify-content-between">
+                  <div class="col-xs align-self-start idTarefa p">
+                      <span class="id" title="ID" aria-label="100%">{{ medicao.id_tarefa }}</span>
+                  </div>
+                  <div class="col-xs prioridadeTarefa p">
+                      <span id="prioridade{{ medicao.id_tarefa }}" title="Prioridade" aria-label="100%">{{ medicao.prioridade }}</span>
+                  </div>
+                  <div id="statusSolicitacao" class="col-xs situacao_data p">
+                    <div id="idMedicao{{medicao.id_tarefa}}" style="display: none;">{{medicao.id_medicao}}</div>
+                    <div id="stat{{medicao.id_tarefa}}" style="display: none;">{{medicao.stat}}</div>
+                    <div id="prazo{{medicao.id_tarefa}}" style="display: none;">{{medicao.prazo}}</div>
+                    <div id="statusPrazo{{ medicao.id_tarefa }}" class="col-xs situacao_data p">
+                      <span title="" aria-label="100%"></span>
+                  </div>
+                    <!-- Atraso/Adiantado -->
+                  </div>
+                  <div class="col-xs ccTarefa p">
+                      <span title="Centro de Custo" aria-label="100%">{{ medicao.centro_custo }}</span>
+                  </div>
+                  <span title="Editar">
+                      <div class="bt_editar col-xs align-self-end p">
+                        <a href="#" class="card-link">
+                          <img src="{% static 'Kanban/img/editar.png' %}" class="editar" onclick="editarTarefa( {{medicao.id_tarefa}} )"/>
+                        </a>
+                      </div>
+                  </span>
+                </div>
+                <span title="Descrição" class="descricaoTarefa border">{{ medicao.descri }}</span>
+                <span title="{{ medicao.porcentagem }}%" class="progress mt-1" style="height:6px;">
+                  <div class="progress-bar{{ medicao.id_tarefa }}" role="progressbar" style="width: {{ medicao.porcentagem }}%;" aria-valuenow="{{ medicao.porcentagem }}" aria-valuemin="0" aria-valuemax="100"></div>
+                </span>
+              </div>
+              <div class="card-footer bg-transparent">
+                <div class="row justify-content-between">
+                      <span style="display:none;" id="executores{{medicao.id_tarefa}}">{{medicao.executor1}},{{medicao.executor2}},{{medicao.executor3}},{{medicao.executor4}},{{medicao.executor5}},{{medicao.executor6}},{{medicao.executor7}},{{medicao.executor8}},{{medicao.executor9}},{{medicao.executor10}}</span>
+                      <div class="row" id="imagensExecutores{{medicao.id_tarefa}}">
+                      </div>
+                      <span class="col-xs align-self-center dptoTarefa" title="Departamento">{{ medicao.departamento }}</span>
+                      <span id="impedimento{{ medicao.id_tarefa }}" class="col-xs i-icone pendente" title="{{ medicao.pendente_por }}"><img id="imgImpedimento{{medicao.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                  <span class="bt_expandir col-xs align-self-end" title="Expandir"><a><img src="{% static 'Kanban/img/expandir.png' %}" class="expandir"/></a></span>
+                </div>
+                <div id="{{ medicao.id_tarefa }}_mostrar" class="container mostrar mt-2">
+                  <span class="statusTarefa border" title="Pendente">{{ medicao.status_pendencia }}</span>
+                  <div class="row justify-content-center mt-2">
+                    <span class="col-xs data_inicio border mr-1" id="dataInicial{{ medicao.id_tarefa }}" title="Início Previsto">{{ medicao.data_ini }}</span>
+                    <span class="col-xs data_limite border ml-1" id="dataFinal{{ medicao.id_tarefa }}" title="Finalização Real">{{ medicao.data_fim }}</span>
+                  </div>
+                  <div class="row justify-content-center mt-2">
+                    <span title="Nome do Proprietário" aria-label="100%">{{ medicao.proprietario_nome }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+           <!--Quadro de tarefas em Documentação-->
+           <div class="quadro-child quadro1 3">
+            {% for medicao in documentacao %}
+            <div id="{{ medicao.id_tarefa }}" class="card tarefa mt-3 mb-3 w-95 p">
+              <div class="card-body">
+                <div class="row justify-content-between">
+                  <div class="col-xs align-self-start idTarefa p">
+                      <span class="id" title="ID" aria-label="100%">{{ medicao.id_tarefa }}</span>
+                  </div>
+                  <div class="col-xs prioridadeTarefa p">
+                      <span id="prioridade{{ medicao.id_tarefa }}" title="Prioridade" aria-label="100%">{{ medicao.prioridade }}</span>
+                  </div>
+                  <div id="statusSolicitacao" class="col-xs situacao_data p">
+                    <div id="idMedicao{{medicao.id_tarefa}}" style="display: none;">{{medicao.id_medicao}}</div>
+                    <div id="stat{{medicao.id_tarefa}}" style="display: none;">{{medicao.stat}}</div>
+                    <div id="prazo{{medicao.id_tarefa}}" style="display: none;">{{medicao.prazo}}</div>
+                    <div id="statusPrazo{{ medicao.id_tarefa }}" class="col-xs situacao_data p">
+                      <span title="" aria-label="100%"></span>
+                  </div>
+                    <!-- Atraso/Adiantado -->
+                  </div>
+                  <div class="col-xs ccTarefa p">
+                      <span title="Centro de Custo" aria-label="100%">{{ medicao.centro_custo }}</span>
+                  </div>
+                  <span title="Editar">
+                      <div class="bt_editar col-xs align-self-end p">
+                        <a href="#" class="card-link">
+                          <img src="{% static 'Kanban/img/editar.png' %}" class="editar" onclick="editarTarefa( {{medicao.id_tarefa}} )"/>
+                        </a>
+                      </div>
+                  </span>
+                </div>
+                <span title="Descrição" class="descricaoTarefa border">{{ medicao.descri }}</span>
+                <span title="{{ medicao.porcentagem }}%" class="progress mt-1" style="height:6px;">
+                  <div class="progress-bar{{ medicao.id_tarefa }}" role="progressbar" style="width: {{ medicao.porcentagem }}%;" aria-valuenow="{{ medicao.porcentagem }}" aria-valuemin="0" aria-valuemax="100"></div>
+                </span>
+              </div>
+              <div class="card-footer bg-transparent">
+                <div class="row justify-content-between">
+                      <span style="display:none;" id="executores{{medicao.id_tarefa}}">{{medicao.executor1}},{{medicao.executor2}},{{medicao.executor3}},{{medicao.executor4}},{{medicao.executor5}},{{medicao.executor6}},{{medicao.executor7}},{{medicao.executor8}},{{medicao.executor9}},{{medicao.executor10}}</span>
+                      <div class="row" id="imagensExecutores{{medicao.id_tarefa}}">
+                      </div>
+                      <span class="col-xs align-self-center dptoTarefa" title="Departamento">{{ medicao.departamento }}</span>
+                      <span id="impedimento{{ medicao.id_tarefa }}" class="col-xs i-icone pendente" title="{{ medicao.pendente_por }}"><img id="imgImpedimento{{medicao.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                  <span class="bt_expandir col-xs align-self-end" title="Expandir"><a><img src="{% static 'Kanban/img/expandir.png' %}" class="expandir"/></a></span>
+                </div>
+                <div id="{{ medicao.id_tarefa }}_mostrar" class="container mostrar mt-2">
+                  <span class="statusTarefa border" title="Pendente">{{ medicao.status_pendencia }}</span>
+                  <div class="row justify-content-center mt-2">
+                    <span class="col-xs data_inicio border mr-1" id="dataInicial{{ medicao.id_tarefa }}" title="Início Previsto">{{ medicao.data_ini }}</span>
+                    <span class="col-xs data_limite border ml-1" id="dataFinal{{ medicao.id_tarefa }}" title="Finalização Real">{{ medicao.data_fim }}</span>
+                  </div>
+                  <div class="row justify-content-center mt-2">
+                    <span title="Nome do Proprietário" aria-label="100%">{{ medicao.proprietario_nome }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+           <!--Quadro de tarefas em Nota Fiscal-->
+           <div class="quadro-child quadro1 4">
+            {% for medicao in nf %}
+            <div id="{{ medicao.id_tarefa }}" class="card tarefa mt-3 mb-3 w-95 p">
+              <div class="card-body">
+                <div class="row justify-content-between">
+                  <div class="col-xs align-self-start idTarefa p">
+                      <span class="id" title="ID" aria-label="100%">{{ medicao.id_tarefa }}</span>
+                  </div>
+                  <div class="col-xs prioridadeTarefa p">
+                      <span id="prioridade{{ medicao.id_tarefa }}" title="Prioridade" aria-label="100%">{{ medicao.prioridade }}</span>
+                  </div>
+                  <div id="statusSolicitacao" class="col-xs situacao_data p">
+                    <div id="idMedicao{{medicao.id_tarefa}}" style="display: none;">{{medicao.id_medicao}}</div>
+                    <div id="stat{{medicao.id_tarefa}}" style="display: none;">{{medicao.stat}}</div>
+                    <div id="prazo{{medicao.id_tarefa}}" style="display: none;">{{medicao.prazo}}</div>
+                    <div id="statusPrazo{{ medicao.id_tarefa }}" class="col-xs situacao_data p">
+                      <span title="" aria-label="100%"></span>
+                  </div>
+                    <!-- Atraso/Adiantado -->
+                  </div>
+                  <div class="col-xs ccTarefa p">
+                      <span title="Centro de Custo" aria-label="100%">{{ medicao.centro_custo }}</span>
+                  </div>
+                  <span title="Editar">
+                      <div class="bt_editar col-xs align-self-end p">
+                        <a href="#" class="card-link">
+                          <img src="{% static 'Kanban/img/editar.png' %}" class="editar" onclick="editarTarefa( {{medicao.id_tarefa}} )"/>
+                        </a>
+                      </div>
+                  </span>
+                </div>
+                <span title="Descrição" class="descricaoTarefa border">{{ medicao.descri }}</span>
+                <span title="{{ medicao.porcentagem }}%" class="progress mt-1" style="height:6px;">
+                  <div class="progress-bar{{ medicao.id_tarefa }}" role="progressbar" style="width: {{ medicao.porcentagem }}%;" aria-valuenow="{{ medicao.porcentagem }}" aria-valuemin="0" aria-valuemax="100"></div>
+                </span>
+              </div>
+              <div class="card-footer bg-transparent">
+                <div class="row justify-content-between">
+                      <span style="display:none;" id="executores{{medicao.id_tarefa}}">{{medicao.executor1}},{{medicao.executor2}},{{medicao.executor3}},{{medicao.executor4}},{{medicao.executor5}},{{medicao.executor6}},{{medicao.executor7}},{{medicao.executor8}},{{medicao.executor9}},{{medicao.executor10}}</span>
+                      <div class="row" id="imagensExecutores{{medicao.id_tarefa}}">
+                      </div>
+                      <span class="col-xs align-self-center dptoTarefa" title="Departamento">{{ medicao.departamento }}</span>
+                      <span id="impedimento{{ medicao.id_tarefa }}" class="col-xs i-icone pendente" title="{{ medicao.pendente_por }}"><img id="imgImpedimento{{medicao.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                  <span class="bt_expandir col-xs align-self-end" title="Expandir"><a><img src="{% static 'Kanban/img/expandir.png' %}" class="expandir"/></a></span>
+                </div>
+                <div id="{{ medicao.id_tarefa }}_mostrar" class="container mostrar mt-2">
+                  <span class="statusTarefa border" title="Pendente">{{ medicao.status_pendencia }}</span>
+                  <div class="row justify-content-center mt-2">
+                    <span class="col-xs data_inicio border mr-1" id="dataInicial{{ medicao.id_tarefa }}" title="Início Previsto">{{ medicao.data_ini }}</span>
+                    <span class="col-xs data_limite border ml-1" id="dataFinal{{ medicao.id_tarefa }}" title="Finalização Real">{{ medicao.data_fim }}</span>
+                  </div>
+                  <div class="row justify-content-center mt-2">
+                    <span title="Nome do Proprietário" aria-label="100%">{{ medicao.proprietario_nome }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+           <!--Quadro de tarefas Titulo a Pagar-->
+           <div class="quadro-child quadro1 5">
+            {% for medicao in titulo %}
+            <div id="{{ medicao.id_tarefa }}" class="card tarefa mt-3 mb-3 w-95 p">
+              <div class="card-body">
+                <div class="row justify-content-between">
+                  <div class="col-xs align-self-start idTarefa p">
+                      <span class="id" title="ID" aria-label="100%">{{ medicao.id_tarefa }}</span>
+                  </div>
+                  <div class="col-xs prioridadeTarefa p">
+                      <span id="prioridade{{ medicao.id_tarefa }}" title="Prioridade" aria-label="100%">{{ medicao.prioridade }}</span>
+                  </div>
+                  <div id="statusSolicitacao" class="col-xs situacao_data p">
+                    <div id="idMedicao{{medicao.id_tarefa}}" style="display: none;">{{medicao.id_medicao}}</div>
+                    <div id="stat{{medicao.id_tarefa}}" style="display: none;">{{medicao.stat}}</div>
+                    <div id="prazo{{medicao.id_tarefa}}" style="display: none;">{{medicao.prazo}}</div>
+                    <div id="statusPrazo{{ medicao.id_tarefa }}" class="col-xs situacao_data p">
+                      <span title="" aria-label="100%"></span>
+                  </div>
+
+                    <!-- Atraso/Adiantado -->
+                  </div>
+                  <div class="col-xs ccTarefa p">
+                      <span title="Centro de Custo" aria-label="100%">{{ medicao.centro_custo }}</span>
+                  </div>
+                  <span title="Editar">
+                      <div class="bt_editar col-xs align-self-end p">
+                        <a href="#" class="card-link">
+                          <img src="{% static 'Kanban/img/editar.png' %}" class="editar" onclick="editarTarefa( {{medicao.id_tarefa}} )"/>
+                        </a>
+                      </div>
+                  </span>
+                </div>
+                <span title="Descrição" class="descricaoTarefa border">{{ medicao.descri }}</span>
+              </div>
+              <span title="{{ medicao.porcentagem }}%" class="progress mt-1" style="height:6px;">
+                <div class="progress-bar{{ medicao.id_tarefa }}" role="progressbar" style="width: {{ medicao.porcentagem }}%;" aria-valuenow="{{ medicao.porcentagem }}" aria-valuemin="0" aria-valuemax="100"></div>
+              </span>
+              <div class="card-footer bg-transparent">
+                <div class="row justify-content-between">
+                  <div class="col-xs">
+                    <div class="row executorProblema">
+                      <span style="display:none;" id="executores{{medicao.id_tarefa}}">{{medicao.executor1}},{{medicao.executor2}},{{medicao.executor3}},{{medicao.executor4}},{{medicao.executor5}},{{medicao.executor6}},{{medicao.executor7}},{{medicao.executor8}},{{medicao.executor9}},{{medicao.executor10}}</span>
+                      <div class="row" id="imagensExecutores{{medicao.id_tarefa}}">
+                      </div>
+                      
+                    </div>
+                  </div>
+                  <span id="impedimento{{ medicao.id_tarefa }}" class="col-xs i-icone pendente" title="{{ medicao.pendente_por }}"><img id="imgImpedimento{{medicao.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                  <span class="bt_expandir col-xs align-self-end" title="Expandir"><a><img src="{% static 'Kanban/img/expandir.png' %}" class="expandir"/></a></span>
+                </div>
+                <div id="{{ medicao.id_tarefa }}_mostrar" class="container mostrar mt-2">
+                  <span class="statusTarefa border" title="Pendente">{{ medicao.status_pendencia }}</span>
+                  <div class="row justify-content-center mt-2">
+                    <span class="col-xs data_inicio border mr-1" id="dataInicial{{ medicao.id_tarefa }}" title="Início Previsto">{{ medicao.data_ini }}</span>
+                    <span class="col-xs data_limite border ml-1" id="dataFinal{{ medicao.id_tarefa }}" title="Finalização Real">{{ medicao.data_fim }}</span>
+                  </div>
+                  <div class="row justify-content-center mt-2">
+                    <span title="Nome do Proprietário" aria-label="100%">{{ medicao.proprietario_nome }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+           <!--Quadro de tarefas Feito-->
+           <div class="quadro-child quadro1 6">
+            {% for medicao in feito %}
+            <div id="{{ medicao.id_tarefa }}" class="card tarefa mt-3 mb-3 w-95 p">
+              <div class="card-body">
+                <div class="row justify-content-between">
+                  <div class="col-xs align-self-start idTarefa p">
+                      <span class="id" title="ID" aria-label="100%">{{ medicao.id_tarefa }}</span>
+                  </div>
+                  <div class="col-xs prioridadeTarefa p">
+                      <span id="prioridade{{ medicao.id_tarefa }}" title="Prioridade" aria-label="100%">{{ medicao.prioridade }}</span>
+                  </div>
+                  <div id="statusSolicitacao" class="col-xs situacao_data p">
+                    <div id="idMedicao{{medicao.id_tarefa}}" style="display: none;">{{medicao.id_medicao}}</div>
+                    <div id="stat{{medicao.id_tarefa}}" style="display: none;">{{medicao.stat}}</div>
+                    <div id="prazo{{medicao.id_tarefa}}" style="display: none;">{{medicao.prazo}}</div>
+                    <div id="statusPrazo{{ medicao.id_tarefa }}" class="col-xs situacao_data p">
+                      <span title="" aria-label="100%"></span>
+                  </div>
+                    <!-- Atraso/Adiantado -->
+                  </div>
+                  <div class="col-xs ccTarefa p">
+                      <span title="Centro de Custo" aria-label="100%">{{ medicao.centro_custo }}</span>
+                  </div>
+                  <span title="Editar">
+                      <div class="bt_editar col-xs align-self-end p">
+                        <a href="#" class="card-link">
+                          <img src="{% static 'Kanban/img/editar.png' %}" class="editar" onclick="editarTarefa( {{medicao.id_tarefa}} )"/>
+                        </a>
+                      </div>
+                  </span>
+                </div>
+                <span title="Descrição" class="descricaoTarefa border">{{ medicao.descri }}</span>
+              </div>
+              <div class="card-footer bg-transparent">
+                <div class="row justify-content-between">
+                      <span style="display:none;" id="executores{{medicao.id_tarefa}}">{{medicao.executor1}},{{medicao.executor2}},{{medicao.executor3}},{{medicao.executor4}},{{medicao.executor5}},{{medicao.executor6}},{{medicao.executor7}},{{medicao.executor8}},{{medicao.executor9}},{{medicao.executor10}}</span>
+                      <div class="row" id="imagensExecutores{{medicao.id_tarefa}}">
+                      </div>
+                      <span class="col-xs align-self-center dptoTarefa" title="Departamento">{{ medicao.departamento }}</span>
+                      <span id="impedimento{{ medicao.id_tarefa }}" class="col-xs i-icone pendente" title="{{ medicao.pendente_por }}"><img id="imgImpedimento{{medicao.id_tarefa}}" class="rounded-circle" alt="Cinque Terre" style="width: 100%; height: 100%"></span>
+                  <span class="bt_expandir col-xs align-self-end" title="Expandir"><a><img src="{% static 'Kanban/img/expandir.png' %}" class="expandir"/></a></span>
+                </div>
+                <div id="{{ medicao.id_tarefa }}_mostrar" class="container mostrar mt-2">
+                  <span class="statusTarefa border" title="Pendente">{{ medicao.status_pendencia }}</span>
+                  <div class="row justify-content-center mt-2">
+                    <span class="col-xs data_inicio border mr-1" id="dataInicial{{ medicao.id_tarefa }}" title="Início Previsto">{{ medicao.data_ini }}</span>
+                    <span class="col-xs data_limite border ml-1" id="dataFinal{{ medicao.id_tarefa }}" title="Finalização Real">{{ medicao.data_fim }}</span>
+                  </div>
+                  <div class="row justify-content-center mt-2">
+                    <span title="Nome do Proprietário" aria-label="100%">{{ medicao.proprietario_nome }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+      </div>
+  </nav>
+</header>
+
+{% endblock %}
+
+{% block navbar %}
+
+<div class="card-header" id="headingOne">
+  <button id="buttonCollapse" type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+    <i class="fa fa-filter"></i>
+    <span id="botao-filtro">Filtros</span>
+  </button>
+</div>
+
+<button id="exportar" type="button" class="btn btn-info" onclick="download()">
+  <i class="fa fa-download"></i>
+  <span >Exportar</span>
+</button>
+
+{% endblock %}
+
+{% block expandirFiltros %}
+
+<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+  <div class="card-body">
+     <form class="" action="/fluxo/medicao/terceiros" id="form" method="GET">
+      <!-- Datas -->
+        <div class="row">
+           <div class="col-8" id="datas-filtro">
+              <div class="datas">
+                 <label for="data">Periodo de pesquisa</label>
+                 <div id="sandbox-container">
+                    <div class="input-daterange input-group" id="datepicker">
+                       <input id="inicio-filtro" value="{{filtros.start}}" type="text" class="input-sm form-control" name="start" autocomplete="off" />
+                       <span class="input-group-addon">Até</span>
+                       <input id="final-filtro" value="{{filtros.end}}" type="text" class="input-sm form-control" name="end" autocomplete="off" />
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <div id="botoes-filtro">
+              <div class="col" id="aplicar-filtro">
+                 <input id="buttonAplicarFiltros" class="btn btn-primary" type="submit" value="Aplicar filtros">
+              </div>
+              <div class="col" id="limpar-filtro">
+                 <input id="buttonLimparFiltros"class="btn btn-primary clearAll" type="button" value="Limpar filtros">
+              </div>
+           </div>
+        </div>
+        <!-- Centro de Custo / Bloco / Unidade -->
+        <div class="row">
+           <div class="col" id="centrocusto-filtro">
+              <div class="centrocusto-filtro">
+                 <label for="centrocusto-filtro">Centros de Custo</label>
+                 <select class="form-control" id="centrocusto" name="centrocusto">
+                    <option>Centros de custo</option>
+                    {% for centrocusto in centrocustos %}
+                    {% if filtros.centrocusto == centrocusto.centrocusto %}
+                    <option value="{{centrocusto.id_centro_custo}}" selected>{{ centrocusto.centrocusto }}</option>
+                    {% else %}
+                    <option value="{{centrocusto.id_centro_custo}}">{{ centrocusto.centrocusto }}</option>
+                    {% endif %}
+                    {% endfor %}
+                 </select>
+              </div>
+           </div>
+           <div class="col-6" id="status-filtro">
+            <div class="status-filtro">
+               <label for="status-filtro">Status da tarefa:</label>
+               <select class="select2 form-control" multiple="" id="status" name="status">
+                  {% if 'A fazer' in filtros.status %}
+                  <option value="A fazer" selected="selected">A fazer</option>
+                  {% else %}
+                  <option value="A fazer">A fazer</option>
+                  {% endif %}
+                  {% if 'Fazendo' in filtros.status %}
+                  <option value="Fazendo" selected="selected">Fazendo</option>
+                  {% else %}
+                  <option value="Fazendo">Fazendo</option>
+                  {% endif %}
+                  {% if 'Feito' in filtros.status %}
+                  <option value="Feito" selected="selected">Feito</option>
+                  {% else %}
+                  <option value="Feito">Feito</option>
+                  {% endif %}
+                  {% if 'Cancelado' in filtros.status %}
+                  <option value="Cancelado" selected="selected">Cancelado</option>
+                  {% else %}
+                  <option value="Cancelado">Cancelado</option>
+                  {% endif %}
+               </select>
+            </div>
+         </div>
+        </div>
+        <!-- Pessoa / Executor / Impedimento -->
+        <div class="row">
+          <div class="col-4" id="pessoa-filtro">
+            <div class="pessoa-filtro">
+              <label for="pessoa-filtro">Pessoas:</label>
+              <select class="select2 form-control" id="pessoa" name="pessoa" multiple="">
+                {% for pessoa in pessoas %} 
+                  {% if pessoa.nome in filtros.pessoa %}
+                    <option selected>{{ pessoa.nome }}</option>
+                  {% else %}
+                    <option>{{ pessoa.nome }}</option>
+                  {% endif %} 
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col-4" id="executor-filtro">
+            <div class="executor-filtro">
+              <label for="executor-filtro">Executores:</label>
+              <select class="select2 form-control" id="executor" name="executor" multiple="">
+                <option>Executores</option>
+                {% for pessoa in pessoas %}
+                {% if pessoa.nome in filtros.executor %}
+                <option selected>{{ pessoa.nome }}</option>
+                {% else %}
+                <option>{{ pessoa.nome }}</option>
+                {% endif %} {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="col-4" id="impedimento-filtro">
+            <div class="impedimento-filtro">
+              <label for="impedimento-filtro">Impedimentos:</label>
+              <select class="select2 form-control" id="impedimento" name="impedimento" multiple="">
+                <option>Impedimentos</option>
+                {% for pessoa in pessoas %}
+                {% if pessoa.nome in filtros.impedimento %}
+                <option selected>{{ pessoa.nome }}</option>
+                {% else %}
+                <option>{{ pessoa.nome }}</option>
+                {% endif %}{% endfor %}
+              </select>
+            </div>
+          </div>
+        </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<!-- Script -->
+<script src="{% static 'Fluxo/js/medicaoTerceiros.js' %}"></script>
+
+<!--Ativando o multiselect-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+
+<script>
+  function editarTarefa(id_tarefa){
+  url = "{% url 'Tarefa:URL_editarTarefa' %}"
+  window.open(url+id_tarefa);
+}
+  $('#inicio-filtro').datepicker({
+      todayBtn: "linked",
+      language: "pt-BR",
+      daysOfWeekHighlighted: "1,2,3,4,5",
+      autoclose: true,
+      todayHighlight: true
+  });
+  $('#final-filtro').datepicker({
+      todayBtn: "linked",
+      language: "pt-BR",
+      daysOfWeekHighlighted: "1,2,3,4,5",
+      autoclose: true,
+      todayHighlight: true
+  });
+  $(".select2").select2();
+
+  function download(){
+    var form = document.getElementById("form");
+    form.setAttribute('action', '/fluxo/exportar/medicao/terceiros')
+
+    form.submit();
+
+    form.setAttribute('action', '/fluxo/medicao/terceiros')
+
+  }
+  
+</script>
+{% endblock %}

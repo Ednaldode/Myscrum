@@ -1,0 +1,408 @@
+{% extends 'base.html' %}{% load static %} {% block title %} Abrir Solicitação {% endblock %} {% block head %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+
+<!-- CSS da Pagina -->
+<link href="{% static 'Solicitacao/css/Cliente.css' %}" rel="stylesheet" />
+
+<!-- Script para o funciomento dos DatePickers -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+
+<!-- Script para reconher o PT-BR do DatePickers-->
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.pt-BR.min.js" charset="UTF-8"></script>
+
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" />
+
+{% endblock %} {% block content %} {% if messages %} {% for message in messages %}
+<div class="alert alert-{{message.extra_tags}}" role="alert">
+    <center>{{ message }}</center>
+</div>
+{% endfor %} {% endif %}
+<div class="conteudo">
+    <form class="telaSolicitacao" method="GET">
+        <div class="cadastroSolicitacao">
+            <div class="row">
+                <div class="col-6">
+                    <label for="id_empreendimento">*Empreendimento:</label>
+                    <div class="input-group bs-select">
+                        {{ form.empreendimento }}
+                    </div>
+                </div>
+                <div class="col-3">
+                    <label for="id_bloco">*Bloco:</label>
+                    <div class="input-group bs-select">
+                        {{ form.bloco }}
+                    </div>
+                </div>
+                <div class="col-3">
+                    <label for="id_unidade">*Unidade:</label>
+                    <div class="input-group bs-select">
+                        {{ form.unidade}}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6" id="solicitante">
+                    <label for="id_solicitant">*Proprietario:</label>
+                    <div class="input-group bs-select">
+                        {{ form.solicitante}}
+                    </div>
+                </div>
+                <div class="col-3" id="cpf">
+                    <label for="id_cpf">*CPF:</label>
+                    <div class="input-group bs-select">
+                        {{ form.cpf_solicitante }}
+                    </div>
+                </div>
+                <div class="col-3" id="rg">
+                    <label for="id_rg"*>RG:</label>
+                    <div class="input-group bs-select">
+                        {{ form.rg_solicitante }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="id_email">*E-MAIL:</label>
+                    <div class="input-group bs-select">
+                        {{ form.email_solicitante }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6" id="pessoaContato">
+                    <label id="labelContato">*Pessoa para contato:</label>
+                    <div class="input-group bs-select">
+                        {{ form.pessoaContato}}
+                    </div>
+                </div>
+                <div class="col-3" id="cpfContato">
+                    <label id="labelCpfContato">*CPF:</label>
+                    <div class="input-group bs-select">
+                        {{ form.cpf_contato }}
+                    </div>
+                </div>
+                <div class="col-3" id="rgContato">
+                    <label id="labelRgContato">*RG:</label>
+                    <div class="input-group bs-select">
+                        {{ form.rg_contato }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" id="emailContato">
+                    <label for="labelEmailContato">E-MAIL:</label>
+                    <div class="input-group bs-select">
+                        {{ form.email_contato }}
+                    </div>
+                </div>
+            </div>
+
+          <div class="row">
+            <label for="" id="textContato">É necessario uma pessoa para que a Masotti entre em contato</label>  
+            <label for="" id="textContato1">A pessoa para contato é a mesma solicitante?? </label>
+          </div>
+
+          <div class="row">
+            <button type="button" id="text_sim" class=""btn btn-primary">Sim</button>
+              <label for="" id="textSeparar">/</label>
+            <button type="button" id="text_nao" class=""btn btn-primary">Não</button>
+          </div>
+
+            <div class="row">
+              <div class="col">
+                  <label for="id_telefone1">*Numero p/ Contato:</label>
+                  <div class="input-group bs-select">
+                      {{ form.telefone1 }}
+                  </div>
+              </div>
+              <div class="col">
+                  <label for="id_telefone2">*2ºNumero p/ Contato:</label>
+                  <div class="input-group bs-select">
+                      {{ form.telefone2 }}
+                  </div>
+              </div>
+            </div>
+            <div class="div-problema">
+                {% csrf_token %}
+                <div class="row">
+                    <label id="id_numProblema">1:</label>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="id_ambiente">*Ambiente:</label>
+                        <div class="input-group bs-select">
+                            {{ form.ambiente }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="id_descricao">*Descrição problema:</label>
+                        <div class="input-group bs-select">
+                            {{ form.descricao }}
+                        </div>
+                    </div>
+                </div>
+                <div id="problema2" hidden="hidden">
+                    <div class="row">
+                        <label id="id_numProblema2">2:</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" id="ambiente2">
+                            <label for="id_ambiente">*Ambiente:</label>
+                            <div class="input-group bs-select">
+                                {{ form.ambiente2 }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="descricao2">
+                            <label for="id_descricao2">*Descrição problema:</label>
+                            <div class="input-group bs-select">
+                                {{ form.descricao2 }}
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="remove-problema2">
+                        <i class="fa fa-trash" aria-hidden="true" id="remove-problema" for="problema"></i>
+                    </button>
+                </div>
+                <div id="problema3" hidden="hidden">
+                    <div class="row">
+                        <label id="id_numProblema3">3:</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" id="ambiente3">
+                            <label for="id_ambiente">*Ambiente:</label>
+                            <div class="input-group bs-select">
+                                {{ form.ambiente3 }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="descricao3">
+                            <label for="id_descricao3">*Descrição problema:</label>
+                            <div class="input-group bs-select">
+                                {{ form.descricao3 }}
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="remove-problema3">
+                        <i class="fa fa-trash" aria-hidden="true" id="remove-problema" for="problema"></i>
+                    </button>
+                </div>
+                <div id="problema4" hidden="hidden">
+                    <div class="row">
+                        <label id="id_numProblema4">4:</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" id="ambiente4">
+                            <label for="id_ambiente">*Ambiente:</label>
+                            <div class="input-group bs-select">
+                                {{ form.ambiente4 }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="descricao4">
+                            <label for="id_descricao4">*Descrição problema:</label>
+                            <div class="input-group bs-select">
+                                {{ form.descricao4 }}
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="remove-problema4">
+                        <i class="fa fa-trash" aria-hidden="true" id="remove-problema" for="problema"></i>
+                    </button>
+                </div>
+                <div id="problema5" hidden="hidden">
+                    <div class="row">
+                        <label id="id_numProblema5">5:</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" id="ambiente5">
+                            <label for="id_ambiente">*Ambiente:</label>
+                            <div class="input-group bs-select">
+                                {{ form.ambiente5 }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="descricao5">
+                            <label for="id_descricao5">*Descrição problema:</label>
+                            <div class="input-group bs-select">
+                                {{ form.descricao5 }}
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="remove-problema5">
+                        <i class="fa fa-trash" aria-hidden="true" id="remove-problema" for="problema"></i>
+                    </button>
+                </div>
+                <div id="problema6" hidden="hidden">
+                    <div class="row">
+                        <label id="id_numProblema6">6:</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" id="ambiente6">
+                            <label for="id_ambiente">*Ambiente:</label>
+                            <div class="input-group bs-select">
+                                {{ form.ambiente6 }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="descricao6">
+                            <label for="id_descricao6">*Descrição problema:</label>
+                            <div class="input-group bs-select">
+                                {{ form.descricao6 }}
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="remove-problema6">
+                        <i class="fa fa-trash" aria-hidden="true" id="remove-problema" for="problema"></i>
+                    </button>
+                </div>
+                <div id="problema7" hidden="hidden">
+                    <div class="row">
+                        <label id="id_numProblema7">7:</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" id="ambiente7">
+                            <label for="id_ambiente">*Ambiente:</label>
+                            <div class="input-group bs-select">
+                                {{ form.ambiente7 }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="descricao7">
+                            <label for="id_descricao7">*Descrição problema:</label>
+                            <div class="input-group bs-select">
+                                {{ form.descricao7 }}
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="remove-problema7">
+                        <i class="fa fa-trash" aria-hidden="true" id="remove-problema" for="problema"></i>
+                    </button>
+                </div>
+                <div id="problema8" hidden="hidden">
+                    <div class="row">
+                        <label id="id_numProblema8">8:</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" id="ambiente8">
+                            <label for="id_ambiente">*Ambiente:</label>
+                            <div class="input-group bs-select">
+                                {{ form.ambiente8 }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id="descricao8">
+                            <label for="id_descricao8">*Descrição problema:</label>
+                            <div class="input-group bs-select">
+                                {{ form.descricao8 }}
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="remove-problema8">
+                        <i class="fa fa-trash" aria-hidden="true" id="remove-problema" for="problema"></i>
+                    </button>
+                </div>
+                <div id="problema9" hidden="hidden">
+                    <div class="row">
+                        <label id="id_numProblema9">9:</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" id="ambiente9">
+                            <label for="id_ambiente">*Ambiente:</label>
+                            <div class="input-group bs-select">
+                                {{ form.ambiente9 }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" id=descricao9" >
+                        <label for="id_descricao9">*Descrição problema:</label>
+                        <div class="input-group bs-select">
+                            {{ form.descricao9 }}
+                        </div>
+                    </div>
+                </div>
+                <button type="button" id="remove-problema9">
+                    <i class="fa fa-trash" aria-hidden="true" id="remove-problema" for="problema"></i>
+                </button>
+            </div>
+            <div id="problema10" hidden="hidden">
+                <div class="row">
+                    <label id="id_numProblema10">10:</label>
+                </div>
+                <div class="row">
+                    <div class="col-6" id="ambiente10">
+                        <label for="id_ambiente">*Ambiente:</label>
+                        <div class="input-group bs-select">
+                            {{ form.ambiente10 }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col" id="descricao10">
+                        <label for="id_descricao10">*Descrição problema:</label>
+                        <div class="input-group bs-select">
+                            {{ form.descricao10 }}
+                        </div>
+                    </div>
+                </div>
+                <button type="button" id="remove-problema10">
+                    <i class="fa fa-trash" aria-hidden="true" id="remove-problema" for="problema"></i>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <button type="button" id="add-problema">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <div class="row">
+            <button type="button" id="cadastrar" class="btn btn-primary" data-dismiss="modal">Cadastrar</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %} {% block navbar %} {% endblock %} {% block expandirFiltros %} {% endblock %} {% block scripts %}
+
+<!--JS do campo solicitação cliente -->
+<script src="{% static 'Solicitacao/js/solicitacaoCliente.js' %}"></script>
+
+<script>
+    function removerElementos(select) {
+        //Removendo todos option atualmente na combo
+        while (select.length != 1) {
+            select.remove(select.length - 1);
+        }
+
+        $(select).attr("readonly", "true");
+    }
+</script>
+
+<script>
+    function copiarStatus() {
+        var historico = document.getElementById("id_historico");
+        var status_pendencia = document.getElementById("id_status_pendencia");
+
+        if (historico.value != "") {
+            historico.innerHTML = historico.value + "\n" + status_pendencia.value;
+            status_pendencia.innerHTML = "";
+        } else {
+            historico.innerHTML = historico.value + status_pendencia.value;
+            status_pendencia.innerHTML = "";
+        }
+    }
+</script>
+{% endblock %}

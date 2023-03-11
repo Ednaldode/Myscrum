@@ -1,0 +1,2089 @@
+  .conteudo {
+    max-width: 100%;
+    width: 100%;
+    max-height: 86vh;
+    height: 86vh;
+    margin: 0 auto 0 auto;
+    display: flex;
+  }
+
+  .div-cadastro-form {
+    width: 85%;
+    max-width: 85%;
+    height: 88.5vh;
+    max-height: 88.5vh;
+    background-color: white;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin: 0 auto 0 auto;
+  }
+
+  .ativado{
+    display:block;
+  }
+
+  .desativado{
+    display: none;
+  }
+
+  .imgAlterar{
+    height: 500px;
+    width: 30px;
+  }
+
+  .row {
+    margin: 5px;
+  }
+
+  .no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+
+     .col,
+    > [class*="col-"] {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+
+  #porcentagem-executor {
+    max-width: 80px;
+  }
+
+  .executor {
+    max-width: 220px;
+    margin-bottom: 8px !important;
+  }
+
+  #id{
+    display: none;
+  }
+
+  #atualizado{
+    display: none;
+  }  
+
+  #id_descri {
+    width: 100%;
+  }
+
+  #id_prazo {
+    max-width: 10vw;
+  }
+
+  h2 {
+    background-color: #203566;
+    color: white !important;
+    border-style: solid;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    height: 40px;
+  }
+
+  .anexos-img {
+    max-width: 90%;
+    max-height: 45%;
+    padding: 15px;
+    margin: 5px;
+    box-shadow: inset 0 0 1em #02003e, 0 0 1em #154a85;
+    border-radius: 10px;
+  }
+
+  input[type="file"]{
+    display: none;
+  }
+
+  #id_data_ini, #id_data_real, #id_data_fim {
+    max-width: 200px;
+  }
+
+  #id_historico, #id_status_pendencia {
+    width: 100%;
+  }
+
+  #navbarSupportedContent{
+    max-width: 150px;
+  }
+
+  .noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }
+
+  .trocarEdicao{
+    margin: 4px 5px 0 5px;
+    cursor: pointer;
+  }
+
+  .barraEdicao{
+    margin: 4px 5px 0 5px;
+  }
+
+  #trocarEdicao{
+    margin: 0 auto 0 auto;
+    display: flex;
+    position: relative;
+  }
+
+  #r5w2h {
+    margin: 0 0 0 auto;
+  }
+
+  #retrospectiva {
+    margin: auto 0 auto 0;
+  }
+
+  #medicao-terceiros {
+    margin: 0 0 0 auto;
+  }
+
+  #blocoConteudo{
+    height: 83vh;
+    max-height: 83vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  .fixarRodape {
+      bottom: 0;
+      position: fixed;
+      width: 90%;
+      text-align: center;
+  }
+
+  .btn {
+    margin-bottom: 0px;
+  }
+
+  #content > div > div.div-cadastro-form > form > div:nth-child(8) > div > div > div {
+    width: 100%;
+  }
+
+/*CSS para o loading*/
+#conteudo {
+  opacity: 0;
+	transition: opacity 1.5s;
+}
+
+#conteudo.mostrar {
+  opacity: 1;
+}
+
+.load{
+	  position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;
+    background: #00000c69;
+	  opacity: 1;
+	  transition: opacity 1.5s;
+}
+
+.load > i {
+    position:absolute;
+    top:30%;
+    left:45%;
+    color:#959596;
+}
+
+#load.esconder {
+	  opacity: 0;
+}
+
+/* Retrospectiva */
+
+.p-icone {
+  width: 50px!important;
+  height: 50px!important;
+  border-radius: 100%;
+  border-color: grey;
+  border-width: thin;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#id_classificacao {
+  width: 100%;
+}
+
+#imagensExecutores {
+  margin: auto 0 auto 0;
+}
+
+#imagensAR{
+  margin: auto 0 auto 10px;
+}
+
+.autoridade {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-right: 4px;
+  border-color: blue !important;
+  border-style: solid;
+  border-width: medium !important;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#rAutoridade {
+    float: right;
+    margin: 0 5px 0 auto!important;
+}
+
+.responsavel {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+    border-color: green !important;
+    border-style: solid;
+    border-width: medium !important;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#rResponsavel {
+    float: right;
+    margin: 0 15px 0 0!important;
+}
+
+.executor {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#rExecutor {
+    float: left;
+    margin: 0 5px 0 auto!important;
+}
+
+#melhoria {
+  text-align: end;
+  font-size: 12pt;
+}
+
+#id_rHistorico{
+  width: 100%;
+}
+
+/* Retrospectiva */
+/* Solicitação */
+.cadastro {
+  width: 100%;
+  max-width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 5px;
+  margin-left: 0%;
+  margin: auto 0 auto;
+}
+#num_tarefa{
+  margin: 0 auto 0 auto;
+}
+#id_empreendimento{
+  width: 100%;
+}
+#id_bloco{
+  width: 100%;
+}
+#id_unidade{
+  width: 100%;
+}
+#id_proprietario_nome{
+  width: 100%;
+}
+#id_proprietario_nome1{
+  width: 100%;
+}
+#id_proprietario_cpf{
+  width: 100%;
+}
+#id_proprietario_rg{
+  width: 100%;
+}
+#id_proprietario_email{
+  width: 100%;
+}
+#id_solicitante_nome{
+  width: 100%;
+}
+#id_solicitante_cpf{
+  width: 100%;
+}
+#id_solicitante_rg{
+  width: 100%;
+}
+#id_solicitante_email{
+  width: 100%;
+}
+#id_telefone1{
+  width: 100%;
+}
+#id_telefone2{
+  width: 100%;
+}
+
+#id_processo_relacionado{
+  width: 100%;
+}
+#expandir{
+  margin-top: 15%;
+}
+.executoresGeral {
+  width: 38%;
+  height: 100%;
+  max-height: 100%;
+  background-color: #F2F2F2 ;
+  overflow-y: auto;
+  border-radius: 5px;
+  overflow-x: hidden;
+  margin: 0 auto 0 auto;
+}
+
+.executores {
+  width: 38%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 5px;
+  margin: 0 auto 0 auto;
+}
+
+#id_sDescri {
+  width: 100%;
+}
+#id_status_processo{
+  width: 100%;
+}
+#id_procentagem{
+  width: 100%;
+}
+#id_responsavel{
+  width: 100%;
+}
+#id_autoridade{
+  width: 100%;
+}
+#id_porcentagem_sat {
+  font-size: 9pt;
+  height: 38px;
+}
+#id_tipo_solicitacao{
+  width: 100%;
+}
+#id_satisfacao_avaliacao{
+  width: 100%;
+}
+#id_data_abertura{
+  width: 100%;
+}
+#id_data_atendimento{
+  width: 100%;
+}
+#id_data_entrega{
+  width: 280px;
+}
+#id_data_finalizacao{
+  width: 100%;
+}
+/* executores */
+#executoresSat {
+  width: 100%;
+  display: inline;
+}
+
+/* problemas */
+.problema {
+  width: 99%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  margin: 0 auto 0 auto;
+  border-radius: 5px;
+  display: block;
+}
+
+.bloco_problema{
+  max-width: 100%;
+  width: 100%;
+  max-height: 70%;
+  height: 60%;
+  display:flex;
+  margin-top: 3px;
+}
+
+.linha_problemas{
+  width: 100%;
+  max-width: 100%;
+  height:100%;
+  overflow-y: auto;
+}
+
+.linha {
+  height: 240px;
+  width: 100%;
+  margin: 0px!important;
+}
+
+.impar{
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.par{
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.ambiente{
+  width: 100%;
+  font-size: 11pt;
+}
+
+.descricao_problema {
+    width: 100%;
+    max-width: 100%;
+}
+
+.tipo_reparo {
+  width: 100%;
+  font-size: 11pt;
+}
+
+.procedencia{
+  font-size: 11pt;
+  width: 100%;
+}
+
+.duracao{
+  width: 100%;
+  font-size: 11pt;
+}
+
+.estimatica_custo {
+  width: 100%;
+  font-size: 11pt;
+}
+
+.ba1_max{
+  width: 25vw!important;
+}
+.bb1_max{
+  width: 25vw!important;
+}
+.bc1_max{
+  width: 25vw!important;
+}
+
+.ba1_min{
+  width: 20vw;
+}
+.bb1_min{
+  width: 20vw;
+}
+.bc1_min{
+  width: 20vw;
+}
+
+.historico_sat{
+  width: 100%;
+}
+
+.material{
+  width: 100%;
+}
+
+.rem_problema{
+  margin: auto 0 auto 0;
+  max-height: 50%;
+}
+
+#tempo_total{
+  width: 100%;
+  height: 60px;
+  max-height: 80px;
+}
+
+#label_tempo_total {
+  width: 60%;
+}
+
+#id_tempo_total{
+  width: 80%;
+  height: 30px;
+  max-height: 30px;
+}
+
+#t_total{
+  width: 100%;
+  display: flex;
+  margin-left: 75%;
+}
+
+#add-problema {
+  margin-left: 45%;
+  margin-right: 3%;
+}
+
+#impressao {
+  margin: 0 0 0 auto;
+}
+
+.finalizado {
+  height: 20px;
+  width: 20px;
+  margin: 0 0 0 5px;
+}
+
+.num_problema {
+  margin: 0 0 0 5px;
+}
+
+.remove-problema {
+  height: 30px;
+  width: 30px;
+  margin: auto 5px;
+}
+
+/* Solicitação */
+
+/* Modal Locação */
+
+#modal-body{
+  display: flex;
+}
+
+#modal-body-esquerda{
+  max-width: 49%;
+}
+
+#modal-body-direita{
+  width: 49%;
+}
+
+#modal-finais{
+  display: flex!important;
+}
+
+#modal-finais-esquerdo{
+  margin: 0 auto;
+}
+
+#modal-finais-direito{
+  margin: 0 auto;
+}
+
+.modal-ambiente{
+  margin: 10px auto 10px 0;
+}
+
+.modal-opcoes{
+  margin-left: 15px;
+}
+
+.cb-locacao{
+  margin-top: 2px;;
+}
+
+/* Modal Locação */
+
+@media (min-width: 1001px) and (max-width: 1366px) {
+  .div-cadastro-form {
+      width: 85%;
+      max-width: 85%;
+      height: 85vh;
+      max-height: 85vh;
+      background-color: white;
+      overflow-y: auto;
+      overflow-x: hidden;
+      margin: 0 auto 0 auto;
+    }
+
+  #blocoConteudo{
+    height: 77vh!important;
+    max-height: 77vh!important;
+  }
+
+  .p-icone {
+    width: 40px!important;
+    height: 40px!important;
+  }
+
+  #imgExecutor0 {
+    width: 40px!important;
+    height: 40px!important;
+  }
+
+  #imgExecutor1 {
+    width: 40px!important;
+    height: 40px!important;
+  }
+
+  #melhoria {
+    font-size: 11pt;
+  }
+
+  .cadastro {
+    width: 100%;
+    max-width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 5px;
+    margin-left: 0%;
+    margin: auto 0 auto;
+  }
+  #num_tarefa{
+    margin: 0 auto 0 auto;
+  }
+  #id_empreendimento{
+    width: 100%;
+  }
+  #id_bloco{
+    width: 100%;
+  }
+  #id_unidade{
+    width: 100%;
+  }
+  #id_proprietario_nome{
+    width: 100%;
+  }
+  #id_proprietario_nome1{
+    width: 100%;
+  }
+  #id_proprietario_cpf{
+    width: 100%;
+  }
+  #id_proprietario_rg{
+    width: 100%;
+  }
+  #id_proprietario_email{
+    width: 100%;
+  }
+  #id_solicitante_nome{
+    width: 100%;
+  }
+  #id_solicitante_cpf{
+    width: 100%;
+  }
+  #id_solicitante_rg{
+    width: 100%;
+  }
+  #id_solicitante_email{
+    width: 100%;
+  }
+  #id_telefone1{
+    width: 100%;
+  }
+  #id_telefone2{
+    width: 100%;
+  }
+  
+  #id_processo_relacionado{
+    width: 100%;
+  }
+  #expandir{
+    margin-top: 15%;
+  }
+  .executoresGeral {
+    width: 38%;
+    height: 100%;
+    max-height: 100%;
+    background-color: #F2F2F2 ;
+    overflow-y: auto;
+    border-radius: 5px;
+    overflow-x: hidden;
+    margin: 0 auto 0 auto;
+  }
+  
+  .executores {
+    width: 38%;
+    background-color: #F2F2F2 ;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 5px;
+    margin: 0 auto 0 auto;
+  }
+  
+  #id_sDescri {
+    width: 100%;
+  }
+  #id_status_processo{
+    width: 100%;
+  }
+  #id_procentagem{
+    width: 100%;
+  }
+  #id_responsavel{
+    width: 100%;
+  }
+  #id_autoridade{
+    width: 100%;
+  }
+  #id_porcentagem_sat {
+    font-size: 9pt;
+    height: 38px;
+  }
+  #id_tipo_solicitacao{
+    width: 100%;
+  }
+  #id_satisfacao_avaliacao{
+    width: 100%;
+  }
+  #id_data_abertura{
+    width: 100%;
+  }
+  #id_data_atendimento{
+    width: 100%;
+  }
+  #id_data_entrega{
+    width: 200px;
+  }
+  #id_data_finalizacao{
+    width: 100%;
+  }
+  
+  /* executores */
+  #executoresSat {
+    width: 100%;
+    display: inline;
+}
+
+  /* problemas */
+  .problema {
+    width: 99%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin: 0 auto 0 auto;
+    border-radius: 5px;
+    display: block;
+  }
+  
+  .bloco_problema{
+    max-width: 100%;
+    width: 100%;
+    max-height: 70%;
+    height: 60%;
+    display:flex;
+    margin-top: 3px;
+  }
+  
+  .linha_problemas{
+    width: 100%;
+    max-width: 100%;
+    height:100%;
+    overflow-y: auto;
+  }
+  
+  .linha {
+    height: 240px;
+    width: 100%;
+    margin: 0px!important;
+  }
+  
+  .impar{
+    background-color: rgba(255, 255, 255, 1);
+  }
+  
+  .par{
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .ambiente{
+    width: 100%;
+    font-size: 11pt;
+  }
+  
+  .descricao_problema {
+      width: 100%;
+      max-width: 100%;
+  }
+
+  .reparo {
+    width: 100%;
+    font-size: 11pt;
+  }
+  
+  .procedencia{
+    font-size: 11pt;
+    width: 100%;
+  }
+  
+  .duracao{
+    width: 100%;
+    font-size: 11pt;
+  }
+  
+  .estimativa_custo {
+    width: 100%;
+    font-size: 11pt;
+  }
+  
+  .historico_sat{
+    width: 100%;
+  }
+  
+  .material{
+    width: 100%;
+  }
+  
+  .rem_problema{
+    margin: auto 0 auto 0;
+    max-height: 50%;
+  }
+  
+  #tempo_total{
+    width: 100%;
+    height: 60px;
+    max-height: 80px;
+  }
+  
+#label_tempo_total{
+  width: 90%;
+  display: flex;
+}
+
+  #t_total{
+    width: 100%;
+    display: flex;
+    margin-left: 75%;
+  }
+  
+  #add-problema {
+    margin-left: 45%;
+    margin-right: 3%;
+  }
+  
+  #impressao {
+    margin: 0 0 0 auto;
+  }
+  
+}
+
+@media (min-width: 701px) and (max-width: 1000px) {
+  .div-cadastro-form {
+    min-width: 100%;
+  }
+
+  .div-anexos-form {
+    width: 0%;
+  }
+
+  #prioridade {
+    min-width: 25%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_prioridade {
+    font-size: 11pt;
+  }
+
+  #status {
+    min-width: 25%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_stat {
+    font-size: 11pt;
+  }
+
+  #tamanho {
+    min-width: 25%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_id_tamanho {
+    font-size: 11pt;
+  }
+
+  /* Modal */
+
+  #modalTamanho > div > div > div.modal-body > table > thead {
+    font-size: 12pt;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+  }
+
+  #modalTamanho > div > div > div.modal-body > table > tbody{
+    font-size: 11pt;
+  }
+
+  /* Modal */
+
+  #porcentagem {
+    min-width: 15%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_porcentagem {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #id_data_ini, #id_data_real, #id_data_fim {
+    max-width: 100%!important;
+  }
+
+  #dataInicial {
+    min-width: 25%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_ini {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #dataReal {
+    min-width: 25%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_real {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #prazo {
+    min-width: 25%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_prazo {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #dataFinal {
+    min-width: 15%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_fim {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #departamento {
+    min-width: 4%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_id_departamento {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #centroCusto {
+    min-width: 49%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_id_centro_custo {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #etapa {
+    min-width: 49%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_etapa {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #subEtapa {
+    min-width: 49%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_subetapa {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #autoridade {
+    min-width: 33%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_autoridade {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #responsavel {
+    min-width: 33%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_responsavel {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #checado {
+    min-width: 33%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_checado {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #statusPendencia {
+    min-width: 100%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_status_pendencia {
+    font-size: pt;
+  }
+
+  #historico {
+    min-width: 50%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_historico {
+    font-size: 11pt;
+  }
+
+  #impedimento {
+    min-width: 33%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_pendente_por {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #processo {
+    min-width: 66%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_processo_relacionado {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  /* Executores */
+
+  .executor {
+    max-width: 100%!important;
+  }
+
+  #executor {
+    font-size: 12pt;
+  }
+
+  #executor1 {
+    width: 33%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor1 > div.input.group.bs-select.executor {
+    width: 330%!important;
+    min-width: 33%!important;
+    height: 38px;
+  }
+
+  #id_executor1 {
+    font-size: 9pt;
+  }
+
+  #executor2 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor2 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor2 {
+    font-size: 9pt;
+  }
+
+  #executor3 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor3 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor3 {
+    font-size: 9pt;
+  }
+
+  #executor4 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor4 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor4 {
+    font-size: 9pt;
+  }
+
+  #executor5 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor5 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor5 {
+    font-size: 9pt;
+  }
+
+  #executor6 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor6 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor6 {
+    font-size: 9pt;
+  }
+
+  #executor7 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor7 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor7 {
+    font-size: 9pt;
+  }
+
+  #executor8 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor8 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor8 {
+    font-size: 9pt;
+  }
+
+  #executor9 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor9 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor9 {
+    font-size: 9pt;
+  }
+
+  #executor10 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor10 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor10 {
+    font-size: 9pt;
+  }
+}
+
+@media (min-width: 301px) and (max-width: 700px) {
+  .div-cadastro-form {
+    min-width: 100%;
+  }
+
+  .div-anexos-form {
+    width: 0%;
+  }
+
+  #prioridade {
+    min-width: 25%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_prioridade {
+    font-size: 9pt;
+  }
+
+  #status {
+    min-width: 50%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_stat {
+    font-size: 9pt;
+  }
+
+  #tamanho {
+    min-width: 40%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_id_tamanho {
+    font-size: 9pt;
+  }
+
+  /* Modal */
+
+  #modalTamanho > div > div > div.modal-body > table > thead {
+    font-size: 8pt;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+  }
+
+  #modalTamanho > div > div > div.modal-body > table > tbody{
+    font-size: 7pt;
+  }
+
+  /* Modal */
+
+  #porcentagem {
+    min-width: 25%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_porcentagem {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #id_data_ini, #id_data_real, #id_data_fim {
+    max-width: 100%!important;
+  }
+
+  #dataInicial {
+    min-width: 50%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_ini {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #dataReal {
+    min-width: 50%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_real {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #prazo {
+    min-width: 50%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_prazo {
+    font-size: 9pt;
+    height: 38px;
+    max-width: 10vw;
+  }
+
+  #dataFinal {
+    min-width: 50%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_fim {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #departamento {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_id_departamento {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #centroCusto {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_id_centro_custo {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #etapa {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_etapa {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #subEtapa {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_subetapa {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #autoridade {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_autoridade {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #responsavel {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_responsavel {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #checado {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_checado {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #statusPendencia {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_status_pendencia {
+    font-size: 9pt;
+  }
+
+  #historico {
+    min-width: 50%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_historico {
+    font-size: 9pt;
+  }
+
+  #impedimento {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_pendente_por {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #processo {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_processo_relacionado {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  /* Executores */
+
+  .executor {
+    max-width: 100%!important;
+  }
+
+  #executor {
+    font-size: 10pt;
+  }
+
+  #executor1 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor1 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor1 {
+    font-size: 9pt;
+  }
+
+  #executor2 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor2 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor2 {
+    font-size: 9pt;
+  }
+
+  #executor3 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor3 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor3 {
+    font-size: 9pt;
+  }
+
+  #executor4 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor4 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor4 {
+    font-size: 9pt;
+  }
+
+  #executor5 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor5 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor5 {
+    font-size: 9pt;
+  }
+
+  #executor6 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor6 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor6 {
+    font-size: 9pt;
+  }
+
+  #executor7 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor7 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor7 {
+    font-size: 9pt;
+  }
+
+  #executor8 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor8 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor8 {
+    font-size: 9pt;
+  }
+
+  #executor9 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor9 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor9 {
+    font-size: 9pt;
+  }
+
+  #executor10 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor10 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor10 {
+    font-size: 9pt;
+  }
+  /* Aqui */
+
+  #empreendimento{
+    height: 38px;
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #bloco {
+
+    height: 38px;
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #unidade{
+    height: 38px;
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #proprietario_nome {
+    min-width: 75%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  /* Expandir */
+  #id_proprietario_nome {
+    font-size: 9pt;
+  }
+
+  #prop {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_proprietario_cpf {
+    font-size: 9pt;
+  }
+  
+  #cpf_proprietario {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_proprietario_rg {
+    font-size: 9pt;
+  }
+
+  #rg_proprietario {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_proprietario_nome {
+    font-size: 9pt;
+  }
+
+  #email_proprietario {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px; 
+  }
+
+  #id_telefone {
+    font-size: 9pt;
+  }
+  
+  #telefone_solicitante {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px; 
+  }
+
+  #id_telefone {
+    font-size: 9pt;
+  }
+  
+  #telefone2_solicitante {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px; 
+  }
+
+  #id_solicitante_nome {
+    font-size: 9pt;
+  }
+
+  #cpf_solicitante {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px; 
+  }
+
+  #id_solicitante_cpf {
+    font-size: 9pt;
+  }
+
+  #rg_solicitante {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px; 
+  }
+
+  #id_solicitante_rg  {
+    font-size: 9pt;
+  }
+
+  #email_solicitante {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px; 
+  }
+
+  #id_solicitante_email  {
+    font-size: 9pt;
+  }
+
+  #telefone2_solicitante {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px; 
+  }
+
+  #id_telefone2  {
+    font-size: 9pt;
+  }
+
+  #id_status_processo{
+    height: 38px;
+    font-size: 9pt;
+  }
+  
+  #status_processo{
+    min-width: 65%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+  
+  #id_porcentagem_sat {
+    height: 38px;
+    font-size: 9pt;
+  }
+
+  #porcentagem_sat{
+    min-width: 30%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_tipo_solicitacao{
+    height: 38px;
+    font-size: 9pt;
+  }
+
+  #tipo_solicitacao {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_satisfacao_avaliacao{
+    height: 38px;
+    font-size: 9pt;
+  }
+
+  #satisfacao_avaliacao{
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_status_solicitacao{
+    height: 38px;
+    font-size: 9pt;
+  }
+
+  #status_solicitacao {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_abertura{
+    height: 38px;
+    font-size: 9pt;
+  }
+  
+  #data_abertura {
+    min-width: 50%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_atendimento {
+    height: 38px;
+    font-size: 9pt;
+  }
+  
+  #data_atendimento {
+    min-width: 50%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_finalizacao_sat{
+    height: 38px;
+    font-size: 9pt;
+  }
+
+  #data_finalizacao_sat {
+    min-width: 50%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_entrega {
+    height: 38px;
+    width: 100%;
+    font-size: 9pt;
+  }
+  
+  #data_entrega {
+    min-width: 50%!important;
+    margin-top: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #t_total {
+    height: 38px;
+    width: 100%;
+    font-size: 9pt;
+  }
+
+  #label_tempo_total {
+    width: 60%;
+  }
+  
+  #id_tempo_total{
+    min-width: 100%!important;
+    margin-top: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+  
+  #t_total{
+    width: 100%;
+    display: flex;
+    margin-left: 75%;
+  }
+  
+  .linha_problemas{
+    width: 100%;
+    max-width: 100%;
+    height:100%;
+    overflow-y: auto;
+  }
+
+  .linha {
+    height: 800px;
+    width: 100%;
+    margin: 0px!important;
+  }
+
+  .impar{
+    background-color: rgba(255, 255, 255, 1);
+  }
+
+  .par{
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .ambiente{
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+  
+  .descricao_problema {
+    min-width: 350px;
+    max-width: 100%!important;
+  }
+
+  .tipo_reparo {
+    min-width: 100%!important;
+    font-size: 11pt;
+  }
+
+  .reparo {
+    min-width: 100%!important;
+    font-size: 11pt; 
+  }
+
+  .procedencia{
+    font-size: 11pt;
+    min-width: 100%!important;
+  }
+
+  .duracao{
+    min-width: 100%!important;
+    font-size: 11pt;
+  }
+
+  .estimatica_custo {
+    min-width: 100%!important;
+    font-size: 11pt;
+  }
+
+  .historico_sat{
+    min-width: 100%!important;
+  }
+
+  .material{
+    min-width: 100%!important;
+  }
+
+  .rem_problema{
+    margin: auto 0 auto 0;
+    max-height: 50%;
+  }  
+
+  #add-problema {
+    margin-left: 45%;
+    margin-right: 3%;
+  }
+  
+  #impressao {
+    margin: 0 0 0 auto;
+  }
+  
+  .finalizado {
+    height: 20px;
+    width: 20px;
+    margin: 0 0 0 5px;
+  }
+  
+  .num_problema {
+    margin: 0 0 0 5px;
+  }
+  
+  .remove-problema {
+    height: 30px;
+    width: 30px;
+    margin: auto 5px;
+  }
+}
+
+

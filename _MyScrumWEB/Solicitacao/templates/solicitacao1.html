@@ -1,0 +1,1418 @@
+{% extends 'base.html' %}{% load static %}
+{% block title %} Solicitação {% endblock %}
+{% block head %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<!-- CSS da Pagina -->
+<link href="{% static 'Solicitacao/css/Solicitacao.css' %}" rel="stylesheet">
+<!-- Script para o funciomento dos DatePickers -->
+<script src = "https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- Script para reconher o PT-BR do DatePickers-->
+<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/locales/bootstrap-datepicker.pt-BR.min.js" charset="UTF-8"></script>
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+{% endblock %}
+{% block navbar %}
+<div class="col-3">
+   <div class="input-group bs-select">
+      {{ form.empre_manut }}
+   </div>
+</div>
+<div class="col-2">
+   <div class="input-group bs-select">
+      {{ form.bloco_manut }}
+   </div>
+</div>
+<div class="col-2">
+   <div class="input-group bs-select">
+      {{ form.unidade_manut }}
+   </div>
+</div>
+<div class="col-3">
+   <div class="input-group bs-select">
+      {{ form.solicitante_manut_navbar }}
+   </div>
+</div>
+<div class="card-header" id="headingOne">
+   <button id="buttonCollapse" type="button" class="btn btn-info" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+   <i class="fa fa-arrows-alt"></i>
+   <span id="botao-filtro">Expandir</span>
+   </button>
+</div>
+{% endblock %}
+{% block expandirFiltros %}
+<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+   <div class="card-body">
+      <div class="row">
+         <div class="col-3">
+            <label>Solicitante/Proprietario:</label>
+            <div class="input-group bs-select">
+               {{ form.solicitante_manut}}
+            </div>
+         </div>
+         <div class="col">
+            <label>CPF:</label>
+            <div class="input-group bs-select">
+               {{ form.cpf_solicitante_manut }}
+            </div>
+         </div>
+         <div class="col">
+            <label>RG:</label>
+            <div class="input-group bs-select">
+               {{ form.rg_solicitante_manut }}
+            </div>
+         </div>
+         <div class="col">
+            <label>E-MAIL:</label>
+            <div class="input-group bs-select">
+               {{ form.email_solicitante_manut }}
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col">
+            <label>Pessoa p/ Contato:</label>
+            <div class="input-group bs-select">
+               {{ form.pessoa_contato_manut }}
+            </div>
+         </div>
+         <div class="col">
+            <label>CPF:</label>
+            <div class="input-group bs-select">
+               {{ form.cpf_contato_manut }}
+            </div>
+         </div>
+         <div class="col">
+            <label>RG:</label>
+            <div class="input-group bs-select">
+               {{ form.rg_contato_manut }}
+            </div>
+         </div>
+         <div class="col">
+            <label>E-MAIL:</label>
+            <div class="input-group bs-select">
+               {{ form.email_contato_manut }}
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col">
+            <label>Numero p/ Contato:</label>
+            <div class="input-group bs-select">
+               {{ form.telefone1 }}
+            </div>
+         </div>
+         <div class="col">
+            <label>2*Numero p/ Contato:</label>
+            <div class="input-group bs-select">
+               {{ form.telefone2 }}
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{message.extra_tags}}" role="alert">
+   <center>{{ message }}</center>
+</div>
+{% endfor %}
+{% endif %}
+<div class="conteudo">
+<div class="row" id="cadastro">
+   <div class="cadastro">
+      <form class="" action="index.html" method="post">
+      {% csrf_token %}
+      <div class="row">
+         <div class="col-2">
+            <label id="id_label">ID:</label>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-4">
+            <label for="id_responsavel">*Responsável:</label>
+            <div class="input-group bs-select">
+               {{ form.responsavel }}
+            </div>
+         </div>
+         <div class="col-3">
+            <label for="id_aut">*Autoridade:</label>
+            <div class="input-group bs-select">
+               {{ form.autoridade }}
+            </div>
+         </div>
+         <div class="col-3">
+            <label for="id_Processo">*Status do processo:</label>
+            <div class="input-group">
+               {{ form.statusProcesso }}
+            </div>
+         </div>
+         <div class="col-2">
+            <label for="id_porcentagem">Porcentagem:</label>
+            <div class="input-group">
+               {{ form.porcentagem }}
+            </div>
+         </div>
+      </div>
+      <div class="row" id="descri">
+         <div class="col">
+            <label for="id_descri">Status:</label>
+            <div class="input-group">
+               <textarea name="descri" rows="4" required="" id="id_descri"></textarea>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-4">
+            <label >Data de inicio:</label>
+            <div class="input-group bs-select">
+               {{ form.data_inicial }}
+            </div>
+         </div>
+         <div class="col-4">
+            <label >Data Real:</label>
+            <div class="input-group bs-select">
+               {{ form.data_real }}
+            </div>
+         </div>
+         <div class="col-4">
+            <label >Data Final:</label>
+            <div class="input-group" id="a">
+               <div class="input-group-icon">
+                  {{ form.data_final }}
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-6">
+            <label for="id_processoRelacionado">*Processo Relacionado:</label>
+            <div class="input-group">
+               {{ form.processoRelacionado }}
+            </div>
+         </div>
+         <div class="col-6">
+            <label for="id_tipoSolicitacao">Tipo de solicitação:</label>
+            <div class="input-group bs-select">
+               {{ form.tipoSolicitacao }}
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="executoresGeral">
+      <div class="bloco_executores">
+        <div class="exe">
+           <div class="col" id="executor">
+              <label for="add-executor">*Executores: </label>
+              <button type="button" id="add-executor">
+              <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              </button>
+           </div>
+           <div class="row" id=Executores>
+              <div class="col executor " id="executor1">
+                 <div class="input group bs-select executor">
+                    {{ form.executor1 }}
+                 </div>
+                 <div class=" input-group" id="porcentagem-executor">
+                    {{ form.porcento1 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row" id="Executores2-4">
+              <div class="col executor" id="executor2" hidden="hidden">
+                 <button type="button" id="remove-executor2">
+                 <i class="fa fa-trash" aria-hidden="true" id="remove-executor2" for="executor2"></i>
+                 </button>
+                 <div class="input-group bs-select executor">
+                    {{form.executor2}}
+                 </div>
+                 <div class=" input-group"id="porcentagem-executor">
+                    {{ form.porcento2 }}
+                 </div>
+              </div>
+              <div class="col executor" id="executor3" hidden="hidden">
+                 <button type="button" id="remove-executor3">
+                 <i class="fa fa-trash" aria-hidden="true" id="remove-executor3" for="executor3"></i>
+                 </button>
+                 <div class="input-group bs-select executor">
+                    {{form.executor3}}
+                 </div>
+                 <div class=" input-group"id="porcentagem-executor">
+                    {{ form.porcento3 }}
+                 </div>
+              </div>
+              <div class="col executor" id="executor4" hidden="hidden">
+                 <button type="button" id="remove-executor4">
+                 <i class="fa fa-trash" aria-hidden="true" id="remove-executor4" for="executor4"></i>
+                 </button>
+                 <div class="input-group bs-select executor">
+                    {{form.executor4}}
+                 </div>
+                 <div class=" input-group"id="porcentagem-executor">
+                    {{ form.porcento4 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row" id="Executores5-7">
+              <div class="col executor" id="executor5" hidden="hidden">
+                 <button type="button" id="remove-executor5">
+                 <i class="fa fa-trash" aria-hidden="true" id="remove-executor5" for="executor5"></i>
+                 </button>
+                 <div class="input-group bs-select executor">
+                    {{form.executor5}}
+                 </div>
+                 <div class=" input-group"id="porcentagem-executor">
+                    {{ form.porcento5 }}
+                 </div>
+              </div>
+              <div class="col executor" id="executor6" hidden="hidden">
+                 <button type="button" id="remove-executor6">
+                 <i class="fa fa-trash" aria-hidden="true" id="remove-executor6" for="executor6"></i>
+                 </button>
+                 <div class="input-group bs-select executor">
+                    {{form.executor6}}
+                 </div>
+                 <div class=" input-group"id="porcentagem-executor">
+                    {{ form.porcento6 }}
+                 </div>
+              </div>
+              <div class="col executor" id="executor7" hidden="hidden">
+                 <button type="button" id="remove-executor7">
+                 <i class="fa fa-trash" aria-hidden="true" id="remove-executor7" for="executor7"></i>
+                 </button>
+                 <div class="input-group bs-select executor">
+                    {{form.executor7}}
+                 </div>
+                 <div class=" input-group"id="porcentagem-executor">
+                    {{ form.porcento7 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row" id="Executores8-9">
+              <div class="col executor" id="executor8" hidden="hidden">
+                 <button type="button" id="remove-executor8">
+                 <i class="fa fa-trash" aria-hidden="true" id="remove-executor8" for="executor8"></i>
+                 </button>
+                 <div class="input-group bs-select executor">
+                    {{ form.executor8}}
+                 </div>
+                 <div class=" input-group"id="porcentagem-executor">
+                    {{ form.porcento8 }}
+                 </div>
+              </div>
+              <div class="col executor" id="executor9" hidden="hidden">
+                 <button type="button" id="remove-executor9">
+                 <i class="fa fa-trash" aria-hidden="true" id="remove-executor9" for="executor9"></i>
+                 </button>
+                 <div class="input-group bs-select executor">
+                    {{ form.executor9}}
+                 </div>
+                 <div class=" input-group"id="porcentagem-executor">
+                    {{ form.porcento9 }}
+                 </div>
+              </div>
+              <div class="col executor" id="executor10" hidden="hidden">
+                 <button type="button" id="remove-executor10">
+                 <i class="fa fa-trash" aria-hidden="true" id="remove-executor10" for="executor10"></i>
+                 </button>
+                 <div class="input-group bs-select executor">
+                    {{ form.executor10}}
+                 </div>
+                 <div class=" input-group"id="porcentagem-executor">
+                    {{ form.porcento10 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+      </div>
+   </div>
+</div>
+
+<div class="problema">
+   {% csrf_token %}
+<div class="bloco_tTotal" id="tempo_total">
+<div class="row">
+   <div id="t_total">
+      <label id="tTotal" data-toggle="modal" data-target="#modalTamanho">Tempo Total: </label>
+      <div class="input-group">
+         {{ form.tempoTotal }}
+         <!-- Modal com os valores por tamanho de tarefa. -->
+         <div class="modal fade" id="modalTamanho" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">Tamanhos</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                     </button>
+                  </div>
+                  <div class="modal-body">
+                     <table class="table table-bordered">
+                        <thead>
+                           <tr>
+                              <th scope="col">Tamanhos</th>
+                              <th scope="col">Pontos e prazos</th>
+                              <th scope="col">Critérios</th>
+                              <th scope="col">Dias trabalhados</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <th scope="row">Baby</th>
+                              <td>0,33</td>
+                              <td>Até 20 minutos</td>
+                              <td>0,04</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">PP</th>
+                              <td>1</td>
+                              <td>Até 1 horas</td>
+                              <td>0,11</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">P</th>
+                              <td>3</td>
+                              <td>De 1 à 3 horas</td>
+                              <td>0,33</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">M</th>
+                              <td>5</td>
+                              <td>De 4 à 5 horas</td>
+                              <td>0,56</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">G</th>
+                              <td>8</td>
+                              <td>De 6 à 8 horas</td>
+                              <td>0,89</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">GG</th>
+                              <td>13</td>
+                              <td>De 9 à 13 horas</td>
+                              <td>1,44</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">EG</th>
+                              <td>21</td>
+                              <td>De 14 à 21 horas</td>
+                              <td>2,33</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Gigante</th>
+                              <td>34</td>
+                              <td>De 22 à 34 horas</td>
+                              <td>3,78</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Gigante 1</th>
+                              <td>55</td>
+                              <td>De 34 à 55 horas</td>
+                              <td>6,11</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Gigante 2</th>
+                              <td>89</td>
+                              <td>De 56 à 89 horas</td>
+                              <td>9,89</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Gigante 3</th>
+                              <td>144</td>
+                              <td>De 90 à 144 horas</td>
+                              <td>13,67</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Gigante 4</th>
+                              <td>233</td>
+                              <td>De 145 à 233 horas</td>
+                              <td>17,44</td>
+                           </tr>
+                           <tr>
+                              <th scope="row">Gigante 5</th>
+                              <td>277</td>
+                              <td>De 234 à 377 horas</td>
+                              <td>21,22</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!-- Fim da modal -->
+      </div>
+   </div>
+</div>
+</div>
+
+<div class="bloco_problema">
+  <div class="linha_problemas">
+     <div class="row" id="linha">
+        <div class="row">
+           <label id="id_num_problema">1:</label>
+        </div>
+        <div class id="ba">
+           <div class="row">
+              <div class="col">
+                 <label id="label_ambiente">Ambiente:</label>
+                 <div class="input-group bs-select">
+                    {{ form.ambiente }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico">Descrição problema:</label>
+                 <div class="input-group bs-select">
+                    {{ form.descricao_problema }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bb">
+           <div class="row">
+              <div class="col">
+                 <label id="label_reparo">Tipo reparo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.tipo_reparo }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_procedencia">Procedência:</label>
+                 <div class="input-group bs-select">
+                    {{ form.procedencia }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico">Historico:</label>
+                 <div class="input-group bs-select">
+                    {{ form.historico }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bc">
+           <div class="row">
+              <div class="col">
+                 <label id="label_duracao">Est. Custo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.custo }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_custo">Duração:</label>
+                 <div class="input-group bs-select">
+                    {{ form.duracao }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_material">Material Usado:</label>
+                 <div class="input-group bs-select">
+                    {{ form.material }}
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+     <div class="row" id="linha2">
+        <div class="row">
+           <label id="id_num_problema">2:</label>
+        </div>
+        <div class id="ba2">
+           <div class="row">
+              <div class="col">
+                 <label id="label_ambiente2">Ambiente:</label>
+                 <div class="input-group bs-select">
+                    {{ form.ambiente2 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico2">Descrição problema:</label>
+                 <div class="input-group bs-select">
+                    {{ form.descricao_problema2 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bb2">
+           <div class="row">
+              <div class="col">
+                 <label id="label_reparo2">Tipo reparo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.tipo_reparo2 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_procedencia2">Procedência:</label>
+                 <div class="input-group bs-select">
+                    {{ form.procedencia2 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico2">Historico:</label>
+                 <div class="input-group bs-select">
+                    {{ form.historico2 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bc">
+           <div class="row">
+              <div class="col">
+                 <label id="label_duracao2">Est. Custo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.custo2 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_custo2">Duração:</label>
+                 <div class="input-group bs-select">
+                    {{ form.duracao2 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_material2">Material Usado:</label>
+                 <div class="input-group bs-select">
+                    {{ form.material2 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+          <button type="button" id="remover-problema2">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+     </div>
+     <div class="row" id="linha3" >
+        <div class="row">
+           <label id="id_num_problema3_l3">3:</label>
+        </div>
+        <div class id="ba3">
+           <div class="row">
+              <div class="col">
+                 <label id="label_ambiente3_l3">Ambiente:</label>
+                 <div class="input-group bs-select">
+                    {{ form.ambiente3 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico3_l3">Descrição problema:</label>
+                 <div class="input-group bs-select">
+                    {{ form.descricao_problema3 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bb3">
+           <div class="row">
+              <div class="col">
+                 <label id="label_reparo3_l3">Tipo reparo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.tipo_reparo3 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_procedencia3_l3">Procedência:</label>
+                 <div class="input-group bs-select">
+                    {{ form.procedencia3 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico3_l3">Historico:</label>
+                 <div class="input-group bs-select">
+                    {{ form.historico3 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bc3">
+           <div class="row">
+              <div class="col">
+                 <label id="label_duracao3_l3">Est. Custo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.custo3 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_custo3_l3">Duração:</label>
+                 <div class="input-group bs-select">
+                    {{ form.duracao3 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_material3_l3">Material Usado:</label>
+                 <div class="input-group bs-select">
+                    {{ form.material3 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <button type="button" id="remover-problema3">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+     </div>
+     <div class="row" id="linha4" >
+        <div class="row">
+           <label id="id_num_problema4">4:</label>
+        </div>
+        <div class id="ba4">
+           <div class="row">
+              <div class="col">
+                 <label id="label_ambiente4">Ambiente:</label>
+                 <div class="input-group bs-select">
+                    {{ form.ambiente4 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico4">Descrição problema:</label>
+                 <div class="input-group bs-select">
+                    {{ form.descricao_problema4 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bb4">
+           <div class="row">
+              <div class="col">
+                 <label id="label_reparo4">Tipo reparo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.tipo_reparo4 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_procedencia4">Procedência:</label>
+                 <div class="input-group bs-select">
+                    {{ form.procedencia4 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico4">Historico:</label>
+                 <div class="input-group bs-select">
+                    {{ form.historico4 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bc4">
+           <div class="row">
+              <div class="col">
+                 <label id="label_duracao4">Est. Custo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.custo4 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_custo4">Duração:</label>
+                 <div class="input-group bs-select">
+                    {{ form.duracao4 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_material4">Material Usado:</label>
+                 <div class="input-group bs-select">
+                    {{ form.material4 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <button type="button" id="remover-problema4">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+     </div>
+     <div class="row" id="linha5" >
+        <div class="row">
+           <label id="id_num_problema5">5:</label>
+        </div>
+        <div class id="ba5">
+           <div class="row">
+              <div class="col">
+                 <label id="label_ambiente5">Ambiente:</label>
+                 <div class="input-group bs-select">
+                    {{ form.ambiente5 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico5">Descrição problema:</label>
+                 <div class="input-group bs-select">
+                    {{ form.descricao_problema5 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bb5">
+           <div class="row">
+              <div class="col">
+                 <label id="label_reparo5">Tipo reparo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.tipo_reparo5 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_procedencia5">Procedência:</label>
+                 <div class="input-group bs-select">
+                    {{ form.procedencia5 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico5">Historico:</label>
+                 <div class="input-group bs-select">
+                    {{ form.historico5 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bc5">
+           <div class="row">
+              <div class="col">
+                 <label id="label_duracao5">Est. Custo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.custo5 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_custo5">Duração:</label>
+                 <div class="input-group bs-select">
+                    {{ form.duracao5 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_material5">Material Usado:</label>
+                 <div class="input-group bs-select">
+                    {{ form.material5 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <button type="button" id="remover-problema5">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+     </div>
+     <div class="row" id="linha6" >
+        <div class="row">
+           <label id="id_num_problema">6:</label>
+        </div>
+        <div class id="ba6">
+           <div class="row">
+              <div class="col">
+                 <label id="label_ambiente">Ambiente6:</label>
+                 <div class="input-group bs-select">
+                    {{ form.ambiente6 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico6">Descrição problema:</label>
+                 <div class="input-group bs-select">
+                    {{ form.descricao_problema6 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bb6">
+           <div class="row">
+              <div class="col">
+                 <label id="label_reparo6">Tipo reparo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.tipo_reparo6 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_procedencia6">Procedência:</label>
+                 <div class="input-group bs-select">
+                    {{ form.procedencia6 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico6">Historico:</label>
+                 <div class="input-group bs-select">
+                    {{ form.historico6 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bc6">
+           <div class="row">
+              <div class="col">
+                 <label id="label_duracao6">Est. Custo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.custo6 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_custo6">Duração:</label>
+                 <div class="input-group bs-select">
+                    {{ form.duracao6 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_material6">Material Usado:</label>
+                 <div class="input-group bs-select">
+                    {{ form.material6 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <button type="button" id="remover-problema6">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+     </div>
+     <div class="row" id="linha7" >
+        <div class="row">
+           <label id="id_num_problema">7:</label>
+        </div>
+        <div class id="ba7">
+           <div class="row">
+              <div class="col">
+                 <label id="label_ambiente7">Ambiente:</label>
+                 <div class="input-group bs-select">
+                    {{ form.ambiente7 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico7">Descrição problema:</label>
+                 <div class="input-group bs-select">
+                    {{ form.descricao_problema7 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bb7">
+           <div class="row">
+              <div class="col">
+                 <label id="label_reparo7">Tipo reparo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.tipo_reparo7 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_procedencia7">Procedência:</label>
+                 <div class="input-group bs-select">
+                    {{ form.procedencia7 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico7">Historico:</label>
+                 <div class="input-group bs-select">
+                    {{ form.historico7 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bc7">
+           <div class="row">
+              <div class="col">
+                 <label id="label_duracao7">Est. Custo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.custo7 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_custo7">Duração:</label>
+                 <div class="input-group bs-select">
+                    {{ form.duracao7 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_material7">Material Usado:</label>
+                 <div class="input-group bs-select">
+                    {{ form.material7 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <button type="button" id="remover-problema7">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+     </div>
+     <div class="row" id="linha8" >
+        <div class="row">
+           <label id="id_num_problema">8:</label>
+        </div>
+        <div class id="ba8">
+           <div class="row">
+              <div class="col">
+                 <label id="label_ambiente8">Ambiente:</label>
+                 <div class="input-group bs-select">
+                    {{ form.ambiente8 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico8">Descrição problema:</label>
+                 <div class="input-group bs-select">
+                    {{ form.descricao_problema8 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bb8">
+           <div class="row">
+              <div class="col">
+                 <label id="label_reparo8">Tipo reparo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.tipo_reparo8 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_procedencia8">Procedência:</label>
+                 <div class="input-group bs-select">
+                    {{ form.procedencia8 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico8">Historico:</label>
+                 <div class="input-group bs-select">
+                    {{ form.historico8 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bc8">
+           <div class="row">
+              <div class="col">
+                 <label id="label_duracao8">Est. Custo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.custo8 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_custo8">Duração:</label>
+                 <div class="input-group bs-select">
+                    {{ form.duracao8 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_material8">Material Usado:</label>
+                 <div class="input-group bs-select">
+                    {{ form.material8 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <button type="button" id="remover-problema8">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+     </div>
+     <div class="row" id="linha9" >
+        <div class="row">
+           <label id="id_num_problema9">9:</label>
+        </div>
+        <div class id="ba9">
+           <div class="row">
+              <div class="col">
+                 <label id="label_ambiente9">Ambiente:</label>
+                 <div class="input-group bs-select">
+                    {{ form.ambiente9 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico9">Descrição problema:</label>
+                 <div class="input-group bs-select">
+                    {{ form.descricao_problema9 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bb9">
+           <div class="row">
+              <div class="col">
+                 <label id="label_reparo9">Tipo reparo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.tipo_reparo9 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_procedencia9">Procedência:</label>
+                 <div class="input-group bs-select">
+                    {{ form.procedencia9 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico9">Historico:</label>
+                 <div class="input-group bs-select">
+                    {{ form.historico9 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bc9">
+           <div class="row">
+              <div class="col">
+                 <label id="label_duracao9">Est. Custo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.custo9 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_custo9">Duração:</label>
+                 <div class="input-group bs-select">
+                    {{ form.duracao9 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_material9">Material Usado:</label>
+                 <div class="input-group bs-select">
+                    {{ form.material9 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <button type="button" id="remover-problema9">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+     </div>
+     <div class="row" id="linha10" >
+        <div class="row">
+           <label id="id_num_problema">10:</label>
+        </div>
+        <div class id="ba10">
+           <div class="row">
+              <div class="col">
+                 <label id="label_ambiente10">Ambiente:</label>
+                 <div class="input-group bs-select">
+                    {{ form.ambiente10 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico10">Descrição problema:</label>
+                 <div class="input-group bs-select">
+                    {{ form.descricao_problema10 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bb10">
+           <div class="row">
+              <div class="col">
+                 <label id="label_reparo10">Tipo reparo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.tipo_reparo10 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_procedencia10">Procedência:</label>
+                 <div class="input-group bs-select">
+                    {{ form.procedencia10 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_historico10">Historico:</label>
+                 <div class="input-group bs-select">
+                    {{ form.historico10 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class id="bc10">
+           <div class="row">
+              <div class="col">
+                 <label id="label_duracao10">Est. Custo:</label>
+                 <div class="input-group bs-select">
+                    {{ form.custo10 }}
+                 </div>
+              </div>
+              <div class="col">
+                 <label id="label_custo10">Duração:</label>
+                 <div class="input-group bs-select">
+                    {{ form.duracao10 }}
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col">
+                 <label for="id_material10">Material Usado:</label>
+                 <div class="input-group bs-select">
+                    {{ form.material10 }}
+                 </div>
+              </div>
+           </div>
+        </div>
+        <button type="button" id="remover-problema10">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        </button>
+     </div>
+  </div>
+</div>
+
+   <div class="row" id="botoes">
+     <button type="button" id="add-problema">
+     <i class="fa fa-plus-circle" aria-hidden="true"></i>
+     </button>
+   </div>
+</div>
+
+
+<div class="row">
+   <div class="col-md-auto">
+      <input class="btn btn-primary" id="cadastrar" type="submit" value="Cadastrar">
+   </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<!--JS do campo executor -->
+<script src="{% static 'Solicitacao/js/executores.js' %}"></script>
+<!--JS Geral -->
+<script src="{% static 'Solicitacao/js/solicitacao.js' %}"></script>
+<!-- JS para alterar o CSS dos campos de executores -->
+<script>
+   //JS para esconder o solicitante
+   $('#buttonCollapse').click(function(){
+     $('#id_solicitante_manut_navbar').toggleClass('teste');
+   })
+
+   $('#id_empre_manut').val("Empreendimento: ");
+   $('#id_bloco_manut').val("Bloco: ");
+   $('#id_unidade_manut').val("Unidade: ");
+   $('#id_solicitante_manut_navbar').val("Solicitante: ");
+
+   $('#id_id_departamento').addClass('custom-select custom-select form-control form-control-sm')
+   $('#id_id_centro_custo').addClass('custom-select custom-select form-control form-control-sm')
+   $('#id_prioridade').addClass('custom-select custom-select form-control form-control-sm')
+   $('#id_stat').addClass('custom-select custom-select form-control form-control-sm')
+   // $('#id_id_tamanho').addClass('custom-select custom-select form-control form-control-sm')
+
+   $('#id_prazo').addClass('custom-select custom-select form-control form-control-sm')
+   $('#id_etapa').addClass('custom-select custom-select form-control form-control-sm')
+   $('#id_subetapa').addClass('custom-select custom-select form-control form-control-sm')
+   //$('#id_autoridade').addClass('custom-select custom-select form-control form-control-sm')
+   // $('#id_responsavel').addClass('custom-select custom-select form-control form-control-sm')
+   $('#id_checado').addClass('custom-select custom-select form-control form-control-sm')
+
+   // $('#id_data_inicial').addClass('form-control form-control-sm')
+   $('#id_data_inicial').attr('autocomplete', 'off')
+
+   // $('#id_data_real').addClass('form-control form-control-sm')
+   $('#id_data_real').attr('autocomplete', 'off')
+   // $('#id_data_real').attr('readonly', 'true')
+
+   // $('#id_data_final').addClass('form-control form-control-sm')
+   $('#id_data_final').attr('autocomplete', 'off')
+     // $('#id_data_final').attr('readonly', 'true')
+
+   $('#id_pendente_por').addClass('custom-select custom-select form-control form-control-sm')
+   $('#id_processo_relacionado').addClass('custom-select custom-select form-control form-control-sm')
+
+   $('.executor > select').addClass('custom-select custom-select form-control form-control-sm')
+
+   $('#porcentagem-executor > input').addClass('form-control form-control-sm')
+
+   // $('#id_porcentagem').addClass('form-control form-control-sm')
+   $('#id_porcentagem').attr("min","0")
+   $('#id_porcentagem').attr("max","100")
+   $('#id_porcentagem').attr("maxlength","3")
+   $('#id_porcentagem').attr("type","number")
+   $('#id_porcentagem').attr("onkeypress", "return event.charCode >= 48 && event.charCode <= 57")
+
+</script>
+<script>
+   $('#id_data_inicial').datepicker({
+       todayBtn: "linked",
+       language: "pt-BR",
+       daysOfWeekDisabled: "0",
+       daysOfWeekHighlighted: "1,2,3,4,5,6",
+       autoclose: true,
+       todayHighlight: true
+   });
+
+   $('#id_data_real').datepicker({
+       todayBtn: "linked",
+       language: "pt-BR",
+       daysOfWeekDisabled: "0",
+       daysOfWeekHighlighted: "1,2,3,4,5,6",
+       autoclose: true,
+       todayHighlight: true
+   });
+
+   $('#id_data_final').datepicker({
+       todayBtn: "linked",
+       language: "pt-BR",
+       daysOfWeekDisabled: "0",
+       daysOfWeekHighlighted: "1,2,3,4,5,6",
+       autoclose: true,
+       todayHighlight: true
+   });
+
+   var porcentagem_executor1 = document.getElementById('id_porcento1')
+   var porcentagem_executor2 = document.getElementById('id_porcento2')
+   var porcentagem_executor3 = document.getElementById('id_porcento3')
+   var porcentagem_executor4 = document.getElementById('id_porcento4')
+   var porcentagem_executor5 = document.getElementById('id_porcento5')
+   var porcentagem_executor6 = document.getElementById('id_porcento6')
+   var porcentagem_executor7 = document.getElementById('id_porcento7')
+   var porcentagem_executor8 = document.getElementById('id_porcento8')
+   var porcentagem_executor9 = document.getElementById('id_porcento9')
+   var porcentagem_executor10 = document.getElementById('id_porcento10')
+
+   function ControlTimerPorcentagemExecutor(){
+
+       porcentagem_executor1 = document.getElementById('id_porcento1')
+
+       if (parseInt(porcentagem_executor1.value) > 100){
+           porcentagem_executor1.value = 100;
+       } else if (parseInt(porcentagem_executor1.value) <  0){
+           porcentagem_executor1.value = 0;
+       }
+
+       porcentagem_executor2 = document.getElementById('id_porcento2')
+
+       if (parseInt(porcentagem_executor2.value) > 100){
+           porcentagem_executor2.value = 100;
+       } else if (parseInt(porcentagem_executor2.value) <  0){
+           porcentagem_executor2.value = 0;
+       }
+
+       porcentagem_executor3 = document.getElementById('id_porcento3')
+
+       if (parseInt(porcentagem_executor3.value) > 100){
+           porcentagem_executor3.value = 100;
+       } else if (parseInt(porcentagem_executor3.value) <  0){
+           porcentagem_executor3.value = 0;
+       }
+
+       porcentagem_executor4 = document.getElementById('id_porcento4')
+
+       if (parseInt(porcentagem_executor4.value) > 100){
+           porcentagem_executor4.value = 100;
+       } else if (parseInt(porcentagem_executor4.value) <  0){
+           porcentagem_executor4.value = 0;
+       }
+
+       porcentagem_executor5 = document.getElementById('id_porcento5')
+
+       if (parseInt(porcentagem_executor5.value) > 100){
+           porcentagem_executor5.value = 100;
+       } else if (parseInt(porcentagem_executor5.value) <  0){
+           porcentagem_executor5.value = 0;
+       }
+
+       porcentagem_executor6 = document.getElementById('id_porcento6')
+
+       if (parseInt(porcentagem_executor6.value) > 100){
+           porcentagem_executor6.value = 100;
+       } else if (parseInt(porcentagem_executor6.value) <  0){
+           porcentagem_executor6.value = 0;
+       }
+
+       porcentagem_executor7 = document.getElementById('id_porcento7')
+
+       if (parseInt(porcentagem_executor7.value) > 100){
+           porcentagem_executor7.value = 100;
+       } else if (parseInt(porcentagem_executor7.value) <  0){
+           porcentagem_executor7.value = 0;
+       }
+
+       porcentagem_executor8 = document.getElementById('id_porcento8')
+
+       if (parseInt(porcentagem_executor8.value) > 100){
+           porcentagem_executor8.value = 100;
+       } else if (parseInt(porcentagem_executor8.value) <  0){
+           porcentagem_executor8.value = 0;
+       }
+
+       porcentagem_executor9 = document.getElementById('id_porcento9')
+
+       if (parseInt(porcentagem_executor9.value) > 100){
+           porcentagem_executor9.value = 100;
+       } else if (parseInt(porcentagem_executor9.value) <  0){
+           porcentagem_executor9.value = 0;
+       }
+
+       porcentagem_executor10 = document.getElementById('id_porcento10')
+
+       if (parseInt(porcentagem_executor10.value) > 100){
+           porcentagem_executor10.value = 100;
+       } else if (parseInt(porcentagem_executor10.value) <  0){
+           porcentagem_executor10.value = 0;
+       }
+
+       setTimeout("ControlTimerPorcentagemExecutor()",100)
+   }
+   ControlTimerPorcentagemExecutor()
+
+   function removerElementos(select){
+       //Removendo todos option atualmente na combo
+       while (select.length != 1) {
+           select.remove(select.length-1);
+       }
+
+       $(select).attr('readonly', 'true');
+   }
+
+
+</script>
+<script>
+   function copiarStatus() {
+       var historico = document.getElementById("id_historico");
+       var status_pendencia = document.getElementById("id_status_pendencia");
+
+       if (historico.value != ''){
+           historico.innerHTML = historico.value+'\n'+status_pendencia.value;
+           status_pendencia.innerHTML = '';
+       } else {
+           historico.innerHTML = historico.value+status_pendencia.value;
+           status_pendencia.innerHTML = '';
+       }
+   }
+</script>
+{% endblock %}

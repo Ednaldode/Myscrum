@@ -1,0 +1,116 @@
+/* Conteúdo */
+.modal-content {
+    display: inline-block;
+  
+  }
+  /* Lado Esquerdo */
+  .modal-section {
+    display: block;
+    float: left;
+    width: 75%;
+    height: 90%;
+    /* background: blue!important; */
+  }
+  
+    /* Descrição */
+  
+  .modal > div > div > div.modal-section > div.modalDescricao > textarea {
+    width: 95%;
+    height: 50px;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 10px;
+  }
+  
+  .modalDescricao1 {
+    margin-left: 5px;
+    resize: none;
+  }
+  
+  .modalDescricao1:focus {
+  outline: none;
+  }
+    /* Descrição */
+  
+    /* Pendência */
+  .modalPendencia {
+    display: inline-block;
+    width: 100%;
+    height: 10%;
+  }
+  
+  .modal > div > div > div.modal-section > div.modalPendencia > div.modalUsuario {
+    display: block;
+    float: left;
+    background-color: #fff;
+    box-shadow: 0px 0px 2px 2px rgba(64, 189, 195, 0.8);
+    margin-left: 10px;
+    border-radius: 15px;
+    width: 30px;
+    height: 30px;
+    background-image: url('../img/Abner Matias.png');
+  }
+  
+  .modal > div > div > div.modal-section > div.modalPendencia > div.modalTextoPendencia > textarea {
+    float: left;
+    margin-right: 10px;
+    width: auto;
+    height: 50px;
+  }
+  
+  .modalTextoPendencia1 {
+    margin-left: 5px;
+    resize: none;
+  }
+  
+  .modalTextoPendencia1:focus {
+  outline: none;
+  }
+  
+  .botoesPendencia {
+    display: inline-block;
+    width: 100%;
+    height: 30px;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  
+  .testeLayout {
+    display: block;
+    float: left;
+    width: 64%;
+    height: 30px;
+    margin-left: 5px;
+  }
+  
+  .adicionarPendencia {
+    display: block;
+    float: left;
+    width: 30%;
+    height: 30px;
+    margin-right: 10px;
+  }
+    /* Pendência */
+  /* Lado Esquerdo */
+  
+  /* Lado Direito */
+  .modal-aside {
+    display: block;
+    float: right;
+    width: 25%;
+    height: 90%;
+    /* background: green!important; */
+  }
+  /* Lado Direito */
+  
+  /* Rodapé */
+  .modal-footer {
+    bottom: 0;
+    width: 100%;
+    height: 10%;
+    /* background: yellow!important; */
+  
+  }
+  /* Rodapé */
+  /* Conteúdo */
+  

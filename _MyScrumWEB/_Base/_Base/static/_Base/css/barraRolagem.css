@@ -1,0 +1,187 @@
+/*BARRA DE ROLAGEM*/
+body::-webkit-scrollbar-track {
+    background-color: #F4F4F4;
+}
+body::-webkit-scrollbar {
+    width: 0;
+    background: #F4F4F4;
+}
+body::-webkit-scrollbar-thumb {
+    background: #dad7d7;
+}
+.informacoes1::-webkit-scrollbar-track {
+    background-color: #F4F4F4;
+}
+.informacoes1::-webkit-scrollbar {
+    height: 2px;
+    background: #F4F4F4;
+}
+.informacoes1::-webkit-scrollbar-thumb {
+    background: #dad7d7;
+}
+.informacoes2::-webkit-scrollbar-track {
+    background-color: #F4F4F4;
+}
+.informacoes2::-webkit-scrollbar {
+    height: 2px;
+    background: #F4F4F4;
+}
+.informacoes2::-webkit-scrollbar-thumb {
+    background: #dad7d7;
+}
+.descricao-tarefa::-webkit-scrollbar-track {
+    background-color: #F4F4F4;
+}
+.descricao-tarefa::-webkit-scrollbar {
+    width: 6px;
+    background: #F4F4F4;
+}
+.descricao-tarefa::-webkit-scrollbar-thumb {
+    background: #dad7d7;
+}
+.status::-webkit-scrollbar-track {
+    background-color: #F4F4F4;
+}
+.status::-webkit-scrollbar {
+    width: 6px;
+    background: #F4F4F4;
+}
+.status::-webkit-scrollbar-thumb {
+    background: #dad7d7;
+}
+
+.quadro-child::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+}
+.quadro-child::-webkit-scrollbar {
+    width: 5px;
+    background: rgba(0, 0, 0, 0);
+}
+.quadro-child::-webkit-scrollbar-thumb {
+    background: #606060;
+}
+.mDescricao::-webkit-scrollbar-track {
+    background-color: #F4F4F4;
+}
+.mDescricao::-webkit-scrollbar {
+    width: 6px;
+    background: #F4F4F4;
+}
+.mDescricao::-webkit-scrollbar-thumb {
+    background: #dad7d7;
+}
+
+#tarefas > div.quadro > div:nth-child(1)::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
+}
+#tarefas > div.quadro > div:nth-child(1)::-webkit-scrollbar {
+  width: 3px;
+  background-color: rgba(0, 0, 0, 0);
+}
+#tarefas > div.quadro > div:nth-child(1)::-webkit-scrollbar-thumb {
+  background: #606060;
+}
+#tarefas > div.quadro > div:nth-child(2)::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
+}
+#tarefas > div.quadro > div:nth-child(2)::-webkit-scrollbar {
+  width: 3px;
+  background-color: rgba(0, 0, 0, 0);
+}
+#tarefas > div.quadro > div:nth-child(2)::-webkit-scrollbar-thumb {
+  background: #606060;
+}
+#tarefas > div.quadro > div:nth-child(3)::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
+}
+#tarefas > div.quadro > div:nth-child(3)::-webkit-scrollbar {
+  width: 3px;
+  background-color: rgba(0, 0, 0, 0);
+}
+#tarefas > div.quadro > div:nth-child(3)::-webkit-scrollbar-thumb {
+  background: #606060;
+}
+
+
+
+/* Listar tarefa */
+.dataTables_scrollBody::-webkit-scrollbar-track {
+    background-color: #F4F4F4;
+}
+.dataTables_scrollBody::-webkit-scrollbar {
+    width: 0;
+    background: #F4F4F4;
+}
+.dataTables_scrollBody::-webkit-scrollbar-thumb {
+    background: #dad7d7;
+}
+/* Listar tarefa */
+
+
+/* Retrospectiva */
+.tarefas::-webkit-scrollbar-track {
+    background-color: #F4F4F4;
+}
+.tarefas::-webkit-scrollbar {
+    width: 0;
+    background: #F4F4F4;
+}
+.tarefas::-webkit-scrollbar-thumb {
+    background: #dad7d7;
+}
+/* Retrospectiva */
+
+
+/* Editar tarefa */
+#blocoConteudo::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0);
+}
+#blocoConteudo::-webkit-scrollbar {
+  width: 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+#blocoConteudo::-webkit-scrollbar-thumb {
+  background: #808080;
+}
+/* Editar tarefa */
+
+
+#collapseOne > div::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#collapseOne > div::-webkit-scrollbar {
+  width: 5px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#collapseOne > div::-webkit-scrollbar-thumb {
+  background: #808080;
+}
+
+/* Fluxo */
+#fluxos::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.15);
+}
+#fluxos::-webkit-scrollbar {
+  height: 10px;
+  background: rgba(0, 0, 0, 0);
+}
+#fluxos::-webkit-scrollbar-thumb {
+  background: #606060;
+}
+/* Fluxo */
+
+/* Juridico */
+#quadro::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
+}
+#quadro::-webkit-scrollbar {
+  width: 3px;
+  background: rgba(0, 0, 0, 0);
+}
+#quadro::-webkit-scrollbar-thumb {
+  background: #606060;
+}
+/* Juridico */
+/*BARRA DE ROLAGEM*/

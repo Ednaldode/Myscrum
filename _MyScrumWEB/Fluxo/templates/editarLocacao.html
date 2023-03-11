@@ -1,0 +1,565 @@
+{% extends 'base.html' %} {% load static %} 
+
+{% block title %} Editar - Locação {% endblock %} 
+
+{% block head %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+
+<!-- CSS da pagina desenvolvido por Alan Souza -->
+<!-- <link href="{% static 'Fluxo/css/locacaoEditar.css' %}" rel="stylesheet"> -->
+<link href="{% static 'Tarefa/css/editarTarefas.css' %}" rel="stylesheet">
+
+<!--Usando arquivos da app home para não duplicar arquivos-->
+<!-- Script para o funciomento dos DatePickers -->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.min.js' %}"></script>
+
+<!-- Script para reconher o PT-BR do DatePickers-->
+<script src="{% static 'Home/datepicker/js/bootstrap-datepicker.pt-BR.min.js' %}" charset="UTF-8"></script>
+
+<!-- CSS do DatePickers -->
+<link id="bsdp-css" href="{% static 'Home/datepicker/css/bootstrap-datepicker3.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+
+<div class="load" id="load">
+    <i class="fa fa-cog fa-spin fa-10x fa-fw"></i><span class="sr-only">Loading...</span>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+    <div id="alert-tarefa" class="alert alert-{{message.extra_tags}} alert-dismissible fade show" role="alert">
+            <center>{{ message }}</center>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+    {% endfor %}
+{% endif %}
+
+<div class="conteudo" id="conteudo">
+    <div class="div-cadastro-form" >
+        <form class="label" action="{% url 'Fluxo:editarLocacao' locacao.id_locacao_editar %}" method="post">
+            {% csrf_token %}
+            <div id="blocoConteudo">
+                <!-- ID Pessoa / Update -->
+                <div class="row" style="display: none;">
+                    <div class="col-3" id="id_pessoa">
+                        {{form.id_pessoa}}
+                    </div>
+                    <div class="col-3" id="id_update">
+                        {{form.id_update}}
+                    </div>
+                    <input type="text" name="nome_coluna" value="{{locacao.nome_coluna}}">
+                </div>
+                <!-- Descrição -->
+                <div class="row" id="descri">
+                    <div class="col">
+                        <label for="id_descri">*Descrição:</label>
+                        <div class="input-group">
+                            <textarea name="descricao" rows="4" required="" id="id_descri" value="" maxlength="150">{{locacao.descricao}}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tamanho / Prazo / Departamento -->
+                <div class="row">
+                    <div class="col" id="departamento">
+                        <label for="id_departamento">*Departamento:</label>
+                        <div class="input-group bs-select">
+                            {{ form.id_departamento }}
+                        </div>
+                    </div>
+                    <div class="col-2" id="tamanho">
+                        <label for="id_tamanho" data-toggle="modal" data-target="#modalTamanho">*Tamanho: </label>
+                        <div class="input-group bs-select">
+                            {{ form.id_tamanho }}
+                        </div>
+                    </div>
+                    <div class="col-2" id="prazo">
+                        <label for="id_prazo">*Prazo:</label>
+                        <div class="input-group bs-select">
+                            {{ form.prazo }}
+                        </div>
+                    </div>
+                    <div class="col" id="impedimento">
+                        <label for="id_pendente_por">Impedimento:</label>
+                        <div class="input-group bs-select">
+                            {{ form.id_pendente_por }}
+                        </div>
+                    </div>
+                </div>
+                <!-- Autoridade / Responsável / Checado -->a
+                <div class="row">
+                    <div class="col" id="autoridade">
+                        <label for="autoridade">*Autoridade:</label>
+                        <div class="input-group bs-select">
+                            {{ form.id_autoridade }}
+                        </div>
+                    </div>
+                    <div class="col" id="responsavel">
+                        <label for="responsavel">*Responsável:</label>
+                        <div class="input-group bs-select">
+                            {{ form.id_responsavel }}
+                        </div>
+                    </div>
+                    <div class="col" id="checado">
+                        <label for="checado">Checado:</label>
+                        <div class="input-group bs-select">
+                            {{ form.id_checado }}
+                        </div>
+                    </div>
+                </div>
+                <!-- Status Pendência -->
+                <div class="row">
+                    <div class="col" id="statusPendencia">
+                        <label for="id_status_pendencia">Status pendência</label>
+                        <div class="input-group">
+                            <textarea name="status_pendencia" rows="4" id="id_status_pendencia" value="{{tarefa.status_pendencia}}">{{locacao.status_pendencia}}</textarea>
+                            <button type="button" id="copiar">
+                                Copiar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Executores -->
+                <div id="executoresTarefa">
+                    <div class="row">
+                        <div class="col" id="executor">
+                            <label for="add-executor">*Executores: </label>
+                            <button type="button" id="add-executor">
+                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                
+                    <div class="row" id="Executores">
+                        <div class="col executor" id="executor1">
+                            <div class="input group bs-select executor">
+                                {{ form.id_executor1 }}
+                            </div>
+                            <div class="input-group" id="porcentagem-executor">
+                                {{ form.porcento1 }}
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="row" id="Executores2-6">
+                        <div class="col executor" id="executor2" hidden="hidden">
+                            <button type="button" id="remove-executor2">
+                                <i class="fa fa-trash" aria-hidden="true" id="remove-executor2" for="executor2"></i>
+                            </button>
+                            <div class="input-group bs-select executor">
+                                {{form.id_executor2}}
+                            </div>
+                            <div class="input-group" id="porcentagem-executor">
+                                {{ form.porcento2 }}
+                            </div>
+                        </div>
+                        <div class="col executor" id="executor3" hidden="hidden">
+                            <button type="button" id="remove-executor3">
+                                <i class="fa fa-trash" aria-hidden="true" id="remove-executor3" for="executor3"></i>
+                            </button>
+                            <div class="input-group bs-select executor">
+                                {{form.id_executor3}}
+                            </div>
+                            <div class="input-group" id="porcentagem-executor">
+                                {{ form.porcento3 }}
+                            </div>
+                        </div>
+                        <div class="col executor" id="executor4" hidden="hidden">
+                            <button type="button" id="remove-executor4">
+                                <i class="fa fa-trash" aria-hidden="true" id="remove-executor4" for="executor4"></i>
+                            </button>
+                            <div class="input-group bs-select executor">
+                                {{form.id_executor4}}
+                            </div>
+                            <div class="input-group" id="porcentagem-executor">
+                                {{ form.porcento4 }}
+                            </div>
+                        </div>
+                        <div class="col executor" id="executor5" hidden="hidden">
+                            <button type="button" id="remove-executor5">
+                                <i class="fa fa-trash" aria-hidden="true" id="remove-executor5" for="executor5"></i>
+                            </button>
+                            <div class="input-group bs-select executor">
+                                {{form.id_executor5}}
+                            </div>
+                            <div class="input-group" id="porcentagem-executor">
+                                {{ form.porcento5 }}
+                            </div>
+                        </div>
+                        <div class="col executor" id="executor6" hidden="hidden">
+                            <button type="button" id="remove-executor6">
+                                <i class="fa fa-trash" aria-hidden="true" id="remove-executor6" for="executor6"></i>
+                            </button>
+                            <div class="input-group bs-select executor">
+                                {{form.id_executor6}}
+                            </div>
+                            <div class="input-group" id="porcentagem-executor">
+                                {{ form.porcento6 }}
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="row" id="Executores7-10">
+                        <div class="col executor" id="executor7" hidden="hidden">
+                            <button type="button" id="remove-executor7">
+                                <i class="fa fa-trash" aria-hidden="true" id="remove-executor7" for="executor7"></i>
+                            </button>
+                            <div class="input-group bs-select executor">
+                                {{form.id_executor7}}
+                            </div>
+                            <div class="input-group" id="porcentagem-executor">
+                                {{ form.porcento7 }}
+                            </div>
+                        </div>
+                
+                        <div class="col executor" id="executor8" hidden="hidden">
+                            <button type="button" id="remove-executor8">
+                                <i class="fa fa-trash" aria-hidden="true" id="remove-executor8" for="executor8"></i>
+                            </button>
+                            <div class="input-group bs-select executor">
+                                {{form.id_executor8}}
+                            </div>
+                            <div class="input-group" id="porcentagem-executor">
+                                {{ form.porcento8 }}
+                            </div>
+                        </div>
+                        <div class="col executor" id="executor9" hidden="hidden">
+                            <button type="button" id="remove-executor9">
+                                <i class="fa fa-trash" aria-hidden="true" id="remove-executor9" for="executor9"></i>
+                            </button>
+                            <div class="input-group bs-select executor">
+                                {{form.id_executor9}}
+                            </div>
+                            <div class="input-group" id="porcentagem-executor">
+                                {{ form.porcento9 }}
+                            </div>
+                        </div>
+                        <div class="col executor" id="executor10" hidden="hidden">
+                            <button type="button" id="remove-executor10">
+                                <i class="fa fa-trash" aria-hidden="true" id="remove-executor10" for="executor10"></i>
+                            </button>
+                            <div class="input-group bs-select executor">
+                                {{form.id_executor10}}
+                            </div>
+                            <div class="input-group" id="porcentagem-executor">
+                                {{ form.porcento10 }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Modal com os valores por tamanho de tarefa. -->
+                <div class="modal fade" id="modalTamanho" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Tamanhos</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Tamanhos</th>
+                                            <th scope="col">Pontos e prazos</th>
+                                            <th scope="col">Critérios</th>
+                                            <th scope="col">Dias trabalhados</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">Baby</th>
+                                            <td>0,33</td>
+                                            <td>Até 20 minutos</td>
+                                            <td>0,04</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">PP</th>
+                                            <td>1</td>
+                                            <td>Até 1 horas</td>
+                                            <td>0,11</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">P</th>
+                                            <td>3</td>
+                                            <td>De 1 à 3 horas</td>
+                                            <td>0,33</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">M</th>
+                                            <td>5</td>
+                                            <td>De 4 à 5 horas</td>
+                                            <td>0,56</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">G</th>
+                                            <td>8</td>
+                                            <td>De 6 à 8 horas</td>
+                                            <td>0,89</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">GG</th>
+                                            <td>13</td>
+                                            <td>De 9 à 13 horas</td>
+                                            <td>1,44</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">EG</th>
+                                            <td>21</td>
+                                            <td>De 14 à 21 horas</td>
+                                            <td>2,33</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Gigante</th>
+                                            <td>34</td>
+                                            <td>De 22 à 34 horas</td>
+                                            <td>3,78</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Gigante 1</th>
+                                            <td>55</td>
+                                            <td>De 34 à 55 horas</td>
+                                            <td>6,11</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Gigante 2</th>
+                                            <td>89</td>
+                                            <td>De 56 à 89 horas</td>
+                                            <td>9,89</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Gigante 3</th>
+                                            <td>144</td>
+                                            <td>De 90 à 144 horas</td>
+                                            <td>13,67</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Gigante 4</th>
+                                            <td>233</td>
+                                            <td>De 145 à 233 horas</td>
+                                            <td>17,44</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Gigante 5</th>
+                                            <td>377</td>
+                                            <td>De 234 à 377 horas</td>
+                                            <td>21,22</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fim da modal -->
+            </div>
+            <div id="blocoRodape">
+                <div class="row" id="botoes">
+                    <div class="col-md-auto salvar">
+                        <input class="btn btn-primary" type="submit" value="Salvar" id="salvar"/>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block navbar %}
+
+<div class="noselect" id="trocarEdicao">
+    <span class="trocarEdicao" id="titulo">{{locacao.nome_coluna}}</span>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    $('#id_id_departamento').addClass('custom-select custom-select form-control form-control-sm')
+    $('#id_id_tamanho').addClass('custom-select custom-select form-control form-control-sm')
+    $('#id_prazo').addClass('custom-select custom-select form-control form-control-sm')
+    $('#id_id_autoridade').addClass('custom-select custom-select form-control form-control-sm')
+    $('#id_id_responsavel').addClass('custom-select custom-select form-control form-control-sm')
+    $('#id_id_checado').addClass('custom-select custom-select form-control form-control-sm')
+    $('#id_id_pendente_por').addClass('custom-select custom-select form-control form-control-sm')
+    
+    $('.executor > select').addClass('custom-select custom-select form-control form-control-sm')
+    
+    $('#porcentagem-executor > input').addClass('form-control form-control-sm')
+    $('#porcentagem-executor > input').attr("onkeypress", "return event.charCode >= 48 && event.charCode <= 57")
+</script>
+
+<script>
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+        break;
+    }
+    }
+}
+//Codigo do Loading
+$(document).ready(function() {
+    sleep(1500);
+    document.getElementById("load").classList.toggle('esconder');
+    document.getElementById("conteudo").classList.toggle('mostrar');
+    $("#load").attr("hidden", true);
+
+});
+</script>
+
+<!--Script para fade do alerta-->
+<script>
+$(document).ready(function() {
+  $('#alert-tarefa').fadeOut(1500);
+});
+</script>
+
+<script>
+    /* Função que conta quanto campos de executores estão ocultos */
+    function contar(){
+        return document.querySelectorAll('div[hidden=hidden]').length;
+    }
+
+    /* Função que exibe campos de executores que estiverem selecionado */
+    $(document).ready(function() {
+        for (var i = 2; i < 10; i++) {
+            executor = 'id_id_executor' + i
+            select = document.getElementById(executor);
+            if(select.selectedIndex != 0){
+                executor = "#id_id_executor" + i;
+                $(executor).removeAttr("hidden");
+            }
+        }
+    });
+
+    /* Função que adiciona executores */
+    $("#add-executor").click(function(){
+    if(contar() >= 2){
+        comboALiberar = (10 - contar()) + 2;
+        executor = "#executor" + comboALiberar
+        $(executor).removeAttr("hidden");
+    } else {
+        alert("Limite de executores atingido")}
+    });
+
+    $("#remove-executor2").click(function(){
+        var executor = document.getElementById("id_id_executor2");
+        executor.selectedIndex = 0;
+        
+        var porcento = document.getElementById("id_porcento2");
+        porcento.value = '';
+
+        $("#executor2").attr("hidden", true);
+
+    })
+
+    $("#remove-executor3").click(function(){
+        var executor = document.getElementById("id_id_executor3");
+        executor.selectedIndex = 0;
+
+        var porcento = document.getElementById("id_porcento3");
+        porcento.value = '';
+        
+        $("#executor3").attr("hidden", true);
+    });
+
+    $("#remove-executor4").click(function(){
+        var executor = document.getElementById("id_id_executor4");
+        executor.selectedIndex = 0;
+
+        var porcento = document.getElementById("id_porcento4");
+        porcento.value = '';
+        
+        $("#executor4").attr("hidden", true);
+    });
+
+    $("#remove-executor5").click(function(){
+        var executor = document.getElementById("id_id_executor5");
+        executor.selectedIndex = 0;
+
+        var porcento = document.getElementById("id_porcento5");
+        porcento.value = '';
+        
+        $("#executor5").attr("hidden", true);
+    });
+
+    $("#remove-executor6").click(function(){
+        var executor = document.getElementById("id_id_executor6");
+        executor.selectedIndex = 0;
+
+        var porcento = document.getElementById("id_porcento6");
+        porcento.value = '';
+        
+        $("#executor6").attr("hidden", true);
+    });
+
+    $("#remove-executor7").click(function(){
+        var executor = document.getElementById("id_id_executor7");
+        executor.selectedIndex = 0;
+
+        var porcento = document.getElementById("id_porcento7");
+        porcento.value = '';
+        
+        $("#executor7").attr("hidden", true);
+    });
+
+    $("#remove-executor8").click(function(){
+        var executor = document.getElementById("id_id_executor8");
+        executor.selectedIndex = 0;
+
+        var porcento = document.getElementById("id_porcento8");
+        porcento.value = '';
+        
+        $("#executor8").attr("hidden", true);
+    });
+
+    $("#remove-executor9").click(function(){
+        var executor = document.getElementById("id_id_executor9");
+        executor.selectedIndex = 0;
+
+        var porcento = document.getElementById("id_porcento9");
+        porcento.value = '';
+        
+        $("#executor9").attr("hidden", true);
+    });
+
+    $("#remove-executor10").click(function(){
+        var executor = document.getElementById("id_id_executor10");
+        executor.selectedIndex = 0;
+
+        var porcento = document.getElementById("id_porcento10");
+        porcento.value = '';
+        
+        $("#executor10").attr("hidden", true);
+    });
+
+$(document).ready(function() {
+
+       $("#id_id_update").val({{usuario.id_pessoa}});
+       $("#id_id_pessoa").val({{usuario.id_pessoa}});
+
+    /* Função que exibe campos de executores que estiverem selecionado */
+        for (var i = 2; i < 10; i++) {
+            executor = 'id_id_executor' + i
+            select = document.getElementById(executor);
+            if(select.selectedIndex != 0){
+                executor = "#executor" + i;
+                $(executor).removeAttr("hidden");
+            }
+        }
+
+    });
+</script>
+{% endblock %}

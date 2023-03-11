@@ -1,0 +1,198 @@
+{% load static %} {% block title %}{% endblock %} {% block head %}
+<!-- CSS da Pagina -->
+<link href="{% static 'Solicitacao/css/Impressao.css' %}" rel="stylesheet">
+<title>Impressão</title>
+{% endblock %}
+
+{% block content %}
+<div class="conteudo" id="conteudo">
+    {% csrf_token %}
+    <div class="row linha">
+        <img src="{% static 'Solicitacao/img/logo.png' %}" id="logo">
+        <div class="col" id=label_titulo>
+            <label for="label_titulo">Solicitação de Assistência Técnica</label>
+        </div>
+        <p id=norma>
+            For 723-3 <br>
+            Revisão: 01 <br>
+            Data: 08/01/2016
+        </p>                
+    </div>
+    <div class="row linha_id">
+    <div class="col">
+        <label for="id_tarefa">Número da Solicitação:</label>
+        <input type="text" value="{{id}}" id="id_tarefa" name="id_tarefa" readonly="“true”" />
+    </div>
+    <div>
+        <label for="data_abertura">Abertura da Solicitação:</label>
+        <input type="text" id="data_abertura" value="{{tarefa.data_ini}}"/>
+    </div>
+    <div>
+        <label for="data_entrega">Entrega da Unidade:</label>
+        <input type="text" id="data_entrega" value="{{solicitacao.data_entrega}}"/>
+    </div>
+</div>
+    <div class="row linha">               
+        <div>
+            <label for="empreendimento">Empreendimento:</label>
+            <input type="text" id="empreendimento" value="{{solicitacao.empreendimento}}"/>
+        </div>      
+        <div>
+            <label for="bloco">Bloco:</label>
+            <input type="text" id="bloco" value="{{solicitacao.bloco}}"/>
+        </div>
+        <div>
+            <label for="unidade">Unidade:</label>
+            <input type="text" id="unidade" value="{{solicitacao.unidade}}"/>
+        </div>                     
+    </div>
+    <div class="row linha">
+        <div>
+            <label for="proprietario">Proprietário:</label>
+            <input type="text" id="proprietario" value="{{solicitacao.proprietario_nome}}"/>
+        </div>
+        <div>
+            <label for="email">E-Mail:</label>
+            <input type="text" id="email" value="{{solicitacao.proprietario_email}}"/>
+        </div>
+        <div>
+            <label for="telefone_contato">Telefone de Contato:</label>
+            <!-- Verificar se colocará o telefone 2 também -->
+            <input type="text" id="telefone_contato" value="{{solicitacao.telefone2}}"/>
+        </div>
+    </div>
+        <div class="row linha">
+            <div>
+                <label for="pessoa_contato">Pessoa de Contato:</label>
+                <input type="text" id="pessoa_contato" value="{{solicitacao.solicitante_nome}}"/>
+            </div>
+            <div>
+                <label for="email">E-Mail:</label>
+                <input type="text" id="email" value="{{solicitacao.solicitante_email}}"/>
+            </div>
+            <div>
+                <label for="telefone_contato">Telefone de Contato:</label>
+                <!-- Verificar se colocará o telefone 2 também -->
+                <input type="text" id="telefone_contato" value="{{solicitacao.telefone1}}"/>
+            </div>
+        </div>
+    
+    <!-- <label for="cliente" id="cliente">Preenchido pelo Cliente</label>
+    <label for="engenharia">Preenchido pela Engenharia</label>  -->
+    <div class="row linha">
+        <input type="text" id="t_item" value="Item">
+        <input type="text" id="t_ambiente" value="Ambiente">
+        <input type="text" id="t_descricao_problema" value="Descrição de Problema">
+        <p id=t_reclamacao>Reclamação<br>Procede</p>
+        <input type="text" id="t_data" value="Data">
+        <input type="text" id="t_assinatura" value="Assinatura">
+    </div>
+    <div class="bloco_problemas"></div>
+    <div class="row" id="texto_titulo">
+        <label for="titulo_observacao">Observações de Garantia e Atendimento à Solicitacao:</label>
+    </div>
+    <div class="row">
+        <textarea id=texto>
+1) Prazo: temos o prazo de 30 dias para realizar os reparos, contados a partir da data que disponibilizar a entrada no apartamento (entregar as chaves no escritório ou agendar data para acompanhar reparos).
+2) Lembrando que precisamos que realize a solicitação de ligação de energia na CPFL para ser possível realizar reparos que necessitem de energia elétrica.
+3) Demais solicitações que vierem ocorrer deverão ser encaminhadas para este email, onde iremos abrir nova solicitação de assistência técnica, onde não estão contemplados defeitos visuais de vistoria de entrega (ex: riscos na pintura, piso lascado, manchas em revestimentos, a não ser que venham ocorrer por vícios ocultos)
+4) Verificar os prazos de garantias compreendidos no Manual do Proprietário
+5) Os reparos solicitados serão executados em dias úteis, durante o horário comercial e em data previamente fixada pela Empresa. 
+6) A data do agendamento será confirmada pela  Equipe Técnica de Manutenção"
+        </textarea>       
+    </div>
+    <div class="row" id="texto_titulo">
+        <label for="titulo_observacao">Termo de Quitação da Solicitação:</label>
+    </div>
+    <div class="row">
+        <textarea id=texto_assinado>
+"O Sr.(a) {{solicitacao.proprietario_nome}}, responsável pelo imóvel localizado no empreendimento {{solicitacao.empreendimento}}, Bloco {{solicitacao.bloco}}, apto. {{solicitacao.unidade}}, declara que os reparos acima solicitados foram efetuados estando imóvel em perfeitas condições, nada mais tendo a reclamar."
+        </textarea>
+        <div class="bloco_assinatura">
+            <div class="assinatura">Aprovação do Cliente</div>
+            <div class="assinatura_rg_cpf">RG do Cliente</div>
+            <div class="assinatura_rg_cpf">CPF do Cliente</div>
+        </div>
+        <div class="row bloco_assinatura">
+            <div class="assinatura_data">Data</div>
+            <div class="assinatura">Aprovação da Construtora</div>
+        </div>       
+    </div>
+    <div class="row" id="texto_titulo">
+        <label for="satisfacao">Avaliação de Satisfação das Manutenções</label>
+    </div>
+    <div class="row" id="frase_opiniao">
+        <label for="">Sua opinião é importante! Nos ajude a melhorar.
+            Qual sua satisfação quanto as manutenções realizadas? 
+        </label>
+    </div>
+    <div class="row eng">       
+        <span id="fAberto"><img src="{% static 'Solicitacao/img/Sem.png' %}"></span>
+        <input class="fCheckbox" type="checkbox" id="cAberto" name="1">Sem Avaliação
+        <span id="fDocumentos"><img src="{% static 'Solicitacao/img/Ruim.png' %}"></span>
+        <input class="fCheckbox" type="checkbox" id="cDocumento" name="2">Ruim
+        <span id="fAndamento"><img src="{% static 'Solicitacao/img/Medio.png' %}"></span>
+        <input class="fCheckbox" type="checkbox" id="cAndamento" name="4">Regular
+        <span id="fFinalizado"><img src="{% static 'Solicitacao/img/Bom.png' %}"></span>
+        <input class="fCheckbox" type="checkbox" id="cFinalizado" name="3">Bom
+        <span id="fFinalizado"><img src="{% static 'Solicitacao/img/Otimo.png' %}"></span>
+        <input class="fCheckbox" type="checkbox" id="cFinalizado" name="3">Ótimo
+    </div>
+    <textarea id=observacoes>
+        Observações:
+    </textarea>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<script>
+    function ControlProblemas(){
+        var id = $("#id_tarefa").val();
+        url = "{% url 'Solicitacao:getProblemas' %}"
+        url_completa = url + id
+        $.ajax({
+            type: 'GET',
+            url: url_completa,
+            dataType: 'json',
+            success: function (data){
+                var problemas = JSON.parse(data);
+                for (qtdProblema = 0; qtdProblema < problemas.length; qtdProblema++){
+                    $(".bloco_problemas").prop('id', problemas.length)
+                    $(".bloco_problemas").html($(".bloco_problemas").html() + `
+                        <div class="row linha">
+                            <input type="text" class="item" value="${qtdProblema + 1}">
+                            <textarea id="ambiente"> ${problemas[qtdProblema].fields.ambiente} </textarea>
+                            <textarea id="descricao_problema"> ${problemas[qtdProblema].fields.descricao_sat}</textarea>
+                            <textarea id="reclamacao"> ${problemas[qtdProblema].fields.procedencia}</textarea>
+                            <input type="text" class="t_data" value="___/___/___">
+                            <input type="text" class="t_assinatura">
+                        </div>`
+                    );
+                }
+            },
+            error: function(){
+                console.log("Erro")
+            }
+        });
+    }
+    ControlProblemas();
+    var equipe = [];
+    for (i = 1; i <= 10; i++){
+        if ($(`#id_executor${i}`).val() != ""){
+            equipe.push($(`#id_executor${i}  option:selected`).html());
+        }
+    }
+    $("#equipe").val(equipe[0]);
+    for (i = 0; i < (equipe.length - 1); i++){
+        if (i < equipe.length - 2){
+            $("#equipe").val($("#equipe").val() + ", " + equipe[i + 1]);
+        } else {
+            $("#equipe").val($("#equipe").val() + " e " + equipe[i + 1]);
+        }
+        
+    }
+
+</script>
+{% endblock %}

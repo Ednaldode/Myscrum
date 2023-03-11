@@ -1,0 +1,301 @@
+<!DOCTYPE html> {% load static %}
+
+<html lang="pt-br">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+
+    <link rel="shortcut icon" href="{% static '_Base/img/favicon.ico' %}" />
+
+    <!-- Icons font CSS-->
+    <link href="{% static '_Base/vendor/mdi-font/css/material-design-iconic-font.min.css' %}" rel="stylesheet" media="all">
+    <link href="{% static '_Base/vendor/font-awesome-4.7/css/font-awesome.min.css' %}" rel="stylesheet" media="all">
+
+    <!--CSS FontAwesome para icones-->
+    <link rel="stylesheet" href="{% static '_Base/plugins/fontawesome/css/all.css' %}">
+
+    <!-- CSS Bootstrap  -->
+    <link rel="stylesheet" href="{% static '_Base/css/bootstrap.min-4.1.3.css' %}">
+
+    <!-- CSS da pagina base.html-->
+    <link rel="stylesheet" href="{% static '_Base/css/base.css' %}">
+    <link href="{% static '_Base/css/barraRolagem.css' %}" rel="stylesheet">
+
+    <!-- jQuery primeiro, depois Popper.js, depois Bootstrap JS -->
+    <script src="{% static '_Base/js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static '_Base/js/popper.min.js' %}"></script>
+    <script src="{% static '_Base/js/bootstrap.min.js' %}"></script>
+    <script src="{% static '_Base/js/bootstrap-select.min.js' %}"></script>
+    <script src="{% static '_Base/js/base.js' %}"></script>
+    <link href="{% static '_Base/css/bootstrap-select.min.css' %}" rel="stylesheet" />
+
+    {% block head %} {% endblock %}
+    <title>{% block title %} {% endblock %}</title>
+
+</head>
+
+<body>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url("/media/usuarios/{{usuario.nome}}/background/background.jpg");
+            overflow-y: hidden;
+
+        }
+    </style>
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <span class="sidebar-header mb-4" id="usuarioImagem">
+                <img src="/media/usuarios/{{usuario.nome}}/perfil/{{usuario.nome}}.png" class="rounded" id="imagemUsuario" alt="Cinque Terre">
+            </span>
+
+            <ul class="list-unstyled components mt-4">
+                <li hidden>
+                    <span id='funcionario'>{{usuario.nome}}</span>
+                </li>
+                <li hidden>
+                    <a id="dptFuncionario">{{usuario.id_departamento.departamento}}</a>
+                </li>
+                <li hidden>
+                    <a id="tempoEmpresa">{{usuario.data_contratacao}}</a>
+                </li> 
+                <li>
+                    <a href="{% url 'Home:home'%}">
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#homeSubmenuDashboards" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-chart-pie"></i> Dashboards
+                    </a>
+                    <ul class="collapse list-unstyled" id="homeSubmenuDashboards">
+                        <li>
+                            <a href="{% url 'Dashboards:analisarDash' %}"  target="_blank>">Analisar Dash</a>
+                        </li>       
+                        <li>
+                            <a href="{% url 'Solicitacao:dashboards'%}"  target="_blank>">Gráficos Sat</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="active">
+                    <a href="#homeSubmenuTarefas" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-tasks"></i> Tarefas
+                    </a>
+                    <ul class="collapse list-unstyled" id="homeSubmenuTarefas">
+                        <li>
+                            <a href="{% url 'Tarefa:listar'%}"  target="_blank>">Listar tarefas</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'Tarefa:cadastrar'%}"  target="_blank">Cadastrar tarefa</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'Tarefa:importarTarefas' %}" target="_blank">Importar tarefas</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="active">
+                    <a href="#homeSubmenuSolicitacoes" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-headset"></i>
+                        Solicitações
+                    </a>
+                    <ul class="collapse list-unstyled" id="homeSubmenuSolicitacoes">
+                        <li>
+                            <a href="{% url 'Tarefa:cadastrar'%}"  target="_blank">Cadastrar solicitação</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'Solicitacao:listarSolicitacoes'%}"  target="_blank>">Listar solicitações</a>
+                        </li>
+                    
+                    </ul>
+                </li>
+                <li class="active">
+                    <a href="#homeSubmenuFluxos" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="far fa-paper-plane"></i>
+                        Fluxos
+                    </a>
+                    <ul class="collapse list-unstyled" id="homeSubmenuFluxos">
+                        <li>
+                            <a href="{% url 'Fluxo:solicitacao'%}"  target="_blank">SAT</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'Fluxo:conservacao'%}"  target="_blank">Conservação / Limpeza</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'Fluxo:locacao'%}"  target="_blank">Locação</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'Fluxo:medicaoTerceiros'%}"  target="_blank">Medição Terceiros</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'Fluxo:juridico'%}"  target="_blank">Jurídico</a>
+                        </li>
+                    </ul>
+                </li>
+                {% comment %} <li>
+                    <a href="#" target="_blank">
+                        <i class="fas fa-calculator"></i> HHT
+                    </a>
+                </li> {% endcomment %}
+                <li>
+                    <a href="{% url 'Calendario:calendario'%}" target="_blank">
+                        <i class="fas fa-calendar"></i> Calendário
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'Kanban:kanban'%}" target="_blank">
+                        <i class="fas fa-table"></i> Kanban
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#homeSubmenuConfiguracoesEspelhos" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-grip-vertical"></i> Espelhos
+                    </a>
+                    <ul class="collapse list-unstyled" id="homeSubmenuConfiguracoesEspelhos">
+                        <li>
+                            <a class="sub-filtro" href="{% url 'Espelho:espelhovendas'%}"  target="_blank">Espelho de Vendas</a>
+                        </li>
+                        <li>
+                            <a class="sub-filtro" href="{% url 'Espelho:espelhovistorias'%}"  target="_blank">Espelho de Vistorias</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="{% url 'Entregachaves:entregachaves'%}" target="_blank">
+                        <i class="fas fa-key"></i> Entrega de chaves
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{% url 'Retrospectiva:retrospectiva'%}" target="_blank">
+                        <i class="fas fa-clipboard-check"></i> Retrospectiva
+                    </a>
+                </li>
+
+                <li class="active">
+                    <a href="#homeSubmenuConfig" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fas fa-cog"></i> Configurações
+                    </a>
+                    <ul class="collapse list-unstyled" id="homeSubmenuConfig">
+                        <li>
+                            <a href="{% url '_Login:editarUsuarios' %}" target="_blank">Pessoas</a>
+                        </li>
+                        <li>
+                            <a href="/departamentos/cadastrar" target="_blank">Departamentos</a>
+                        </li>
+                        <li>
+                            <a href="#">Centro de custos</a>
+                        </li>
+                        <li>
+                            <a href="#">Etapas</a>
+                        </li>
+                        <li>
+                            <a href="#">Sub Etpas</a>
+                        </li>
+                        <li>
+                            <a href="#">Feriados</a>
+                        </li>
+                        <li class="active">
+                            <a href="#homeSubmenuConfiguracoesLocacao" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                Locação
+                            </a>
+                            <ul class="collapse list-unstyled" id="homeSubmenuConfiguracoesLocacao">
+                                <li>
+                                    <a class="sub-filtro" href="{% url 'Fluxo:editarLocacao' 1 %}"  target="_blank">Negociação</a>
+                                </li>
+                                <li>
+                                    <a class="sub-filtro" href="{% url 'Fluxo:editarLocacao' 2 %}"  target="_blank">Contrato</a>
+                                </li>
+                                <li>
+                                    <a class="sub-filtro" href="{% url 'Fluxo:editarLocacao' 3 %}"  target="_blank">Ligar Energia</a>
+                                </li>
+                                <li>
+                                    <a class="sub-filtro" href="{% url 'Fluxo:editarLocacao' 4 %}"  target="_blank">Orçar</a>
+                                </li>
+                                <li>
+                                    <a class="sub-filtro" href="{% url 'Fluxo:editarLocacao' 5 %}"  target="_blank">Pagar</a>
+                                </li>
+                                <li>
+                                    <a class="sub-filtro" href="{% url 'Fluxo:editarLocacao' 6 %}"  target="_blank">Instalar</a>
+                                </li>
+                                <li>
+                                    <a class="sub-filtro" href="{% url 'Fluxo:editarLocacao' 7 %}"  target="_blank">Limpar</a>
+                                </li>
+                                <li>
+                                    <a class="sub-filtro" href="{% url 'Fluxo:editarLocacao' 8 %}"  target="_blank">Vistoria de Entrega</a>
+                                </li>
+                                <li>
+                                    <a class="sub-filtro" href="{% url 'Fluxo:editarLocacao' 9 %}"  target="_blank">Entrega de Chaves</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                {% block home %} {% endblock %}
+            </ul>
+            {% block filtros %} {% endblock %}
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" id="accordion">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Menu</span>
+                    </button>
+
+                    {% block navbar %} {% endblock %}
+
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/alterar_senha/">Alterar Senha</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{% url '_Login:do_logout'%}">Sair</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ usuario.nome }}</a>
+                    </div>
+                </div>
+            </nav>
+            {% block expandirFiltros %} {% endblock %}
+            {% block content %} {% endblock %}
+        </div>
+    </div>
+    <!-- Script da ação do botão do menu -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').toggleClass('active');                
+                if($(window).width() < 1400 && $("#sidebar").attr('class').includes('active') == true){
+                    $(".titulos .titulo-child").attr('style', 'min-width: 40.5vw!important');
+                    $(".quadro .quadro-child").attr('style', 'min-width: 40.5vw!important');
+                } else if($(window).width() < 1400 && $("#sidebar").attr('class').includes('active') == false){
+                    $(".titulos .titulo-child").attr('style', 'min-width: 32.7vw!important');
+                    $(".quadro .quadro-child").attr('style', 'min-width: 32.7vw!important');
+                } else if($(window).width() > 1400 && $("#sidebar").attr('class').includes('active') == true){
+                    $(".titulos .titulo-child").attr('style', 'min-width: 40.5vw!important');
+                    $(".quadro .quadro-child").attr('style', 'min-width: 40.5vw!important');
+                } else if($(window).width() > 1400 && $("#sidebar").attr('class').includes('active') == false){
+                    $(".titulos .titulo-child").attr('style', 'min-width: 36.2vw!important');
+                    $(".quadro .quadro-child").attr('style', 'min-width: 36.2vw!important');
+                } else{
+                    null
+                }
+            });
+        });
+    </script>
+    {% block scripts %} {% endblock %}
+</body>
+
+</html>

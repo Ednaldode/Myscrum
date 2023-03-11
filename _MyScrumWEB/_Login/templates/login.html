@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--CSS Bootstrap-->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+    <!--CSS excluisivo da pagina-->
+    <link href="{% static '/_Login/css/login.css' %}" rel="stylesheet">
+
+    <!--JS Bootstrap e Jquery-->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <title>Login MyScrum</title>
+</head>
+<body>
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+
+      <!-- Logo -->
+      <div class="fadeIn first">
+        <img src="{% static '/_Login/img/logo/logoMS.png' %}" id="icon" alt="User Icon" />
+        {% if messages %}
+          {% for message in messages %}
+            <div id="alert-tarefa" class="alert alert-{{message.extra_tags}}" role="alert">
+                <center>{{ message }}</center>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <!-- Form de Login -->
+      <form action="." method="post">
+        {% csrf_token %}
+        <input type="text" name="username" autofocus=""  required="" id="id_username" class="fadeIn second" name="login" placeholder="insira seu login">
+        <input type="password" name="password" required="" id="id_password" class="fadeIn third" name="login" placeholder="insira sua senha">
+        <input type="submit" class="fadeIn fourth" value="Entrar">
+        {% if request.GET.next %}
+          <input type="hidden" name="next" value="{{request.GET.next}}">
+        {% endif %}
+      </form>
+
+      <!-- Esqueceu a sua senha -->
+        <div id="formFooter">
+          <a class="underlineHover" href="#">Esqueceu sua senha ?</a>
+        </div>
+      </center>
+    </div>
+  </div>
+  <div class="footer">
+    <center>Todos direitos reservados - ©MyScrum - 2020-2022</center>
+  </div>
+</body>
+</html>

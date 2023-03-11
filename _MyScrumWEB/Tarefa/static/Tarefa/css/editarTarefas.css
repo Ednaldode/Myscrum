@@ -1,0 +1,2856 @@
+.wrapper {
+  overflow: hidden;
+}
+
+#content{
+  overflow: hidden;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.conteudo {
+  max-width: 100%;
+  width: 100%;
+  max-height: 86vh;
+  height: 86vh;
+  margin: 0 auto 0 auto;
+  display: flex;
+}
+
+.div-cadastro-form {
+  width: 85%;
+  max-width: 85%;
+  height: 88.5vh;
+  max-height: 88.5vh;
+  background-color: white;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  margin: 0 auto 0 auto;
+}
+
+.ativado{
+  display:block!important;
+}
+
+.desativado{
+  display: none!important;
+}
+
+.imgAlterar{
+  height: 500px;
+  width: 30px;
+}
+
+.row {
+  margin: 5px;
+}
+
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+    .col,
+  > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+  #porcentagem-executor {
+  max-width: 80px;
+  }
+
+  .executor {
+    max-width: 220px;
+    margin-bottom: 8px !important;
+  }
+
+  #id_descri {
+    width: 100%;
+  }
+
+  #id_prazo {
+    max-width: 10vw;
+  }
+
+  h2 {
+    background-color: #203566;
+    color: white !important;
+    border-style: solid;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    height: 40px;
+  }
+
+  .anexos-img {
+    max-width: 90%;
+    max-height: 45%;
+    padding: 15px;
+    margin: 5px;
+    box-shadow: inset 0 0 1em #02003e, 0 0 1em #154a85;
+    border-radius: 10px;
+  }
+
+  input[type="file"]{
+    display: none;
+  }
+
+  #id_data_ini, #id_data_real, #id_data_fim {
+    max-width: 200px;
+  }
+
+  #id_historico, #id_status_pendencia {
+    width: 100%;
+  }
+
+  #navbarSupportedContent{
+    max-width: 150px;
+  }
+
+  .noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }
+
+  .trocarEdicao{
+    margin: 4px 5px 0 5px;
+    cursor: pointer;
+  }
+
+  .barraEdicao{
+    margin: 4px 5px 0 5px;
+  }
+
+  #trocarEdicao{
+    margin: 0 auto 0 auto;
+    display: flex;
+    position: relative;
+  }
+
+  #r5w2h {
+    margin: 0 0 0 auto;
+  }
+
+  #retrospectiva {
+    margin: auto 0 auto 0;
+  }
+
+  #medicao-terceiros {
+    margin: 0 0 0 auto;
+  }
+
+  #blocoConteudo{
+    height: 83vh;
+    max-height: 83vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .fixarRodape {
+      bottom: 0;
+      position: fixed;
+      width: 90%;
+      text-align: center;
+  }
+
+  .btn {
+    margin-bottom: 0px;
+  }
+
+  #content > div > div.div-cadastro-form > form > div:nth-child(8) > div > div > div {
+    width: 100%;
+  }
+
+/*CSS para o loading*/
+#conteudo {
+  opacity: 0;
+	transition: opacity 1.5s;
+}
+
+#conteudo.mostrar {
+  opacity: 1;
+}
+
+.load{
+	  position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;
+    background: #00000c69;
+	  opacity: 1;
+	  transition: opacity 1.5s;
+}
+
+.load > i {
+    position:absolute;
+    top:30%;
+    left:45%;
+    color:#959596;
+}
+
+#load.esconder {
+	  opacity: 0;
+}
+
+/* Retrospectiva */
+
+.p-icone {
+  width: 50px!important;
+  height: 50px!important;
+  border-radius: 100%;
+  border-color: grey;
+  border-width: thin;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#id_classificacao {
+  width: 100%;
+}
+
+#imagensExecutores {
+  margin: auto 0 auto 0;
+}
+
+#imagensAR{
+  margin: auto 0 auto 10px;
+}
+
+.autoridade {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-right: 4px;
+  border-color: blue !important;
+  border-style: solid;
+  border-width: medium !important;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#rAutoridade {
+    float: right;
+    margin: 0 5px 0 auto!important;
+}
+
+.responsavel {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+    border-color: green !important;
+    border-style: solid;
+    border-width: medium !important;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#rResponsavel {
+    float: right;
+    margin: 0 15px 0 0!important;
+}
+
+.executor {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#rExecutor {
+    float: left;
+    margin: 0 5px 0 auto!important;
+}
+
+#melhoria {
+  text-align: end;
+  font-size: 12pt;
+}
+
+#id_rHistorico{
+  width: 100%;
+}
+
+/* Retrospectiva */
+/* Solicitação */
+.cadastro {
+  width: 100%;
+  max-width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 5px;
+  margin-left: 0%;
+  margin: auto 0 auto;
+}
+#num_tarefa{
+  margin: 0 auto 0 auto;
+}
+#id_empreendimento{
+  width: 100%;
+}
+#id_bloco{
+  width: 100%;
+}
+#id_unidade{
+  width: 100%;
+}
+#id_proprietario_nome{
+  width: 100%;
+}
+#id_proprietario_nome1{
+  width: 100%;
+}
+#id_proprietario_cpf{
+  width: 100%;
+}
+#id_proprietario_rg{
+  width: 100%;
+}
+#id_proprietario_email{
+  width: 100%;
+}
+#id_solicitante_nome{
+  width: 100%;
+}
+#id_solicitante_cpf{
+  width: 100%;
+}
+#id_solicitante_rg{
+  width: 100%;
+}
+#id_solicitante_email{
+  width: 100%;
+}
+#id_telefone1{
+  width: 100%;
+}
+#id_telefone2{
+  width: 100%;
+}
+
+#id_processo_relacionado{
+  width: 100%;
+}
+#expandir{
+  margin-top: 15%;
+}
+.executoresGeral {
+  width: 38%;
+  height: 100%;
+  max-height: 100%;
+  background-color: #F2F2F2 ;
+  overflow-y: auto;
+  border-radius: 5px;
+  overflow-x: hidden;
+  margin: 0 auto 0 auto;
+}
+
+.executores {
+  width: 38%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-radius: 5px;
+  margin: 0 auto 0 auto;
+}
+
+#id_sDescri {
+  width: 100%;
+}
+#id_status_processo{
+  width: 100%;
+}
+#id_procentagem{
+  width: 100%;
+}
+#id_responsavel{
+  width: 100%;
+}
+#id_autoridade{
+  width: 100%;
+}
+#id_porcentagem_sat {
+  font-size: 9pt;
+  height: 38px;
+}
+#id_tipo_solicitacao{
+  width: 100%;
+}
+#id_satisfacao_avaliacao{
+  width: 100%;
+}
+#id_data_abertura{
+  width: 100%;
+}
+#id_data_atendimento{
+  width: 100%;
+}
+#id_data_entrega{
+  width: 280px;
+}
+#id_data_finalizacao{
+  width: 100%;
+}
+/* executores */
+#executoresSat {
+  width: 100%;
+  display: inline;
+}
+
+#dias {
+  width: 100px!important;
+  margin: 0 5px;
+}
+
+#dias::-webkit-outer-spin-button, #dias::-webkit-inner-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+
+/* problemas */
+.problema {
+  width: 99%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  margin: 0 auto 0 auto;
+  border-radius: 5px;
+  display: block;
+}
+
+.bloco_problema{
+  max-width: 100%;
+  width: 100%;
+  max-height: 70%;
+  height: 60%;
+  display:flex;
+  margin-top: 3px;
+}
+
+.linha_problemas{
+  width: 100%;
+  max-width: 100%;
+  height:100%;
+  overflow-y: auto;
+}
+
+.linha {
+  height: 240px;
+  width: 100%;
+  margin: 0px!important;
+}
+
+.impar{
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.par{
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.ambiente{
+  width: 100%;
+  font-size: 11pt;
+}
+
+.descricao_problema {
+    width: 100%;
+    max-width: 100%;
+}
+
+.tipo_reparo {
+  /* width: 100%; */
+  font-size: 11pt;
+}
+
+.procedencia{
+  font-size: 11pt;
+  width: 100%;
+}
+
+.duracao{
+  width: 100%;
+  font-size: 11pt;
+}
+
+.estimatica_custo {
+  width: 100%;
+  font-size: 11pt;
+}
+
+.ba1_max{
+  width: 25vw!important;
+}
+.bb1_max{
+  width: 25vw!important;
+}
+.bc1_max{
+  width: 25vw!important;
+}
+
+.ba1_min{
+  width: 20vw;
+}
+.bb1_min{
+  width: 20vw;
+}
+.bc1_min{
+  width: 20vw;
+}
+
+.historico_sat{
+  width: 100%;
+}
+
+.material{
+  width: 100%;
+}
+
+.rem_problema{
+  margin: auto 0 auto 0;
+  max-height: 50%;
+}
+
+#tempo_total{
+  width: 100%;
+  height: 60px;
+  max-height: 80px;
+}
+
+#label_tempo_total {
+  width: 60%;
+}
+
+#id_tempo_total{
+  width: 80%;
+  height: 30px;
+  max-height: 30px;
+}
+
+#t_total{
+  width: 100%;
+  display: flex;
+  margin-left: 75%;
+}
+
+#add-problema {
+  margin-left: 45%;
+  margin-right: 3%;
+}
+
+#impressao {
+  margin: 0 0 0 auto;
+}
+
+.finalizado {
+  height: 20px;
+  width: 20px;
+  margin: 0 0 0 5px;
+}
+
+.num_problema {
+  margin: 0 0 0 5px;
+}
+
+.remove-problema {
+  height: 30px;
+  width: 30px;
+  margin: auto 5px;
+}
+
+/* Solicitação */
+
+/* Locação */
+.card1{
+  position: relative;
+  background: rgba(0, 0, 0, 0.025);
+  padding-bottom: 1px;
+  padding-top: 1px;
+  border-radius: 10px;
+}
+
+.impedimento {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 55px!important;
+  height: auto;
+  margin-bottom: 0px;
+  margin-top: 0px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.p-icone {
+  width: 50px;
+  height: 50px;
+  margin-top: -3vh;
+  border-radius: 100%;
+  border-style: solid;
+  border-color: grey;
+  border-width: thin;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.i-icone {
+  position: absolute;
+  right: 16px;
+  width: 55px;
+  height: 55px;
+  border-radius: 100%;
+  border-style: solid;
+  border-color: grey;
+  border-width: thin;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.pendente {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-color: orange !important;
+  border-style: solid;
+  border-width: medium !important;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  margin-top: 10px;
+}
+
+.autoridade {
+  position: absolute;
+  right: 15.5vw;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-right: 4px;
+  border-color: blue !important;
+  border-style: solid;
+  border-width: medium !important;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.responsavel {
+  position: absolute;
+  right: 12vw;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+    border-color: green !important;
+    border-style: solid;
+    border-width: medium !important;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.executor0{
+  position: absolute;
+  right: 6.5vw;
+}
+
+.executor1{
+  position: absolute;
+  right: 3vw;
+}
+
+.executor0, .executor1 {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.maisExecutores {
+  position: absolute;
+  margin-top: -3vh;
+  right: 1vw;
+  padding: 10px;
+}
+
+.statusFilho{
+  width: -webkit-fill-available;
+  height: 45px;
+  margin: 2vh 1vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.aviso {
+  /* box-shadow: 0 0 white, -5px 0 yellow !important; */
+  box-shadow: 0 0 4px 4px yellow !important;
+}
+
+.atrasada {
+  /* box-shadow: 0 0 white, -5px 0 red !important; */
+  box-shadow: 0 0 4px 4px red !important;
+}
+
+.adiantada {
+  /* box-shadow: 0 0 white, -5px 0 #03F40F !important; */
+  box-shadow: 0 0 4px 4px #03F40F !important;
+}
+
+.finalizada {
+  /* box-shadow: 0 0 white, -5px 0 #606060 !important; */
+  box-shadow: 0 0 4px 4px #606060 !important;
+}
+
+.blocoInfo{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 1vh 1vw;
+}
+
+.blocoInfoChild{
+  display: flex;
+  flex-direction: column;
+}
+
+.expandir {
+  width: 20px;
+  height: auto;
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+
+.bt_expandir {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.rodar {
+  transform:rotate(-90deg);
+  -webkit-transform:rotate(-90deg);
+  -moz-transform:rotate(-90deg);
+  -o-transform:rotate(-90deg);
+}
+
+.blocoPendencia{
+  display: flex;
+  flex-direction: column;
+  margin: 2vh 1vw;
+}
+
+.mostrarLocacao {
+  height: auto;
+  display: none;
+  padding: 0px;
+}
+/* Locação */
+
+/* Modal Locação */
+
+#modal-body{
+  display: flex;
+}
+
+#modal-body-esquerda{
+  max-width: 49%;
+}
+
+#modal-body-direita{
+  width: 49%;
+}
+
+#modal-finais{
+  display: flex!important;
+}
+
+#modal-finais-esquerdo{
+  margin: 0 auto;
+}
+
+#modal-finais-direito{
+  margin: 0 auto;
+}
+
+.modal-ambiente{
+  margin: 10px auto 10px 0;
+}
+
+.modal-opcoes{
+  margin-left: 15px;
+}
+
+.cb-locacao{
+  margin-top: 2px;;
+}
+
+/* Modal Locação */
+
+@media (min-width: 301px) and (max-width: 700px) {
+  .div-cadastro-form {
+    min-width: 100%;
+  }
+
+  .div-anexos-form {
+    width: 0%;
+  }
+
+  #id {
+    min-width: 30%!important;
+    width: auto;
+  }
+
+  #id_tarefa {
+    max-width: 100%!important;
+  }
+
+  #botoes {
+    display: flex;
+    flex: 1;
+  }
+
+  #atualizado {
+    max-width: 70%!important;
+    font-size: 9pt!important;
+  }
+
+  #salvar {
+    font-size: 9pt!important;
+  }
+
+  #duplicar{
+    font-size: 9pt!important;
+  }
+
+  #novaTarefa{
+    font-size: 9pt!important;
+  }
+
+  #prioridade {
+    min-width: 25%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_prioridade {
+    font-size: 9pt;
+  }
+
+  #status {
+    min-width: 50%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_stat {
+    font-size: 9pt;
+  }
+
+  #tamanho {
+    min-width: 40%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_id_tamanho {
+    font-size: 9pt;
+  }
+
+  /* Modal */
+
+  #modalTamanho > div > div > div.modal-body > table > thead {
+    font-size: 8pt;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+  }
+
+  #modalTamanho > div > div > div.modal-body > table > tbody{
+    font-size: 7pt;
+  }
+
+  /* Modal */
+
+  #porcentagem {
+    min-width: 25%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_porcentagem {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #id_data_ini, #id_data_real, #id_data_fim {
+    max-width: 100%!important;
+  }
+
+  #dataInicial {
+    min-width: 50%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_ini {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #dataReal {
+    min-width: 50%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_real {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #prazo {
+    min-width: 50%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_prazo {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #dataFinal {
+    min-width: 50%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_fim {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #departamento {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_id_departamento {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #centroCusto {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_id_centro_custo {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #etapa {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_etapa {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #subEtapa {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_subetapa {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #autoridade {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_autoridade {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #responsavel {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_responsavel {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #checado {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_checado {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #statusPendencia {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_status_pendencia {
+    font-size: 9pt;
+  }
+
+  #historico {
+    min-width: 50%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_historico {
+    font-size: 9pt;
+  }
+
+  #impedimento {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_pendente_por {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  #processo {
+    min-width: 100%!important;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_processo_relacionado {
+    font-size: 9pt;
+    height: 38px;
+  }
+
+  /* Executores */
+
+  .executor {
+    max-width: 100%!important;
+  }
+
+  #executor {
+    font-size: 10pt;
+  }
+
+  #executor1 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor1 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor1 {
+    font-size: 9pt;
+  }
+
+  #executor2 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor2 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor2 {
+    font-size: 9pt;
+  }
+
+  #executor3 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor3 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor3 {
+    font-size: 9pt;
+  }
+
+  #executor4 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor4 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor4 {
+    font-size: 9pt;
+  }
+
+  #executor5 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor5 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor5 {
+    font-size: 9pt;
+  }
+
+  #executor6 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor6 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor6 {
+    font-size: 9pt;
+  }
+
+  #executor7 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor7 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor7 {
+    font-size: 9pt;
+  }
+
+  #executor8 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor8 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor8 {
+    font-size: 9pt;
+  }
+
+  #executor9 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor9 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor9 {
+    font-size: 9pt;
+  }
+
+  #executor10 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor10 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor10 {
+    font-size: 9pt;
+  }
+
+  /* Aqui */
+
+  #empreendimento{
+    height: 38px;
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #bloco {
+
+    height: 38px;
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #unidade{
+    height: 38px;
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #proprietario_nome {
+    min-width: 75%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  /* Expandir */
+  #id_proprietario_nome {
+    font-size: 9pt;
+  }
+
+  #prop {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_proprietario_cpf {
+    font-size: 9pt;
+  }
+  
+  #cpf_proprietario {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_proprietario_rg {
+    font-size: 9pt;
+  }
+
+  #rg_proprietario {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_proprietario_nome {
+    font-size: 9pt;
+  }
+
+  #email_proprietario {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px; 
+  }
+
+  #id_telefone {
+    font-size: 9pt;
+  }
+  
+  #telefone_solicitante {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px; 
+  }
+
+  #id_telefone {
+    font-size: 9pt;
+  }
+  
+  #telefone2_solicitante {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px; 
+  }
+
+  #id_solicitante_nome {
+    font-size: 9pt;
+  }
+
+  #cpf_solicitante {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px; 
+  }
+
+  #id_solicitante_cpf {
+    font-size: 9pt;
+  }
+
+  #rg_solicitante {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px; 
+  }
+
+  #id_solicitante_rg  {
+    font-size: 9pt;
+  }
+
+  #email_solicitante {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px; 
+  }
+
+  #id_solicitante_email  {
+    font-size: 9pt;
+  }
+
+  #telefone2_solicitante {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px; 
+  }
+
+  #id_telefone2  {
+    font-size: 9pt;
+  }
+
+  #id_status_processo{
+    height: 38px;
+    font-size: 9pt;
+  }
+  
+  #status_processo{
+    min-width: 65%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+  
+  #id_porcentagem_sat {
+    height: 38px;
+    font-size: 9pt;
+  }
+
+  #porcentagem_sat{
+    min-width: 30%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_tipo_solicitacao{
+    height: 38px;
+    font-size: 9pt;
+  }
+
+  #tipo_solicitacao {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_satisfacao_avaliacao{
+    height: 38px;
+    font-size: 9pt;
+  }
+
+  #satisfacao_avaliacao{
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_status_solicitacao{
+    height: 38px;
+    font-size: 9pt;
+  }
+
+  #status_solicitacao {
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_abertura{
+    height: 38px;
+    font-size: 9pt;
+  }
+  
+  #data_abertura {
+    min-width: 50%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_atendimento {
+    height: 38px;
+    font-size: 9pt;
+  }
+  
+  #data_atendimento {
+    min-width: 50%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_finalizacao_sat{
+    height: 38px;
+    font-size: 9pt;
+  }
+
+  #data_finalizacao_sat {
+    min-width: 50%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_entrega {
+    height: 38px;
+    width: 100%;
+    font-size: 9pt;
+  }
+  
+  #data_entrega {
+    min-width: 50%!important;
+    margin-top: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+
+  #t_total {
+    height: 38px;
+    width: 100%;
+    font-size: 9pt;
+  }
+
+  #label_tempo_total {
+    width: 60%;
+  }
+  
+  #id_tempo_total{
+    min-width: 100%!important;
+    margin-top: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+  
+  #t_total{
+    width: 100%;
+    display: flex;
+    margin-left: 75%;
+  }
+  
+  .linha_problemas{
+    width: 100%;
+    max-width: 100%;
+    height:100%;
+    overflow-y: auto;
+  }
+
+  .linha {
+    height: 800px;
+    width: 100%;
+    margin: 0px!important;
+  }
+
+  .impar{
+    background-color: rgba(255, 255, 255, 1);
+  }
+
+  .par{
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .ambiente{
+    min-width: 100%!important;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 10pt;
+    padding-bottom: 5px;
+  }
+  
+  .descricao_problema {
+    min-width: 350px;
+    max-width: 100%!important;
+  }
+
+  .tipo_reparo {
+    /* min-width: 100%!important; */
+    font-size: 11pt;
+  }
+
+  .reparo {
+    /* min-width: 100%!important; */
+    font-size: 11pt; 
+  }
+
+  .procedencia{
+    font-size: 11pt;
+    min-width: 100%!important;
+  }
+
+  .duracao{
+    min-width: 100%!important;
+    font-size: 11pt;
+  }
+
+  .estimatica_custo {
+    min-width: 100%!important;
+    font-size: 11pt;
+  }
+
+  .historico_sat{
+    min-width: 100%!important;
+  }
+
+  .material{
+    min-width: 100%!important;
+  }
+
+  .rem_problema{
+    margin: auto 0 auto 0;
+    max-height: 50%;
+  }  
+
+  #add-problema {
+    margin-left: 45%;
+    margin-right: 3%;
+  }
+  
+  #impressao {
+    margin: 0 0 0 auto;
+  }
+  
+  .finalizado {
+    height: 20px;
+    width: 20px;
+    margin: 0 0 0 5px;
+  }
+  
+  .num_problema {
+    margin: 0 0 0 5px;
+  }
+  
+  .remove-problema {
+    height: 30px;
+    width: 30px;
+    margin: auto 5px;
+  }
+}
+
+/*QUADRO DE TÍTULOS*/
+.titulos {
+  display: flex;
+  justify-content: flex-start;
+  margin: 3px 0;
+  width: 100%;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+}
+
+.titulos .titulo-child{
+  flex: 1;
+  margin: 0 10px 0 10px;
+  height: 100%;
+  min-width: 36.2vw;
+  background-color: #f5f9f9;
+  border-radius: 3px;
+  box-shadow: 0px 0px 3px 3px rgba(0,0,0,0.25);
+}
+/*QUADRO DE TÍTULOS*/
+/*QUADRO KANBAN*/
+#fFilho > div.quadro > div:nth-child(1) {
+  background: rgba(0, 0, 0, 0);
+  height: 78vh;
+  overflow: auto;
+}
+
+#fFilho > div.quadro > div:nth-child(2) {
+  background: rgba(0, 0, 0, 0);
+  height: 78vh;
+  overflow: auto;
+}
+
+#fFilho > div.quadro > div:nth-child(3) {
+  background: rgba(0, 0, 0, 0);
+  height: 78vh;
+  overflow: auto;
+}
+
+#fFilho {
+  position: relative;
+  display: block;
+  text-align: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.quadro ul{
+  padding: 0;
+}
+
+.quadro{
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.quadro .quadro-child{
+  flex: 1;
+  margin: 0 10px 5px 10px;
+  height: 100%;
+  min-width: 36.2vw;
+  background-color: #f5f9f9;
+  border-radius: 3px;
+  box-shadow: 0px 0px 3px 3px rgba(0,0,0,0.25);
+  font-size: 9pt;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+}
+
+.progress {
+  height: 13px;
+}
+
+.progress-bar{
+  height: 13px;
+}
+
+.porcentagem{
+  color: green;
+}
+
+ul {
+list-style: none;
+padding: 0;
+}
+
+#c-fazendo{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.item {
+scroll-snap-align: center;
+padding: calc(var(--gutter) / 2 * 1.5);
+display: flex;
+flex-direction: column;
+justify-content: start;
+align-items: start;
+background: rgba(0,0,0,0);
+box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.25);
+border-radius: 8px;
+min-height: 530px;
+min-width: 30px;
+}
+
+.no-scrollbar {
+scrollbar-width: none;
+margin-bottom: 0;
+padding-bottom: 0;
+}
+.no-scrollbar::-webkit-scrollbar {
+display: none;
+}
+
+.t-grupo {
+background: inherit;
+width: 100%;
+text-align: center;
+font-size: 23px;
+}
+
+.card-body {
+padding: 10px !important;
+}
+
+.aviso {
+box-shadow: 0px 0px 4px 4px yellow !important;
+}
+
+.atrasada {
+box-shadow: 0px 0px 4px 4px red !important;
+}
+
+.adiantada {
+box-shadow: 0px 0px 4px 4px #03F40F !important;
+}
+
+.finalizada {
+box-shadow: 0px 0px 4px 4px #606060 !important;
+}
+
+/* .tarefa{
+box-shadow: 0px 0px 2px 2px rgba(0,0,0,0.25);
+background-color: rgb(255,255,255);
+  width: 95%;
+  margin: 0 auto 0 auto;
+} */
+
+.editar {
+width: 20px;
+height: auto;
+margin-bottom: 4px;
+margin-top: 0px;
+}
+
+.expandir {
+width: 20px;
+height: auto;
+margin-bottom: 0px;
+margin-top: 0px;
+}
+
+.anexo_ver {
+width: 30px;
+height: auto;
+margin-bottom: 0px;
+margin-top: 0px;
+}
+
+.bt_expandir {
+-webkit-transition: all 0.3s ease-in-out;
+-moz-transition: all 0.3s ease-in-out;
+-o-transition: all 0.3s ease-in-out;
+transition: all 0.3s ease-in-out;
+}
+
+.rodar {
+transform:rotate(-90deg);
+-webkit-transform:rotate(-90deg);
+-moz-transform:rotate(-90deg);
+-o-transform:rotate(-90deg);
+}
+
+.mostrarTarefa {
+height: auto;
+display: none;
+padding: 0px;
+}
+
+.naoSelecionavel {
+  -webkit-touch-callout: none;  /* iPhone OS, Safari */
+  -webkit-user-select: none;    /* Chrome, Safari 3 */
+  -khtml-user-select: none;     /* Safari 2 */
+  -moz-user-select: none;       /* Firefox */
+  -ms-user-select: none;        /* IE10+ */
+  user-select: none;            /* Possível implementação no futuro */
+  /* cursor: default; */
+}
+
+.idTarefa {
+height: 20px;
+margin-bottom: 4px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+span {
+font-size: 16px;
+}
+
+.tamanhoTarefa{
+margin: auto!important;
+}
+
+.situacao_data {
+height: 20px;
+margin-bottom: 4px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.limite-select {
+overflow:hidden;
+max-height:120px !important;
+display: -webkit-box;
+-webkit-line-clamp: 4;
+-webkit-box-orient: vertical;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.descricaoTarefa {
+font-size: 18px!important;
+border-radius: 3px;
+display:block;
+width:100%;
+text-overflow:ellipsis;
+;overflow:hidden;
+max-height:120px;
+display: -webkit-box;
+-webkit-line-clamp: 4;
+-webkit-box-orient: vertical;
+padding: 5px;
+padding-top: 0px; padding-bottom: 0px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.statusTarefa {
+border-radius: 3px;
+display:block;
+width:100%;
+text-overflow:ellipsis;
+overflow:hidden;
+max-height:120px;
+display: -webkit-box;
+-webkit-line-clamp: 4;
+-webkit-box-orient: vertical;
+padding: 5px;
+padding-top: 0px; padding-bottom: 0px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.row {
+margin: 0px;
+padding: 0px;
+}
+
+.card-footer {
+padding: 5px;
+padding-top: 0px !important;
+border-style: none;
+}
+
+.impedimento {
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+width: 55px!important;
+height: auto;
+margin-bottom: 0px;
+margin-top: 0px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.p-icone {
+width: 50px;
+height: 50px;
+border-radius: 100%;
+border-style: solid;
+border-color: grey;
+border-width: thin;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.i-icone {
+width: 55px;
+height: 55px;
+border-radius: 100%;
+border-style: solid;
+border-color: grey;
+border-width: thin;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.pendente {
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+border-color: orange !important;
+border-style: solid;
+border-width: medium !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+margin-top: 10px;
+}
+
+.autoridade {
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+margin-right: 4px;
+border-color: blue !important;
+border-style: solid;
+border-width: medium !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.responsavel {
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+  border-color: green !important;
+  border-style: solid;
+  border-width: medium !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.executor {
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.maisExecutores {
+padding: 10px;
+}
+
+.data_inicio {
+border-radius: 5px;
+font-size: 18px!important;
+background-color: #cecece;
+padding-left: 2.5px;
+padding-right: 2.5px;
+padding-bottom: 0px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.data_limite {
+border-radius: 5px;
+font-size: 18px!important;
+background-color: #cecece;
+padding-left: 2.5px;
+padding-right: 2.5px;
+padding-bottom: 0px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+form > div:nth-child(1) > div:nth-child(4){
+  display: flex;
+}
+
+form > div:nth-child(1) > div:nth-child(4) > input{
+  text-align: center;
+}
+form > div:nth-child(2) > div:nth-child(4){
+  display: flex;
+  text-align: center;
+}
+form > div:nth-child(2) > div:nth-child(4) > input{
+  text-align: center;
+}
+form > div:nth-child(3) > div:nth-child(4){
+  display: flex;
+  text-align: center;
+}
+form > div:nth-child(3) > div:nth-child(4) > input{
+  text-align: center;
+}
+
+.imgRetrospectiva{
+height: 37px;
+}
+
+#imgRetrospectiva{
+-moz-transform: scale(0.5);
+-webkit-transform: scale(0.5);
+transform: scale(0.5);
+}
+
+#img5w2h{
+-moz-transform: scale(1.5);
+-webkit-transform: scale(1.5);
+transform: scale(1.5);
+}
+
+/*QUADRO KANBAN*/
+
+@media (min-width: 701px) and (max-width: 1000px) {
+  .div-cadastro-form {
+    min-width: 100%;
+  }
+
+  .div-anexos-form {
+    width: 0%;
+  }
+
+  #blocoConteudo{
+    height: 79vh!important;
+    max-height: 79vh!important;
+  }
+
+  #prioridade {
+    min-width: 25%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_prioridade {
+    font-size: 11pt;
+  }
+
+  #status {
+    min-width: 25%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_stat {
+    font-size: 11pt;
+  }
+
+  #tamanho {
+    min-width: 25%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_id_tamanho {
+    font-size: 11pt;
+  }
+
+  /* Modal */
+
+  #modalTamanho > div > div > div.modal-body > table > thead {
+    font-size: 12pt;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+  }
+
+  #modalTamanho > div > div > div.modal-body > table > tbody{
+    font-size: 11pt;
+  }
+
+  /* Modal */
+
+  #porcentagem {
+    min-width: 15%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_porcentagem {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #id_data_ini, #id_data_real, #id_data_fim {
+    max-width: 100%!important;
+  }
+
+  #dataInicial {
+    min-width: 25%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_ini {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #dataReal {
+    min-width: 25%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_real {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #prazo {
+    min-width: 25%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_prazo {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #dataFinal {
+    min-width: 15%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_data_fim {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #departamento {
+    min-width: 4%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_id_departamento {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #centroCusto {
+    min-width: 49%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_id_centro_custo {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #etapa {
+    min-width: 49%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_etapa {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #subEtapa {
+    min-width: 49%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_subetapa {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #autoridade {
+    min-width: 33%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_autoridade {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #responsavel {
+    min-width: 33%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_responsavel {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #checado {
+    min-width: 33%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_checado {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #statusPendencia {
+    min-width: 100%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_status_pendencia {
+    font-size: pt;
+  }
+
+  #historico {
+    min-width: 50%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_historico {
+    font-size: 11pt;
+  }
+
+  #impedimento {
+    min-width: 33%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_pendente_por {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  #processo {
+    min-width: 66%!important;
+    font-size: 12pt;
+    padding-bottom: 5px;
+  }
+
+  #id_processo_relacionado {
+    font-size: 11pt;
+    height: 38px;
+  }
+
+  /* Executores */
+
+  .executor {
+    max-width: 100%!important;
+  }
+
+  #executor {
+    font-size: 12pt;
+  }
+
+  #executor1 {
+    width: 33%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor1 > div.input.group.bs-select.executor {
+    width: 330%!important;
+    min-width: 33%!important;
+    height: 38px;
+  }
+
+  #id_executor1 {
+    font-size: 9pt;
+  }
+
+  #executor2 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor2 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor2 {
+    font-size: 9pt;
+  }
+
+  #executor3 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor3 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor3 {
+    font-size: 9pt;
+  }
+
+  #executor4 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor4 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor4 {
+    font-size: 9pt;
+  }
+
+  #executor5 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor5 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor5 {
+    font-size: 9pt;
+  }
+
+  #executor6 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor6 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor6 {
+    font-size: 9pt;
+  }
+
+  #executor7 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor7 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor7 {
+    font-size: 9pt;
+  }
+
+  #executor8 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor8 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor8 {
+    font-size: 9pt;
+  }
+
+  #executor9 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor9 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor9 {
+    font-size: 9pt;
+  }
+
+  #executor10 {
+    width: 100%!important;
+    min-width: 100%!important;
+    padding-bottom: 5px;
+  }
+
+  #executor10 > div.input.group.bs-select.executor {
+    width: 100%!important;
+    min-width: 100%!important;
+    height: 38px;
+  }
+
+  #id_executor10 {
+    font-size: 9pt;
+  }
+}
+
+@media (min-width: 1001px) and (max-width: 1366px) {
+  .div-cadastro-form {
+      width: 85%;
+      max-width: 85%;
+      height: 85vh;
+      max-height: 85vh;
+      background-color: white;
+      overflow-y: hidden;
+      overflow-x: hidden;
+      margin: 0 auto 0 auto;
+    }
+
+  #blocoConteudo{
+    height: 77vh!important;
+    max-height: 77vh!important;
+  }
+
+  .titulos .titulo-child {
+    min-width: 32.7vw!important;
+  }
+
+  .quadro .quadro-child {
+    min-width: 32.7vw!important;
+    height: 70vh!important;
+  }
+
+  .p-icone {
+    width: 40px!important;
+    height: 40px!important;
+  }
+
+  .i-icone {
+    right: 0!important;
+  }
+
+  #imgExecutor0 {
+    width: 40px!important;
+    height: 40px!important;
+  }
+
+  #imgExecutor1 {
+    width: 40px!important;
+    height: 40px!important;
+  }
+
+  #melhoria {
+    font-size: 11pt;
+  }
+
+  .cadastro {
+    width: 100%;
+    max-width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 5px;
+    margin-left: 0%;
+    margin: auto 0 auto;
+  }
+  #num_tarefa{
+    margin: 0 auto 0 auto;
+  }
+  #id_empreendimento{
+    width: 100%;
+  }
+  #id_bloco{
+    width: 100%;
+  }
+  #id_unidade{
+    width: 100%;
+  }
+  #id_proprietario_nome{
+    width: 100%;
+  }
+  #id_proprietario_nome1{
+    width: 100%;
+  }
+  #id_proprietario_cpf{
+    width: 100%;
+  }
+  #id_proprietario_rg{
+    width: 100%;
+  }
+  #id_proprietario_email{
+    width: 100%;
+  }
+  #id_solicitante_nome{
+    width: 100%;
+  }
+  #id_solicitante_cpf{
+    width: 100%;
+  }
+  #id_solicitante_rg{
+    width: 100%;
+  }
+  #id_solicitante_email{
+    width: 100%;
+  }
+  #id_telefone1{
+    width: 100%;
+  }
+  #id_telefone2{
+    width: 100%;
+  }
+  
+  #id_processo_relacionado{
+    width: 100%;
+  }
+  #expandir{
+    margin-top: 15%;
+  }
+  .executoresGeral {
+    width: 38%;
+    height: 100%;
+    max-height: 100%;
+    background-color: #F2F2F2 ;
+    overflow-y: auto;
+    border-radius: 5px;
+    overflow-x: hidden;
+    margin: 0 auto 0 auto;
+  }
+  
+  .executores {
+    width: 38%;
+    background-color: #F2F2F2 ;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 5px;
+    margin: 0 auto 0 auto;
+  }
+  
+  #id_sDescri {
+    width: 100%;
+  }
+  #id_status_processo{
+    width: 100%;
+  }
+  #id_procentagem{
+    width: 100%;
+  }
+  #id_responsavel{
+    width: 100%;
+  }
+  #id_autoridade{
+    width: 100%;
+  }
+  #id_porcentagem_sat {
+    font-size: 9pt;
+    height: 38px;
+  }
+  #id_tipo_solicitacao{
+    width: 100%;
+  }
+  #id_satisfacao_avaliacao{
+    width: 100%;
+  }
+  #id_data_abertura{
+    width: 100%;
+  }
+  #id_data_atendimento{
+    width: 100%;
+  }
+  #id_data_entrega{
+    width: 200px;
+  }
+  #id_data_finalizacao{
+    width: 100%;
+  }
+  
+  /* executores */
+  #executoresSat {
+    width: 100%;
+    display: inline;
+}
+
+  /* problemas */
+  .problema {
+    width: 99%;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    margin: 0 auto 0 auto;
+    border-radius: 5px;
+    display: block;
+  }
+  
+  .bloco_problema{
+    max-width: 100%;
+    width: 100%;
+    max-height: 70%;
+    height: 60%;
+    display:flex;
+    margin-top: 3px;
+  }
+  
+  .linha_problemas{
+    width: 100%;
+    max-width: 100%;
+    height:100%;
+    overflow-y: auto;
+  }
+  
+  .linha {
+    height: 240px;
+    width: 100%;
+    margin: 0px!important;
+  }
+  
+  .impar{
+    background-color: rgba(255, 255, 255, 1);
+  }
+  
+  .par{
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .ambiente{
+    width: 100%;
+    font-size: 11pt;
+  }
+  
+  .descricao_problema {
+      width: 100%;
+      max-width: 100%;
+  }
+
+  .reparo {
+    /* width: 100%; */
+    font-size: 11pt;
+  }
+  
+  .procedencia{
+    font-size: 11pt;
+    width: 100%;
+  }
+  
+  .duracao{
+    width: 100%;
+    font-size: 11pt;
+  }
+  
+  .estimativa_custo {
+    width: 100%;
+    font-size: 11pt;
+  }
+  
+  .historico_sat{
+    width: 100%;
+  }
+  
+  .material{
+    width: 100%;
+  }
+  
+  .rem_problema{
+    margin: auto 0 auto 0;
+    max-height: 50%;
+  }
+  
+  #tempo_total{
+    width: 100%;
+    height: 60px;
+    max-height: 80px;
+  }
+  
+#label_tempo_total{
+  width: 90%;
+  display: flex;
+}
+
+  #t_total{
+    width: 100%;
+    display: flex;
+    margin-left: 75%;
+  }
+  
+  #add-problema {
+    margin-left: 45%;
+    margin-right: 3%;
+  }
+  
+  #impressao {
+    margin: 0 0 0 auto;
+  }
+}

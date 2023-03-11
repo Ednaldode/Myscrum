@@ -1,0 +1,692 @@
+body {
+    overflow-x: hidden;
+}
+
+section {
+    overflow-x: hidden;
+}
+
+#mes {
+    transform: scale(0.85);
+    transform-origin: 0 0;
+}
+
+.seletorData {
+    margin-left: 10px;
+}
+
+#buttonCollapse {
+    margin: 0!important;
+}
+
+.dropdown-item {
+    text-align: center;
+    justify-content: center;
+}
+
+.seletoresCalendario {
+    width: 100%;
+}
+
+.seletorTipo {
+    margin-left: 150px;
+    margin-right: 150px;
+}
+
+.fileiraNomes {
+    flex-direction: column;
+}
+
+/* height: 130px;
+width: 990px; */
+
+.fileiraNomesSup {
+    width: 1080px;
+    height: 65px;
+    margin-bottom: 5px;
+    flex-direction: row;
+}
+
+.fileiraNomesInf {
+    width: 1080px;
+    height: 60px;
+    flex-direction: row;
+}
+
+.quadradoSemana {
+    color: #000000;
+    font-size: 23px;
+    padding-top: 18px;
+    background-color: #cecece;
+    border: 1px solid #000000;
+    width: 150px;
+    height: 65px;
+    border-radius: 5px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.btnBorder {
+    border-radius: 0px!important;
+}
+
+.quadradoSemanaDia {
+    color: #000000;
+    font-size: 23px;
+    padding-top: 18px;
+    background-color: #FFF;
+    border: 1px solid #000000;
+    width: 150px;
+    height: 60px;
+    border-radius: 5px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.blocoHorarios {
+    height: 600px;
+    max-width: 115px!important;
+    padding: 0!important;
+    flex-direction: column;
+}
+
+.quadradoHorario {
+    border: 1px solid red;
+    border-radius: 5px;
+    width: 100px;
+    height: 45px;
+    margin-top: 5px;
+}
+
+.h6Hora {
+    margin: 0!important;
+    padding: 0!important;
+    font-size: 17px!important;
+    color: #000000!important;
+    text-align: center!important;
+    font-weight: bold!important;
+    padding: 10px!important;
+}
+
+.blocoDiasSemana2 {
+    max-width: 150px;
+    height: 600px;
+    margin: 0!important;
+    margin-right: 4px!important;
+    padding: 0!important;
+    flex-direction: column;
+}
+
+.quadradoUnicoSemana {
+    width: 150px;
+    height: 45px;
+    margin-top: 5px;
+    border: 1px solid red;
+    border-radius: 5px;
+}
+
+h4 {
+    color: #FFF;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.iconCalendar {
+    color: #000000;
+    padding: 3px;
+    background-color: #cecece;
+    border-radius: 5px 0 0 5px;
+    box-shadow: 2px 2px 2px black;
+}
+
+.input-sm{
+    width: 110px;
+    text-align: center;
+    border-radius: 0 5px 5px 0;
+    box-shadow: 2px 2px 2px black;
+}
+
+.h4Data {
+    padding: 10px;
+}
+
+.primeiro {
+    background-color: #203566;
+    border-right: 1px solid #FFF;
+    border-radius: 5px 0 0 5px;
+    padding: 5px;
+    height: 40px;
+
+}
+
+.segundo {
+    background-color: #203566;
+    border-right: 1px solid #FFF;
+    border-left: 1px solid #FFF;
+    border-radius: 0 0 0 0;
+    padding: 5px;
+    height: 40px;
+}
+
+.terceiro {
+    background-color: #203566;
+    border-radius: 0 5px 5px 0;
+    border-left: 1px solid #FFF;
+    padding: 5px;
+    height: 40px;
+}
+
+.calendarioGeral {
+    width: 100%;
+}
+
+.calendarioTitulo {
+    width: 1775px
+}
+
+.calendarioTopo {
+    width: 200px;
+    height: 35px;
+    align-self: center;
+    border-radius: 1px;
+    background-color: #203566;
+    box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+}
+
+.btnSelect1 {
+    width: 200px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px 0 0 5px;
+}
+
+.btnSelect2 {
+    width: 200px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 0;
+}
+
+.btnSelect3 {
+    width: 200px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 0 5px 5px 0;
+}
+
+.btn {
+    font-weight: bold!important;
+    border: none!important;
+}
+
+.mAtivo {
+    background-color: #203566;
+    color: #FFF;
+    border-color: #203566!important;
+}
+
+.mInativo {
+    opacity: 0.3;
+}
+
+.sInativo {
+    background-color: #FFF;
+    color: #000000!important;
+    border-color: #203566!important;
+}
+
+h3 {
+    text-align: center;
+    padding: 5px;
+    color: #FFF;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-color: #203566!important;
+}
+
+h5 {
+    text-align: center;
+    padding: 3px;
+    color: #FFF;
+    font-size: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #203566;
+    border-radius: 2px;
+    box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+}
+
+.filtradoDia {
+    width: 700px;
+    height: 650px;
+    margin: 0 auto;
+    flex-direction: column;
+}
+
+.termosChaves {
+    display: none;
+}
+
+.fileiraDia {
+    width: 690px;
+    height: 50px;
+}
+
+.espacoDia {
+    width: 690px;
+    height: 550px;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    background-color: #FFF;
+    margin: 0 auto;
+    box-shadow: 1px 1px 1px black;
+}
+
+.zeroPadding {
+    padding: 0!important
+}
+
+.diaData {
+    width: 165px;
+    height: 50px;
+    padding: 0!important;
+    border-radius: 5px;
+    background-color: #B4C6E7;
+    border: 1px solid #000000;
+    box-shadow: 1px 1px 1px black;
+    justify-content: center;
+    align-items: center;
+}
+
+.espacoAgendamento {
+    width: 517px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: #A6A6A6;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000000;
+    box-shadow: 1px 1px 1px black;
+}
+
+.calendarioCorpo {
+    width: 100%;
+    margin-top: 5px;
+}
+
+.blocoDomingo {
+    width: 250px;
+    height: 1500px;
+    margin: 2px;
+}
+
+.blocoSegunda {
+    width: 250px;
+    height: 1500px;
+    margin: 2px;
+}
+
+.blocoTerca {
+    width: 250px;
+    height: 1500px;
+    margin: 2px;
+}
+
+.blocoQuarta {
+    width: 250px;
+    height: 1500px;
+    margin: 2px;
+}
+
+.blocoQuinta {
+    width: 250px;
+    height: 1500px;
+    margin: 2px;
+}
+
+.blocoSexta {
+    width: 250px;
+    height: 1500px;
+    margin: 2px;
+}
+
+.modal-dialog {
+    min-width: 700px!important;;
+}
+
+.card {
+    border: 2px solid #A6A6A6;
+}
+
+.hYear {
+    background-color: #B4C6E7;
+    color: #000000;
+    font-size: 25px!important;
+    font-family: 'Permanent Marker', cursive;
+}
+
+.card-title {
+    background-color: #B4C6E7!important;
+    color: #000000!important;
+    text-transform: none;
+}
+
+.pTarefa {
+    text-align: center;
+    font-size: 14px;
+}
+
+.btnSelectData {
+    height: 35px;
+}
+
+.card {
+    min-width: 300px;
+    min-height: 200px;
+    box-shadow: inset 0 0 1em #203566;
+    border: none;
+    margin-bottom: 20px;
+}
+
+.btn-dia {
+    background-color: #203566;
+    border: none;
+    border-radius: 2px;
+    color: #FFF;
+    width: 30px;
+    height: 30px;
+    font-size: 10px; 
+    margin-left: 3px;
+}
+
+#pDescri {
+    font-size: 9px;
+    color: black!important;
+    font-weight: bold;
+    margin: 1px;
+    margin-left: 6px;
+    background-color: #B4C6E7;
+}
+
+.blocoSabado {
+    width: 250px;
+    height: 1500px;
+    margin: 2px;
+}
+
+.quadradoUnico, .quadradoVazio {
+    margin-bottom: 5px;
+    border-radius: 2px;
+    height: 140px;
+    width: 250px;
+    padding: 2px;
+    display: flex;
+    flex-direction: row;
+    background-color: #FFF;
+    box-shadow: 0 0 1em #203566;
+}
+
+
+.quadradoVazio {
+    opacity: 0.6;
+    box-shadow: 0 0 1em #cecece;
+}
+
+p {
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+    color: black!important;
+}
+
+.iconEye {
+    color: #000000;
+}
+
+.iconPlus {
+    color: #000000;
+}
+
+.btnEye {
+    background: none!important;
+    border: 1px solid #000000;
+    padding: 4px!important;
+    height: 30px;
+    box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+    margin-top: 25px;
+}
+
+.btnPlus {
+    background: none!important;
+    border: none!important;
+    padding: 0!important;
+    height: 30px;
+    margin-top: 50px;
+}
+
+.divIcons {
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.circuloNumero {
+    width:  15px;
+    height: 15px;
+    border-radius: 10px;
+    background-color: #000000;
+    position: relative;
+    left: 17px;
+    bottom: 32px;
+}
+
+h6 {
+    color: #FFF;
+    font-size: 12px;
+}
+
+h1 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.diaAtivo {
+    background-color: #B4C6E7;
+}
+
+.modal {
+    text-align: center;
+    padding: 0!important;
+}
+
+.modal:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -4px;
+}
+
+.modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.pData {
+    margin: 0 auto;
+    color: #000000;
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.h3Agenda {
+    color: #FFF;
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.cardTarefa {
+    width: 650px;
+    height: 50px;
+    border-radius: 5px;
+    margin: 10px;
+    border: 1px solid #cecece;
+    box-shadow: 1px 1px 1px black; 
+}
+
+.pCardTarefa {
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.filtradoSemana {
+    width: 1200px;
+    height: 800px;
+    margin: 0 auto;
+    flex-direction: column;
+}
+
+.semanaBlocoSup {
+    flex-direction: row;
+}
+
+.blocoHora {
+    height: 130px;
+    width: 190px;
+    margin: 1px;
+    flex-direction: column;
+    padding: 0;
+}
+
+.blocoIconCalendar {
+    width: 100px;
+    height: 65px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    background-color: #E1DFDF;
+    margin-bottom: 5px;
+    padding: 0;
+}
+
+.blocoIconClock {
+    width: 100px;
+    height: 60px;
+    border-radius: 5px;
+    background-color: #E1DFDF;
+    border: 1px solid #000000;
+    padding: 0;
+    justify-content: center;
+}
+
+.iconCalendar2 {
+    color: #000000;
+    padding-right: 10px;
+}
+
+.iconClock {
+    color: #000000;
+    padding-right: 10px;
+}
+
+.blocoDiasSemana {
+    height: 130px;
+    width: 990px;
+    margin: 0!important;
+    margin-right: 5px!important;
+}
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 32px;
+    height: 20px;
+    margin-left: 50px;
+    margin-right: 5px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 12px;
+    width: 12px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #203566;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #203566;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(12px);
+    -ms-transform: translateX(12px);
+    transform: translateX(12px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.btnTrash {
+    background: none;
+    border: none;
+    padding: 0;
+    height: 30px;
+    width: 30px;
+    align-self: center;
+    margin-right: 10px;
+}
+
+.iconTrash {
+    padding: 0;
+    margin: 0;
+    color: #000000;
+}
+
+.iconTrash:hover{
+    color: red;
+}
